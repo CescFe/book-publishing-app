@@ -61,6 +61,19 @@ The app is developed natively in English but displays all UI text in Catalan to 
 - **UI Tests**: Critical user flows with Compose testing
 - **Integration Tests**: API service integration
 
+### Code Quality
+
+```bash
+# Check all formatting
+./gradlew spotlessCheck
+
+# Apply formatting
+./gradlew spotlessApply
+
+# Run all quality checks
+./gradlew check
+```
+
 ## 🔌 API Integration
 
 The app consumes the [book-publishing-backend](https://github.com/CescFe/book-publishing-backend) RESTful API.
