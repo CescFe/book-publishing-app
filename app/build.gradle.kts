@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("com.diffplug.spotless") version "8.1.0"
 }
 
 android {
@@ -25,7 +26,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -57,4 +58,28 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+}
+
+spotless {
+    kotlin {
+        target("src/**/*.kt")
+        ktlint("1.3.1")
+            .editorConfigOverride(
+                mapOf(
+                    "ktlint_code_style" to "android_studio",
+                    "max_line_length" to "120",
+                    "ktlint_standard_package-name" to "disabled",
+                    "ktlint_standard_function-naming" to "disabled",
+                ),
+            )
+    }
+    kotlinGradle {
+        target("*.gradle.kts")
+        ktlint("1.3.1")
+            .editorConfigOverride(
+                mapOf(
+                    "ktlint_standard_package-name" to "disabled",
+                ),
+            )
+    }
 }
