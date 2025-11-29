@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
             BookpublishingappTheme {
                 val navController = rememberNavController()
                 AppNavigation(navController = navController)
-                }
             }
         }
     }
+}

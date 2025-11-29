@@ -8,10 +8,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-data class SplashUiState(
-    val isLoading: Boolean = true,
-    val isReady: Boolean = false
-)
+data class SplashUiState(val isLoading: Boolean = true, val isReady: Boolean = false)
 
 class SplashViewModel : ViewModel() {
 
