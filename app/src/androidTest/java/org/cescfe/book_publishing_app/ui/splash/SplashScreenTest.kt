@@ -25,7 +25,7 @@ class SplashScreenTest {
     @Test
     fun splashScreen_callsOnSplashFinished_whenReady() {
         var onSplashFinishedCalled = false
-        
+
         composeTestRule.setContent {
             SplashScreen(
                 uiState = SplashUiState(isLoading = false, isReady = true),

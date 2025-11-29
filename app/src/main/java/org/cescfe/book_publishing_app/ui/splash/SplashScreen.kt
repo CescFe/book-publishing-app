@@ -34,10 +34,7 @@ import org.cescfe.book_publishing_app.ui.theme.Gray
 import org.cescfe.book_publishing_app.ui.theme.White
 
 @Composable
-fun SplashScreen(
-    onSplashFinished: () -> Unit,
-    viewModel: SplashViewModel = viewModel()
-) {
+fun SplashScreen(onSplashFinished: () -> Unit, viewModel: SplashViewModel = viewModel()) {
     val uiState by viewModel.uiState.collectAsState()
     SplashScreen(
         uiState = uiState,
@@ -46,10 +43,7 @@ fun SplashScreen(
 }
 
 @Composable
-fun SplashScreen(
-    uiState: SplashUiState,
-    onSplashFinished: () -> Unit
-) {
+fun SplashScreen(uiState: SplashUiState, onSplashFinished: () -> Unit) {
     val isVisible = remember { mutableStateOf(false) }
     val alphaAnim by animateFloatAsState(
         targetValue = if (isVisible.value) 1f else 0f,
