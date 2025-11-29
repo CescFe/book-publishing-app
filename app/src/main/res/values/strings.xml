@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">book-publishing-app</string>
+    <string name="app_brand_name">Book Publishing</string>
+    <string name="app_tagline">Digital library</string>
+    <string name="splash_logo_description">App logo</string>
+    <string name="home_welcome">Welcome!</string>
 </resources>
