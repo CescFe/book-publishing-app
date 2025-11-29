@@ -65,7 +65,6 @@ dependencies {
 
     // Navigation
     implementation(libs.androidx.navigation.compose)
-    androidTestImplementation(libs.androidx.navigation.testing)
 
     // ViewModel
     implementation(libs.androidx.lifecycle.viewmodel.compose)
