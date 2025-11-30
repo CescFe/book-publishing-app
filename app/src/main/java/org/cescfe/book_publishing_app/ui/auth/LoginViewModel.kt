@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.cescfe.book_publishing_app.data.remote.api.AuthApiStub
+import org.cescfe.book_publishing_app.data.remote.RetrofitClient
 import org.cescfe.book_publishing_app.data.repository.AuthRepositoryImpl
 import org.cescfe.book_publishing_app.domain.model.AuthResult
 import org.cescfe.book_publishing_app.domain.repository.AuthRepository
@@ -19,7 +19,8 @@ data class LoginUiState(
     val isAuthenticated: Boolean = false
 )
 
-class LoginViewModel(private val authRepository: AuthRepository = AuthRepositoryImpl(AuthApiStub())) : ViewModel() {
+class LoginViewModel(private val authRepository: AuthRepository = AuthRepositoryImpl(RetrofitClient.authApi)) :
+    ViewModel() {
 
     private val _uiState = MutableStateFlow(LoginUiState())
     val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()

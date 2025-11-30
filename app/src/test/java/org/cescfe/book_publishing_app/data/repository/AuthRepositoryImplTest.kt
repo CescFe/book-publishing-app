@@ -3,6 +3,9 @@ package org.cescfe.book_publishing_app.data.repository
 import java.io.IOException
 import java.net.SocketTimeoutException
 import kotlinx.coroutines.test.runTest
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.ResponseBody
+import okhttp3.ResponseBody.Companion.toResponseBody
 import org.cescfe.book_publishing_app.data.remote.api.AuthApi
 import org.cescfe.book_publishing_app.data.remote.dto.LoginRequest
 import org.cescfe.book_publishing_app.data.remote.dto.LoginResponse
@@ -12,6 +15,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
+import retrofit2.HttpException
+import retrofit2.Response
 
 class AuthRepositoryImplTest {
 
@@ -47,7 +52,7 @@ class AuthRepositoryImplTest {
 
     @Test
     fun `login with 401 should return InvalidCredentials error`() = runTest {
-        mockAuthApi.failureException = ApiException(401, "Bad credentials")
+        mockAuthApi.httpException = createHttpException(401, "Bad credentials")
 
         val result = repository.login("wrong@example.com", "wrong")
 
@@ -59,7 +64,7 @@ class AuthRepositoryImplTest {
 
     @Test
     fun `login with 500 should return ServerError`() = runTest {
-        mockAuthApi.failureException = ApiException(500, "Internal server error")
+        mockAuthApi.httpException = createHttpException(500, "Internal server error")
 
         val result = repository.login("test@example.com", "password")
 
@@ -70,7 +75,7 @@ class AuthRepositoryImplTest {
 
     @Test
     fun `login with IOException should return NetworkError`() = runTest {
-        mockAuthApi.failureException = IOException("Network error")
+        mockAuthApi.exception = IOException("Network error")
 
         val result = repository.login("test@example.com", "password")
 
@@ -82,7 +87,7 @@ class AuthRepositoryImplTest {
 
     @Test
     fun `login with SocketTimeoutException should return Timeout error`() = runTest {
-        mockAuthApi.failureException = SocketTimeoutException("Timeout")
+        mockAuthApi.exception = SocketTimeoutException("Timeout")
 
         val result = repository.login("test@example.com", "password")
 
@@ -94,7 +99,7 @@ class AuthRepositoryImplTest {
 
     @Test
     fun `login with unknown exception should return Unknown error`() = runTest {
-        mockAuthApi.failureException = RuntimeException("Unknown error")
+        mockAuthApi.exception = RuntimeException("Unknown error")
 
         val result = repository.login("test@example.com", "password")
 
@@ -124,15 +129,47 @@ class AuthRepositoryImplTest {
         assertEquals("read write", success.token.scope)
         assertEquals("user_456", success.token.userId)
     }
+
+    @Test
+    fun `login with 401 and error response body should parse error message`() = runTest {
+        val errorBody =
+            """{"status":401,"error":"Unauthorized","message":"Bad credentials","code":"BAD_CREDENTIALS"}"""
+                .toResponseBody(
+                    "application/json".toMediaType()
+                )
+        mockAuthApi.httpException = createHttpException(401, errorBody = errorBody)
+
+        val result = repository.login("wrong@example.com", "wrong")
+
+        assertTrue(result is AuthResult.Error)
+        val error = result as AuthResult.Error
+        assertEquals(ErrorType.INVALID_CREDENTIALS, error.type)
+        assertEquals("Invalid credentials", error.message)
+    }
+
+    private fun createHttpException(
+        code: Int,
+        message: String? = null,
+        errorBody: ResponseBody? = null
+    ): HttpException {
+        val responseBody = errorBody ?: (
+            message
+                ?: "Error"
+            ).toResponseBody("application/json".toMediaType())
+        val response = Response.error<Any>(code, responseBody)
+        return HttpException(response)
+    }
 }
 
 class MockAuthApi : AuthApi {
     var successResponse: LoginResponse? = null
-    var failureException: Throwable? = null
+    var httpException: HttpException? = null
+    var exception: Throwable? = null
 
-    override suspend fun login(request: LoginRequest): Result<LoginResponse> = when {
-        failureException != null -> Result.failure(failureException!!)
-        successResponse != null -> Result.success(successResponse!!)
-        else -> Result.failure(RuntimeException("Mock not configured"))
+    override suspend fun login(request: LoginRequest): LoginResponse = when {
+        httpException != null -> throw httpException!!
+        exception != null -> throw exception!!
+        successResponse != null -> successResponse!!
+        else -> throw RuntimeException("Mock not configured")
     }
 }
