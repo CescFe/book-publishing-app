@@ -1,17 +1,17 @@
-package org.cescfe.book_publishing_app.data.repository
+package org.cescfe.book_publishing_app.data.auth.repository
 
 import java.io.IOException
 import java.net.SocketTimeoutException
 import kotlinx.serialization.json.Json
 import okhttp3.ResponseBody
-import org.cescfe.book_publishing_app.data.remote.api.AuthApi
-import org.cescfe.book_publishing_app.data.remote.dto.ErrorResponse
-import org.cescfe.book_publishing_app.data.remote.dto.LoginRequest
-import org.cescfe.book_publishing_app.data.remote.dto.LoginResponse
-import org.cescfe.book_publishing_app.domain.model.AuthResult
-import org.cescfe.book_publishing_app.domain.model.AuthToken
-import org.cescfe.book_publishing_app.domain.model.ErrorType
-import org.cescfe.book_publishing_app.domain.repository.AuthRepository
+import org.cescfe.book_publishing_app.data.auth.remote.api.AuthApi
+import org.cescfe.book_publishing_app.data.auth.remote.dto.ErrorResponse
+import org.cescfe.book_publishing_app.data.auth.remote.dto.LoginRequest
+import org.cescfe.book_publishing_app.data.auth.remote.dto.LoginResponse
+import org.cescfe.book_publishing_app.domain.auth.model.AuthResult
+import org.cescfe.book_publishing_app.domain.auth.model.AuthToken
+import org.cescfe.book_publishing_app.domain.auth.model.ErrorType
+import org.cescfe.book_publishing_app.domain.auth.repository.AuthRepository
 import retrofit2.HttpException
 
 class AuthRepositoryImpl(private val authApi: AuthApi) : AuthRepository {

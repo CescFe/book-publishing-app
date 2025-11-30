@@ -7,10 +7,10 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import org.cescfe.book_publishing_app.domain.model.AuthResult
-import org.cescfe.book_publishing_app.domain.model.AuthToken
-import org.cescfe.book_publishing_app.domain.model.ErrorType
-import org.cescfe.book_publishing_app.domain.repository.AuthRepository
+import org.cescfe.book_publishing_app.domain.auth.model.AuthResult
+import org.cescfe.book_publishing_app.domain.auth.model.AuthToken
+import org.cescfe.book_publishing_app.domain.auth.model.ErrorType
+import org.cescfe.book_publishing_app.domain.auth.repository.AuthRepository
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse

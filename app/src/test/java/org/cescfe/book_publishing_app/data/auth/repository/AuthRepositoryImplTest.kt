@@ -1,4 +1,4 @@
-package org.cescfe.book_publishing_app.data.repository
+package org.cescfe.book_publishing_app.data.auth.repository
 
 import java.io.IOException
 import java.net.SocketTimeoutException
@@ -6,11 +6,11 @@ import kotlinx.coroutines.test.runTest
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.ResponseBody
 import okhttp3.ResponseBody.Companion.toResponseBody
-import org.cescfe.book_publishing_app.data.remote.api.AuthApi
-import org.cescfe.book_publishing_app.data.remote.dto.LoginRequest
-import org.cescfe.book_publishing_app.data.remote.dto.LoginResponse
-import org.cescfe.book_publishing_app.domain.model.AuthResult
-import org.cescfe.book_publishing_app.domain.model.ErrorType
+import org.cescfe.book_publishing_app.data.auth.remote.api.AuthApi
+import org.cescfe.book_publishing_app.data.auth.remote.dto.LoginRequest
+import org.cescfe.book_publishing_app.data.auth.remote.dto.LoginResponse
+import org.cescfe.book_publishing_app.domain.auth.model.AuthResult
+import org.cescfe.book_publishing_app.domain.auth.model.ErrorType
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before

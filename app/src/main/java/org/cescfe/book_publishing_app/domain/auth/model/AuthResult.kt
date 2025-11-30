@@ -1,4 +1,4 @@
-package org.cescfe.book_publishing_app.domain.model
+package org.cescfe.book_publishing_app.domain.auth.model
 
 sealed class AuthResult {
     data class Success(val token: AuthToken) : AuthResult()

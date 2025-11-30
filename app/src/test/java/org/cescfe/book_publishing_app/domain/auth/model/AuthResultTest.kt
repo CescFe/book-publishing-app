@@ -1,4 +1,4 @@
-package org.cescfe.book_publishing_app.domain.model
+package org.cescfe.book_publishing_app.domain.auth.model
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
