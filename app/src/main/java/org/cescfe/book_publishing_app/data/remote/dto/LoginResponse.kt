@@ -1,9 +1,21 @@
 package org.cescfe.book_publishing_app.data.remote.dto
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class LoginResponse(
-    val access_token: String,
-    val token_type: String,
-    val expires_in: Int,
+    @SerialName("access_token")
+    val accessToken: String,
+
+    @SerialName("token_type")
+    val tokenType: String,
+
+    @SerialName("expires_in")
+    val expiresIn: Int,
+
     val scope: String,
-    val user_id: String
+
+    @SerialName("user_id")
+    val userId: String
 )

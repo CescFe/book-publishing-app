@@ -69,9 +69,9 @@ class AuthRepositoryImpl(private val authApi: AuthApi) : AuthRepository {
 class ApiException(val statusCode: Int, message: String? = null, cause: Throwable? = null) : Exception(message, cause)
 
 private fun LoginResponse.toDomain(): AuthToken = AuthToken(
-    accessToken = access_token,
-    tokenType = token_type,
-    expiresIn = expires_in,
+    accessToken = accessToken,
+    tokenType = tokenType,
+    expiresIn = expiresIn,
     scope = scope,
-    userId = user_id
+    userId = userId
 )

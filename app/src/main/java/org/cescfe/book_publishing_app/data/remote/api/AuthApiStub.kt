@@ -22,22 +22,22 @@ class AuthApiStub : AuthApi {
             request.username == "admin@example.com" && request.password == "admin123" -> {
                 Result.success(
                     LoginResponse(
-                        access_token = "stub_token_${System.currentTimeMillis()}",
-                        token_type = "Bearer",
-                        expires_in = 86400,
+                        accessToken = "stub_token_${System.currentTimeMillis()}",
+                        tokenType = "Bearer",
+                        expiresIn = 86400,
                         scope = "read write delete",
-                        user_id = "stub_admin_user_id"
+                        userId = "stub_admin_user_id"
                     )
                 )
             }
             request.username == "user@example.com" && request.password == "user123" -> {
                 Result.success(
                     LoginResponse(
-                        access_token = "stub_token_${System.currentTimeMillis()}",
-                        token_type = "Bearer",
-                        expires_in = 86400,
+                        accessToken = "stub_token_${System.currentTimeMillis()}",
+                        tokenType = "Bearer",
+                        expiresIn = 86400,
                         scope = "read",
-                        user_id = "stub_user_id"
+                        userId = "stub_user_id"
                     )
                 )
             }

@@ -27,11 +27,11 @@ class AuthRepositoryImplTest {
     @Test
     fun `login with valid credentials should return Success`() = runTest {
         mockAuthApi.successResponse = LoginResponse(
-            access_token = "test_token",
-            token_type = "Bearer",
-            expires_in = 86400,
+            accessToken = "test_token",
+            tokenType = "Bearer",
+            expiresIn = 86400,
             scope = "read write delete",
-            user_id = "user123"
+            userId = "user123"
         )
 
         val result = repository.login("test@example.com", "password123")
@@ -106,11 +106,11 @@ class AuthRepositoryImplTest {
     @Test
     fun `login should transform DTO to domain model correctly`() = runTest {
         val loginResponse = LoginResponse(
-            access_token = "access_token_123",
-            token_type = "Bearer",
-            expires_in = 3600,
+            accessToken = "access_token_123",
+            tokenType = "Bearer",
+            expiresIn = 3600,
             scope = "read write",
-            user_id = "user_456"
+            userId = "user_456"
         )
         mockAuthApi.successResponse = loginResponse
 
