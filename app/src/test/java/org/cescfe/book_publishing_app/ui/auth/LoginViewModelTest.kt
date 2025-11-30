@@ -105,8 +105,8 @@ class LoginViewModelTest {
 
     @Test
     fun `onLoginClick with valid fields should authenticate after delay`() = runTest {
-        viewModel.onUsernameChange("test@example.com")
-        viewModel.onPasswordChange("password123")
+        viewModel.onUsernameChange("admin@example.com")
+        viewModel.onPasswordChange("admin123")
         viewModel.onLoginClick()
 
         advanceTimeBy(1500L)
