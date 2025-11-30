@@ -27,6 +27,6 @@ fun BookDTO.toDomain(): Book {
         author = authorId,
         collection = collectionId,
         finalPrice = finalPrice ?: basePrice,
-        isbn = isbn,
+        isbn = isbn ?: "",
     )
 }
