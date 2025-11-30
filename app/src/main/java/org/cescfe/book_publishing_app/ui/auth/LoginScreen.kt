@@ -34,10 +34,7 @@ import org.cescfe.book_publishing_app.ui.theme.BookpublishingappTheme
 import org.cescfe.book_publishing_app.ui.theme.White
 
 @Composable
-fun LoginScreen(
-    onLoginSuccess: () -> Unit,
-    viewModel: LoginViewModel = viewModel()
-) {
+fun LoginScreen(onLoginSuccess: () -> Unit, viewModel: LoginViewModel = viewModel()) {
     val uiState by viewModel.uiState.collectAsState()
 
     LaunchedEffect(uiState.isAuthenticated) {

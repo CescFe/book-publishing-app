@@ -12,7 +12,6 @@ val BlueLogo = Color(0xFF0071B9)
 val BlueDiccRima = Color(0xFF1766AE)
 val GreenDiccRima = Color(0xFF10956C)
 
-
 // DARK THEME
 val Purple80 = Color(0xFFD0BCFF)
 val PurpleGrey80 = Color(0xFFCCC2DC)

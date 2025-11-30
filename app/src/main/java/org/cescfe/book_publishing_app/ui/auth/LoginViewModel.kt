@@ -62,7 +62,6 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-    private fun isFormValid(username: String, password: String): Boolean {
-        return username.isNotBlank() && password.isNotBlank()
-    }
+    private fun isFormValid(username: String, password: String): Boolean =
+        username.isNotBlank() && password.isNotBlank()
 }
