@@ -6,10 +6,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.cescfe.book_publishing_app.data.remote.RetrofitClient
-import org.cescfe.book_publishing_app.data.repository.AuthRepositoryImpl
-import org.cescfe.book_publishing_app.domain.model.AuthResult
-import org.cescfe.book_publishing_app.domain.repository.AuthRepository
+import org.cescfe.book_publishing_app.data.auth.remote.RetrofitClient
+import org.cescfe.book_publishing_app.data.auth.repository.AuthRepositoryImpl
+import org.cescfe.book_publishing_app.domain.auth.model.AuthResult
+import org.cescfe.book_publishing_app.domain.auth.repository.AuthRepository
 
 data class LoginUiState(
     val username: String = "",

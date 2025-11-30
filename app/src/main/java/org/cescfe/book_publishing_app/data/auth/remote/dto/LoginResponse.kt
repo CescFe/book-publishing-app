@@ -1,4 +1,4 @@
-package org.cescfe.book_publishing_app.data.remote.dto
+package org.cescfe.book_publishing_app.data.auth.remote.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
