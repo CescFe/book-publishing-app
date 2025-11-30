@@ -1,5 +1,7 @@
 package org.cescfe.book_publishing_app.data.repository
 
+import java.io.IOException
+import java.net.SocketTimeoutException
 import kotlinx.serialization.json.Json
 import okhttp3.ResponseBody
 import org.cescfe.book_publishing_app.data.remote.api.AuthApi
@@ -11,8 +13,6 @@ import org.cescfe.book_publishing_app.domain.model.AuthToken
 import org.cescfe.book_publishing_app.domain.model.ErrorType
 import org.cescfe.book_publishing_app.domain.repository.AuthRepository
 import retrofit2.HttpException
-import java.io.IOException
-import java.net.SocketTimeoutException
 
 class AuthRepositoryImpl(private val authApi: AuthApi) : AuthRepository {
 
@@ -21,29 +21,27 @@ class AuthRepositoryImpl(private val authApi: AuthApi) : AuthRepository {
         isLenient = true
     }
 
-    override suspend fun login(username: String, password: String): AuthResult {
-        return try {
-            val request = LoginRequest(username, password)
-            val response = authApi.login(request)
-            AuthResult.Success(response.toDomain())
-        } catch (e: HttpException) {
-            mapHttpExceptionToError(e)
-        } catch (_: SocketTimeoutException) {
-            AuthResult.Error(
-                ErrorType.TIMEOUT,
-                "Request timeout. Please try again."
-            )
-        } catch (_: IOException) {
-            AuthResult.Error(
-                ErrorType.NETWORK_ERROR,
-                "Network error. Please check your connection."
-            )
-        } catch (e: Exception) {
-            AuthResult.Error(
-                ErrorType.UNKNOWN,
-                e.message ?: "An unexpected error occurred"
-            )
-        }
+    override suspend fun login(username: String, password: String): AuthResult = try {
+        val request = LoginRequest(username, password)
+        val response = authApi.login(request)
+        AuthResult.Success(response.toDomain())
+    } catch (e: HttpException) {
+        mapHttpExceptionToError(e)
+    } catch (_: SocketTimeoutException) {
+        AuthResult.Error(
+            ErrorType.TIMEOUT,
+            "Request timeout. Please try again."
+        )
+    } catch (_: IOException) {
+        AuthResult.Error(
+            ErrorType.NETWORK_ERROR,
+            "Network error. Please check your connection."
+        )
+    } catch (e: Exception) {
+        AuthResult.Error(
+            ErrorType.UNKNOWN,
+            e.message ?: "An unexpected error occurred"
+        )
     }
 
     private fun mapHttpExceptionToError(exception: HttpException): AuthResult.Error {
@@ -66,14 +64,12 @@ class AuthRepositoryImpl(private val authApi: AuthApi) : AuthRepository {
         }
     }
 
-    private fun parseErrorResponse(errorBody: ResponseBody?): ErrorResponse? {
-        return try {
-            errorBody?.string()?.let { jsonString ->
-                json.decodeFromString<ErrorResponse>(jsonString)
-            }
-        } catch (_: Exception) {
-            null
+    private fun parseErrorResponse(errorBody: ResponseBody?): ErrorResponse? = try {
+        errorBody?.string()?.let { jsonString ->
+            json.decodeFromString<ErrorResponse>(jsonString)
         }
+    } catch (_: Exception) {
+        null
     }
 }
 
