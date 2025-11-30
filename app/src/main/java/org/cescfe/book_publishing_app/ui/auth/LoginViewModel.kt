@@ -19,9 +19,7 @@ data class LoginUiState(
     val isAuthenticated: Boolean = false
 )
 
-class LoginViewModel(
-    private val authRepository: AuthRepository = AuthRepositoryImpl(AuthApiStub())
-) : ViewModel() {
+class LoginViewModel(private val authRepository: AuthRepository = AuthRepositoryImpl(AuthApiStub())) : ViewModel() {
 
     private val _uiState = MutableStateFlow(LoginUiState())
     val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
@@ -49,7 +47,6 @@ class LoginViewModel(
             )
             return
         }
-
 
         viewModelScope.launch {
             _uiState.value = currentState.copy(

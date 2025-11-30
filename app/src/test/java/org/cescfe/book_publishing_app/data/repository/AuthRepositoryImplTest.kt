@@ -1,5 +1,7 @@
 package org.cescfe.book_publishing_app.data.repository
 
+import java.io.IOException
+import java.net.SocketTimeoutException
 import kotlinx.coroutines.test.runTest
 import org.cescfe.book_publishing_app.data.remote.api.AuthApi
 import org.cescfe.book_publishing_app.data.remote.dto.LoginRequest
@@ -10,8 +12,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
-import java.io.IOException
-import java.net.SocketTimeoutException
 
 class AuthRepositoryImplTest {
 
@@ -130,11 +130,9 @@ class MockAuthApi : AuthApi {
     var successResponse: LoginResponse? = null
     var failureException: Throwable? = null
 
-    override suspend fun login(request: LoginRequest): Result<LoginResponse> {
-        return when {
-            failureException != null -> Result.failure(failureException!!)
-            successResponse != null -> Result.success(successResponse!!)
-            else -> Result.failure(RuntimeException("Mock not configured"))
-        }
+    override suspend fun login(request: LoginRequest): Result<LoginResponse> = when {
+        failureException != null -> Result.failure(failureException!!)
+        successResponse != null -> Result.success(successResponse!!)
+        else -> Result.failure(RuntimeException("Mock not configured"))
     }
 }
