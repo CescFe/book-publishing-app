@@ -2,11 +2,14 @@ package org.cescfe.book_publishing_app.ui.auth
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import org.cescfe.book_publishing_app.data.remote.api.AuthApiStub
+import org.cescfe.book_publishing_app.data.repository.AuthRepositoryImpl
+import org.cescfe.book_publishing_app.domain.model.AuthResult
+import org.cescfe.book_publishing_app.domain.repository.AuthRepository
 
 data class LoginUiState(
     val username: String = "",
@@ -16,7 +19,9 @@ data class LoginUiState(
     val isAuthenticated: Boolean = false
 )
 
-class LoginViewModel : ViewModel() {
+class LoginViewModel(
+    private val authRepository: AuthRepository = AuthRepositoryImpl(AuthApiStub())
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(LoginUiState())
     val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
@@ -45,20 +50,27 @@ class LoginViewModel : ViewModel() {
             return
         }
 
+
         viewModelScope.launch {
             _uiState.value = currentState.copy(
                 isLoading = true,
                 error = null
             )
 
-            // TODO: Implement authentication with AuthRepository
-            delay(1500)
-
-            // Simulate success for now (just for UI testing)
-            _uiState.value = _uiState.value.copy(
-                isLoading = false,
-                isAuthenticated = true
-            )
+            when (val result = authRepository.login(currentState.username, currentState.password)) {
+                is AuthResult.Success -> {
+                    _uiState.value = _uiState.value.copy(
+                        isLoading = false,
+                        isAuthenticated = true
+                    )
+                }
+                is AuthResult.Error -> {
+                    _uiState.value = _uiState.value.copy(
+                        isLoading = false,
+                        error = result.message
+                    )
+                }
+            }
         }
     }
 
