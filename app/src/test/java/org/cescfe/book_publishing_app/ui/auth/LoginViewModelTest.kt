@@ -3,11 +3,14 @@ package org.cescfe.book_publishing_app.ui.auth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
+import org.cescfe.book_publishing_app.domain.model.AuthResult
+import org.cescfe.book_publishing_app.domain.model.AuthToken
+import org.cescfe.book_publishing_app.domain.model.ErrorType
+import org.cescfe.book_publishing_app.domain.repository.AuthRepository
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -19,12 +22,14 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class LoginViewModelTest {
 
+    private lateinit var mockRepository: MockAuthRepository
     private lateinit var viewModel: LoginViewModel
 
     @Before
     fun setup() {
         Dispatchers.setMain(UnconfinedTestDispatcher())
-        viewModel = LoginViewModel()
+        mockRepository = MockAuthRepository()
+        viewModel = LoginViewModel(mockRepository)
     }
 
     @After
@@ -93,23 +98,21 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun `onLoginClick with valid fields should set loading state`() = runTest {
+    fun `onLoginClick with valid fields should authenticate successfully`() = runTest {
+        mockRepository.result = AuthResult.Success(
+            AuthToken(
+                accessToken = "test_token",
+                tokenType = "Bearer",
+                expiresIn = 86400,
+                scope = "read write delete",
+                userId = "user123"
+            )
+        )
+
         viewModel.onUsernameChange("test@example.com")
         viewModel.onPasswordChange("password123")
         viewModel.onLoginClick()
 
-        val loadingState = viewModel.uiState.value
-        assertTrue(loadingState.isLoading)
-        assertNull(loadingState.error)
-    }
-
-    @Test
-    fun `onLoginClick with valid fields should authenticate after delay`() = runTest {
-        viewModel.onUsernameChange("admin@example.com")
-        viewModel.onPasswordChange("admin123")
-        viewModel.onLoginClick()
-
-        advanceTimeBy(1500L)
         advanceUntilIdle()
 
         val finalState = viewModel.uiState.value
@@ -119,17 +122,72 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun `onLoginClick should clear previous error when starting new login`() = runTest {
+    fun `onLoginClick with invalid credentials should show error`() = runTest {
+        mockRepository.result = AuthResult.Error(
+            ErrorType.INVALID_CREDENTIALS,
+            "Invalid credentials"
+        )
+
+        viewModel.onUsernameChange("wrong@example.com")
+        viewModel.onPasswordChange("wrongpassword")
         viewModel.onLoginClick()
-        val errorState = viewModel.uiState.value
-        assertTrue(errorState.error != null)
+
+        advanceUntilIdle()
+
+        val finalState = viewModel.uiState.value
+        assertFalse(finalState.isLoading)
+        assertFalse(finalState.isAuthenticated)
+        assertEquals("Invalid credentials", finalState.error)
+    }
+
+    @Test
+    fun `onLoginClick with network error should show error`() = runTest {
+        mockRepository.result = AuthResult.Error(
+            ErrorType.NETWORK_ERROR,
+            "Network error. Please check your connection."
+        )
 
         viewModel.onUsernameChange("test@example.com")
         viewModel.onPasswordChange("password123")
         viewModel.onLoginClick()
 
-        val loadingState = viewModel.uiState.value
-        assertNull(loadingState.error)
-        assertTrue(loadingState.isLoading)
+        advanceUntilIdle()
+
+        val finalState = viewModel.uiState.value
+        assertFalse(finalState.isLoading)
+        assertFalse(finalState.isAuthenticated)
+        assertTrue(finalState.error?.contains("Network") == true)
     }
+
+    @Test
+    fun `onLoginClick should clear previous error when starting new login`() = runTest {
+        viewModel.onLoginClick()
+        val errorState = viewModel.uiState.value
+        assertTrue(errorState.error != null)
+
+        mockRepository.result = AuthResult.Success(
+            AuthToken(
+                accessToken = "test_token",
+                tokenType = "Bearer",
+                expiresIn = 86400,
+                scope = "read",
+                userId = "user123"
+            )
+        )
+
+        viewModel.onUsernameChange("test@example.com")
+        viewModel.onPasswordChange("password123")
+        viewModel.onLoginClick()
+
+        advanceUntilIdle()
+
+        val finalState = viewModel.uiState.value
+        assertNull(finalState.error)
+        assertTrue(finalState.isAuthenticated)
+    }
+}
+class MockAuthRepository : AuthRepository {
+    var result: AuthResult = AuthResult.Error("Not configured")
+
+    override suspend fun login(username: String, password: String): AuthResult = result
 }
