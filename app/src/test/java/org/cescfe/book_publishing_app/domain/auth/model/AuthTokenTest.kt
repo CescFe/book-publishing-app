@@ -1,9 +1,5 @@
-package org.cescfe.book_publishing_app.domain.model
+package org.cescfe.book_publishing_app.domain.auth.model
 
-import org.cescfe.book_publishing_app.domain.auth.model.AuthToken
-import org.cescfe.book_publishing_app.domain.auth.model.hasScope
-import org.cescfe.book_publishing_app.domain.auth.model.isAdmin
-import org.cescfe.book_publishing_app.domain.auth.model.isGuest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
