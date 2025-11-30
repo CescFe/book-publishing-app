@@ -1,5 +1,7 @@
 package org.cescfe.book_publishing_app.data.book.repository
 
+import java.io.IOException
+import java.net.SocketTimeoutException
 import kotlinx.coroutines.test.runTest
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.ResponseBody.Companion.toResponseBody
@@ -15,8 +17,6 @@ import org.junit.Before
 import org.junit.Test
 import retrofit2.HttpException
 import retrofit2.Response
-import java.io.IOException
-import java.net.SocketTimeoutException
 
 class BooksRepositoryImplTest {
 

@@ -20,13 +20,11 @@ data class BookDTO(
     val status: String? = null
 )
 
-fun BookDTO.toDomain(): Book {
-    return Book(
-        id = id,
-        title = title,
-        author = authorId,
-        collection = collectionId,
-        finalPrice = finalPrice ?: basePrice,
-        isbn = isbn ?: "",
-    )
-}
+fun BookDTO.toDomain(): Book = Book(
+    id = id,
+    title = title,
+    author = authorId,
+    collection = collectionId,
+    finalPrice = finalPrice ?: basePrice,
+    isbn = isbn ?: ""
+)
