@@ -10,4 +10,9 @@
     <string name="login_username_label">Usuari</string>
     <string name="login_password_label">Contrasenya</string>
     <string name="login_button_authenticate">Autenticar</string>
+
+    <!-- Bottom Navigation -->
+    <string name="nav_books">Llibres</string>
+    <string name="nav_collections">Col·leccions</string>
+    <string name="nav_authors">Autors</string>
 </resources>
