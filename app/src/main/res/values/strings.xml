@@ -9,4 +9,9 @@
     <string name="login_username_label">User</string>
     <string name="login_password_label">Password</string>
     <string name="login_button_authenticate">Authenticate</string>
+
+    <!-- Bottom Navigation -->
+    <string name="nav_books">Books</string>
+    <string name="nav_collections">Collections</string>
+    <string name="nav_authors">Authors</string>
 </resources>
