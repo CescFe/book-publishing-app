@@ -35,10 +35,7 @@ fun BooksBottomBar(
 @Composable
 private fun BooksBottomBarPreview() {
     BookpublishingappTheme {
-        BooksBottomBar(
-            selectedItem = BottomNavItem.Books,
-            onItemClick = {}
-        )
+        BooksBottomBar()
     }
 }
 
@@ -46,10 +43,7 @@ private fun BooksBottomBarPreview() {
 @Composable
 private fun BooksBottomBarCollectionsSelectedPreview() {
     BookpublishingappTheme {
-        BooksBottomBar(
-            selectedItem = BottomNavItem.Collections,
-            onItemClick = {}
-        )
+        BooksBottomBar(selectedItem = BottomNavItem.Collections)
     }
 }
 
@@ -57,9 +51,6 @@ private fun BooksBottomBarCollectionsSelectedPreview() {
 @Composable
 private fun BooksBottomBarAuthorsSelectedPreview() {
     BookpublishingappTheme {
-        BooksBottomBar(
-            selectedItem = BottomNavItem.Authors,
-            onItemClick = {}
-        )
+        BooksBottomBar(selectedItem = BottomNavItem.Authors)
     }
 }
