@@ -15,4 +15,9 @@
     <string name="nav_books">Llibres</string>
     <string name="nav_collections">Col·leccions</string>
     <string name="nav_authors">Autors</string>
+
+    <!-- Book Card -->
+    <string name="book_card_collection">Col·lecció: %1$s</string>
+    <string name="book_card_isbn">ISBN: %1$s</string>
+    <string name="book_card_no_isbn">Sense ISBN</string>
 </resources>
