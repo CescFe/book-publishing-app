@@ -1,34 +1,24 @@
 package org.cescfe.book_publishing_app.ui.books.components
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.MenuBook
-import androidx.compose.material.icons.filled.Folder
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.annotation.DrawableRes
 import org.cescfe.book_publishing_app.R
 
-enum class BottomNavItem(val route: String, val labelResId: Int) {
+enum class BottomNavItem(val route: String, @field:DrawableRes val iconResId: Int, val labelResId: Int) {
     Books(
         route = "books",
+        iconResId = R.drawable.book_2,
         labelResId = R.string.nav_books
     ),
     Collections(
         route = "collections",
+        iconResId = R.drawable.library_books,
         labelResId = R.string.nav_collections
     ),
     Authors(
         route = "authors",
+        iconResId = R.drawable.group,
         labelResId = R.string.nav_authors
     );
-
-    val icon: ImageVector
-        @Composable
-        get() = when (this) {
-            Books -> Icons.AutoMirrored.Filled.MenuBook
-            Collections -> Icons.Default.Folder
-            Authors -> Icons.Default.Person
-        }
 
     companion object {
         val items = entries

@@ -5,6 +5,7 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import org.cescfe.book_publishing_app.ui.theme.BookpublishingappTheme
@@ -22,7 +23,7 @@ fun BooksBottomBar(
                 onClick = { onItemClick(item) },
                 icon = {
                     Icon(
-                        imageVector = item.icon,
+                        painter = painterResource(id = item.iconResId),
                         contentDescription = stringResource(item.labelResId)
                     )
                 }

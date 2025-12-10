@@ -77,9 +77,6 @@ dependencies {
     // ViewModel
     implementation(libs.androidx.lifecycle.viewmodel.compose)
 
-    // Material Icons Extended
-    implementation(libs.androidx.compose.material.icons.extended)
-
     // Testing
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
