@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -30,8 +31,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.cescfe.book_publishing_app.R
 import org.cescfe.book_publishing_app.ui.theme.BookpublishingappTheme
-import org.cescfe.book_publishing_app.ui.theme.Gray
-import org.cescfe.book_publishing_app.ui.theme.White
 
 @Composable
 fun SplashScreen(onSplashFinished: () -> Unit, viewModel: SplashViewModel = viewModel()) {
@@ -80,7 +79,7 @@ private fun SplashContent(alpha: Float) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(White),
+            .background(MaterialTheme.colorScheme.background),
         contentAlignment = Alignment.Center
     ) {
         Column(
@@ -103,7 +102,7 @@ private fun SplashContent(alpha: Float) {
             Text(
                 text = "v$versionName",
                 fontSize = 14.sp,
-                color = Gray,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(bottom = 64.dp)
             )
         }
