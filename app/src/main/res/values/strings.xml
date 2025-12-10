@@ -19,4 +19,9 @@
     <string name="book_card_collection">Collection: %1$s</string>
     <string name="book_card_isbn">ISBN: %1$s</string>
     <string name="book_card_no_isbn">No ISBN</string>
+
+    <!-- Books Screen -->
+    <string name="books_title">Books</string>
+    <string name="books_retry">Retry</string>
+    <string name="books_empty">No books available</string>
 </resources>
