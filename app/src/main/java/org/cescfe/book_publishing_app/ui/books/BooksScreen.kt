@@ -49,10 +49,7 @@ fun BooksScreen(viewModel: BooksViewModel = viewModel()) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun BooksScreenContent(
-    uiState: BooksUiState,
-    onRetry: () -> Unit
-) {
+private fun BooksScreenContent(uiState: BooksUiState, onRetry: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -100,10 +97,7 @@ private fun LoadingState() {
 }
 
 @Composable
-private fun ErrorState(
-    errorMessage: String,
-    onRetry: () -> Unit
-) {
+private fun ErrorState(errorMessage: String, onRetry: () -> Unit) {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
