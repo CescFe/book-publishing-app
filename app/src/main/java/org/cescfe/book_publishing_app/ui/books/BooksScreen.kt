@@ -25,6 +25,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -36,7 +37,6 @@ import org.cescfe.book_publishing_app.domain.book.model.Book
 import org.cescfe.book_publishing_app.ui.books.components.BookCard
 import org.cescfe.book_publishing_app.ui.books.components.BooksBottomBar
 import org.cescfe.book_publishing_app.ui.theme.BookpublishingappTheme
-import androidx.compose.ui.platform.testTag
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -129,7 +129,7 @@ private fun ErrorState(errorMessage: String, onRetry: () -> Unit) {
         Button(
             onClick = onRetry,
             modifier = Modifier.testTag("retry_button")
-            ) {
+        ) {
             Text(text = stringResource(R.string.books_retry))
         }
     }
