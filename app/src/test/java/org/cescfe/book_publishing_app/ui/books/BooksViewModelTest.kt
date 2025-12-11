@@ -35,9 +35,7 @@ class BooksViewModelTest {
         Dispatchers.resetMain()
     }
 
-    private fun createViewModel(): BooksViewModel {
-        return BooksViewModel(mockRepository)
-    }
+    private fun createViewModel(): BooksViewModel = BooksViewModel(mockRepository)
 
     // ==================== SUCCESS CASES ====================
 
