@@ -5,6 +5,7 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -16,7 +17,9 @@ fun AppBottomBar(
     selectedItem: BottomNavItem = BottomNavItem.Books,
     onItemClick: (BottomNavItem) -> Unit = {}
 ) {
-    NavigationBar(modifier = modifier) {
+    NavigationBar(
+        modifier = modifier.testTag("app_bottom_bar")
+    ) {
         BottomNavItem.items.forEach { item ->
             NavigationBarItem(
                 selected = selectedItem == item,
