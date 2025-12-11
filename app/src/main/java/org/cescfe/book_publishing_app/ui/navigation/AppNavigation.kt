@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import org.cescfe.book_publishing_app.data.auth.TokenManager
 import org.cescfe.book_publishing_app.ui.auth.LoginScreen
 import org.cescfe.book_publishing_app.ui.books.BooksScreen
 import org.cescfe.book_publishing_app.ui.splash.SplashScreen
@@ -39,7 +40,14 @@ fun AppNavigation(navController: NavHostController) {
             )
         }
         composable(Routes.BOOKS) {
-            BooksScreen()
+            BooksScreen(
+                onSessionExpired = {
+                    TokenManager.clearToken()
+                    navController.navigate(Routes.LOGIN) {
+                        popUpTo(Routes.BOOKS) { inclusive = true }
+                    }
+                }
+            )
         }
     }
 }

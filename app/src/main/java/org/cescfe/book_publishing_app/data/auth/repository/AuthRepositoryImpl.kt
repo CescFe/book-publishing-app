@@ -4,6 +4,7 @@ import java.io.IOException
 import java.net.SocketTimeoutException
 import kotlinx.serialization.json.Json
 import okhttp3.ResponseBody
+import org.cescfe.book_publishing_app.data.auth.TokenManager
 import org.cescfe.book_publishing_app.data.auth.remote.api.AuthApi
 import org.cescfe.book_publishing_app.data.auth.remote.dto.ErrorResponse
 import org.cescfe.book_publishing_app.data.auth.remote.dto.LoginRequest
@@ -24,6 +25,12 @@ class AuthRepositoryImpl(private val authApi: AuthApi) : AuthRepository {
     override suspend fun login(username: String, password: String): AuthResult = try {
         val request = LoginRequest(username, password)
         val response = authApi.login(request)
+
+        TokenManager.saveToken(
+            token = response.accessToken,
+            expiresInSeconds = response.expiresIn
+        )
+
         AuthResult.Success(response.toDomain())
     } catch (e: HttpException) {
         mapHttpExceptionToError(e)
