@@ -25,6 +25,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -56,8 +57,9 @@ fun BooksScreen(viewModel: BooksViewModel = viewModel(), onSessionExpired: () ->
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun BooksScreenContent(uiState: BooksUiState, onRetry: () -> Unit) {
+internal fun BooksScreenContent(uiState: BooksUiState, onRetry: () -> Unit) {
     Scaffold(
+        modifier = Modifier.testTag("books_screen"),
         topBar = {
             TopAppBar(
                 title = { Text(text = stringResource(R.string.books_title)) }
@@ -96,7 +98,9 @@ private fun BooksScreenContent(uiState: BooksUiState, onRetry: () -> Unit) {
 @Composable
 private fun LoadingState() {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .testTag("loading_indicator"),
         contentAlignment = Alignment.Center
     ) {
         CircularProgressIndicator()
@@ -106,7 +110,9 @@ private fun LoadingState() {
 @Composable
 private fun ErrorState(errorMessage: String, onRetry: () -> Unit) {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .testTag("error_state"),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -115,10 +121,15 @@ private fun ErrorState(errorMessage: String, onRetry: () -> Unit) {
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.error,
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(horizontal = 32.dp)
+            modifier = Modifier
+                .padding(horizontal = 32.dp)
+                .testTag("error_message")
         )
         Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = onRetry) {
+        Button(
+            onClick = onRetry,
+            modifier = Modifier.testTag("retry_button")
+        ) {
             Text(text = stringResource(R.string.books_retry))
         }
     }
@@ -127,7 +138,9 @@ private fun ErrorState(errorMessage: String, onRetry: () -> Unit) {
 @Composable
 private fun EmptyState() {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .testTag("empty_state"),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -150,6 +163,7 @@ private fun EmptyState() {
 @Composable
 private fun BooksList(books: List<Book>) {
     LazyColumn(
+        modifier = Modifier.testTag("books_list"),
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
