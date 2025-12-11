@@ -2,10 +2,12 @@ package org.cescfe.book_publishing_app.ui.books
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import org.cescfe.book_publishing_app.domain.book.model.Book
+import org.cescfe.book_publishing_app.ui.shared.components.BottomNavItem
 import org.cescfe.book_publishing_app.ui.theme.BookpublishingappTheme
 import org.junit.Rule
 import org.junit.Test
@@ -164,5 +166,43 @@ class BooksScreenTest {
         }
 
         composeTestRule.onNodeWithText("The Lord of the Rings").assertIsDisplayed()
+    }
+
+    // ==================== BOTTOM NAVIGATION ====================
+
+    @Test
+    fun booksScreen_showsBottomNavigationBar() {
+        composeTestRule.setContent {
+            BookpublishingappTheme {
+                BooksScreenContent(
+                    uiState = BooksUiState(),
+                    onRetry = {},
+                    onNavigate = {}
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithTag("app_bottom_bar").assertIsDisplayed()
+    }
+
+    @Test
+    fun booksScreen_bottomBar_callsOnNavigate_whenCollectionsClicked() {
+        var navigatedItem: BottomNavItem? = null
+
+        composeTestRule.setContent {
+            BookpublishingappTheme {
+                BooksScreenContent(
+                    uiState = BooksUiState(),
+                    onRetry = {},
+                    onNavigate = { item -> navigatedItem = item }
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithContentDescription("Collections").performClick()
+
+        assert(navigatedItem == BottomNavItem.Collections) {
+            "Should navigate to Collections, but got $navigatedItem"
+        }
     }
 }

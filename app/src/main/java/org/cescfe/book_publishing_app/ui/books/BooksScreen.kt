@@ -35,12 +35,17 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import org.cescfe.book_publishing_app.R
 import org.cescfe.book_publishing_app.domain.book.model.Book
 import org.cescfe.book_publishing_app.ui.books.components.BookCard
-import org.cescfe.book_publishing_app.ui.books.components.BooksBottomBar
+import org.cescfe.book_publishing_app.ui.shared.components.AppBottomBar
+import org.cescfe.book_publishing_app.ui.shared.components.BottomNavItem
 import org.cescfe.book_publishing_app.ui.theme.BookpublishingappTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BooksScreen(viewModel: BooksViewModel = viewModel(), onSessionExpired: () -> Unit) {
+fun BooksScreen(
+    viewModel: BooksViewModel = viewModel(),
+    onSessionExpired: () -> Unit,
+    onNavigate: (BottomNavItem) -> Unit = {}
+) {
     val uiState by viewModel.uiState.collectAsState()
 
     LaunchedEffect(uiState.sessionExpired) {
@@ -51,13 +56,14 @@ fun BooksScreen(viewModel: BooksViewModel = viewModel(), onSessionExpired: () ->
 
     BooksScreenContent(
         uiState = uiState,
-        onRetry = viewModel::retry
+        onRetry = viewModel::retry,
+        onNavigate = onNavigate
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun BooksScreenContent(uiState: BooksUiState, onRetry: () -> Unit) {
+internal fun BooksScreenContent(uiState: BooksUiState, onRetry: () -> Unit, onNavigate: (BottomNavItem) -> Unit = {}) {
     Scaffold(
         modifier = Modifier.testTag("books_screen"),
         topBar = {
@@ -66,7 +72,10 @@ internal fun BooksScreenContent(uiState: BooksUiState, onRetry: () -> Unit) {
             )
         },
         bottomBar = {
-            BooksBottomBar()
+            AppBottomBar(
+                selectedItem = BottomNavItem.Books,
+                onItemClick = onNavigate
+            )
         }
     ) { innerPadding ->
         Box(
@@ -184,7 +193,8 @@ private fun BooksScreenLoadingPreview() {
     BookpublishingappTheme {
         BooksScreenContent(
             uiState = BooksUiState(isLoading = true),
-            onRetry = {}
+            onRetry = {},
+            onNavigate = {}
         )
     }
 }
@@ -195,7 +205,8 @@ private fun BooksScreenErrorPreview() {
     BookpublishingappTheme {
         BooksScreenContent(
             uiState = BooksUiState(error = "Network error. Please check your connection."),
-            onRetry = {}
+            onRetry = {},
+            onNavigate = {}
         )
     }
 }
@@ -206,7 +217,8 @@ private fun BooksScreenEmptyPreview() {
     BookpublishingappTheme {
         BooksScreenContent(
             uiState = BooksUiState(books = emptyList()),
-            onRetry = {}
+            onRetry = {},
+            onNavigate = {}
         )
     }
 }
@@ -236,7 +248,8 @@ private fun BooksScreenSuccessPreview() {
                     )
                 )
             ),
-            onRetry = {}
+            onRetry = {},
+            onNavigate = {}
         )
     }
 }

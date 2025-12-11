@@ -1,4 +1,4 @@
-package org.cescfe.book_publishing_app.ui.books.components
+package org.cescfe.book_publishing_app.ui.shared.components
 
 import androidx.annotation.DrawableRes
 import org.cescfe.book_publishing_app.R
