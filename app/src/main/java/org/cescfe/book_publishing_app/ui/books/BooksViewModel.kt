@@ -13,7 +13,12 @@ import org.cescfe.book_publishing_app.domain.book.model.BooksErrorType
 import org.cescfe.book_publishing_app.domain.book.model.BooksResult
 import org.cescfe.book_publishing_app.domain.book.repository.BooksRepository
 
-data class BooksUiState(val books: List<Book> = emptyList(), val isLoading: Boolean = false, val error: String? = null, val sessionExpired: Boolean = false)
+data class BooksUiState(
+    val books: List<Book> = emptyList(),
+    val isLoading: Boolean = false,
+    val error: String? = null,
+    val sessionExpired: Boolean = false
+)
 
 class BooksViewModel(private val booksRepository: BooksRepository = BooksRepositoryImpl(RetrofitClient.booksApi)) :
     ViewModel() {

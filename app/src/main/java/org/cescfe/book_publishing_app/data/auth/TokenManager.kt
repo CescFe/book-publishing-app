@@ -17,9 +17,7 @@ object TokenManager {
         return accessToken
     }
 
-    fun isTokenExpired(): Boolean {
-        return System.currentTimeMillis() >= expiresAt
-    }
+    fun isTokenExpired(): Boolean = System.currentTimeMillis() >= expiresAt
 
     fun hasValidToken(): Boolean = getToken() != null
 

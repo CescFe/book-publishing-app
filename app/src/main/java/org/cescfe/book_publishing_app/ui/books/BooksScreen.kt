@@ -39,9 +39,7 @@ import org.cescfe.book_publishing_app.ui.theme.BookpublishingappTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BooksScreen(viewModel: BooksViewModel = viewModel(),
-                onSessionExpired: () -> Unit
-) {
+fun BooksScreen(viewModel: BooksViewModel = viewModel(), onSessionExpired: () -> Unit) {
     val uiState by viewModel.uiState.collectAsState()
 
     LaunchedEffect(uiState.sessionExpired) {
