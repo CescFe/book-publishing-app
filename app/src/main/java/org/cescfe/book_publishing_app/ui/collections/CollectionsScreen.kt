@@ -19,9 +19,7 @@ import org.cescfe.book_publishing_app.ui.theme.BookpublishingappTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CollectionsScreen(
-    onNavigate: (BottomNavItem) -> Unit = {}
-) {
+fun CollectionsScreen(onNavigate: (BottomNavItem) -> Unit = {}) {
     Scaffold(
         modifier = Modifier.testTag("collections_screen"),
         topBar = {
