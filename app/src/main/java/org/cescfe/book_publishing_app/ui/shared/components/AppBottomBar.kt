@@ -1,4 +1,4 @@
-package org.cescfe.book_publishing_app.ui.books.components
+package org.cescfe.book_publishing_app.ui.shared.components
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -11,7 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import org.cescfe.book_publishing_app.ui.theme.BookpublishingappTheme
 
 @Composable
-fun BooksBottomBar(
+fun AppBottomBar(
     modifier: Modifier = Modifier,
     selectedItem: BottomNavItem = BottomNavItem.Books,
     onItemClick: (BottomNavItem) -> Unit = {}
@@ -34,24 +34,24 @@ fun BooksBottomBar(
 
 @Preview(showBackground = true)
 @Composable
-private fun BooksBottomBarPreview() {
+private fun AppBottomBarPreview() {
     BookpublishingappTheme {
-        BooksBottomBar()
+        AppBottomBar()
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun BooksBottomBarCollectionsSelectedPreview() {
+private fun AppBottomBarCollectionsSelectedPreview() {
     BookpublishingappTheme {
-        BooksBottomBar(selectedItem = BottomNavItem.Collections)
+        AppBottomBar(selectedItem = BottomNavItem.Collections)
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun BooksBottomBarAuthorsSelectedPreview() {
+private fun AppBottomBarAuthorsSelectedPreview() {
     BookpublishingappTheme {
-        BooksBottomBar(selectedItem = BottomNavItem.Authors)
+        AppBottomBar(selectedItem = BottomNavItem.Authors)
     }
 }

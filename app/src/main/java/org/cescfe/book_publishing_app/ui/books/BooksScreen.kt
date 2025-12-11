@@ -35,7 +35,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import org.cescfe.book_publishing_app.R
 import org.cescfe.book_publishing_app.domain.book.model.Book
 import org.cescfe.book_publishing_app.ui.books.components.BookCard
-import org.cescfe.book_publishing_app.ui.books.components.BooksBottomBar
+import org.cescfe.book_publishing_app.ui.shared.components.AppBottomBar
 import org.cescfe.book_publishing_app.ui.theme.BookpublishingappTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -66,7 +66,7 @@ internal fun BooksScreenContent(uiState: BooksUiState, onRetry: () -> Unit) {
             )
         },
         bottomBar = {
-            BooksBottomBar()
+            AppBottomBar()
         }
     ) { innerPadding ->
         Box(
