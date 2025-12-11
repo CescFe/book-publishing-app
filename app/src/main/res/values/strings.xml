@@ -27,4 +27,7 @@
 
     <!-- Collections Screen -->
     <string name="collections_title">Collections</string>
+
+    <!-- Authors Screen -->
+    <string name="authors_title">Authors</string>
 </resources>
