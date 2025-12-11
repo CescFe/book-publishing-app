@@ -7,12 +7,14 @@ import androidx.navigation.compose.composable
 import org.cescfe.book_publishing_app.data.auth.TokenManager
 import org.cescfe.book_publishing_app.ui.auth.LoginScreen
 import org.cescfe.book_publishing_app.ui.books.BooksScreen
+import org.cescfe.book_publishing_app.ui.collections.CollectionsScreen
 import org.cescfe.book_publishing_app.ui.splash.SplashScreen
 
 object Routes {
     const val SPLASH = "splash"
     const val LOGIN = "login"
     const val BOOKS = "books"
+    const val COLLECTIONS = "collections"
 }
 
 @Composable
@@ -45,6 +47,28 @@ fun AppNavigation(navController: NavHostController) {
                     TokenManager.clearToken()
                     navController.navigate(Routes.LOGIN) {
                         popUpTo(Routes.BOOKS) { inclusive = true }
+                    }
+                },
+                onNavigate = { item ->
+                    if (item.route != Routes.BOOKS) {
+                        navController.navigate(item.route) {
+                            popUpTo(Routes.BOOKS) { saveState = true }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    }
+                }
+            )
+        }
+        composable(Routes.COLLECTIONS) {
+            CollectionsScreen(
+                onNavigate = { item ->
+                    if (item.route != Routes.COLLECTIONS) {
+                        navController.navigate(item.route) {
+                            popUpTo(Routes.BOOKS) { saveState = true }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
                     }
                 }
             )

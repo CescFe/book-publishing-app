@@ -25,4 +25,7 @@
     <string name="books_title">Llibres</string>
     <string name="books_retry">Reintentar</string>
     <string name="books_empty">No hi ha llibres disponibles</string>
+
+    <!-- Collections Screen -->
+    <string name="collections_title">Col·leccions</string>
 </resources>
