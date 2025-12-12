@@ -1,11 +1,13 @@
 package org.cescfe.book_publishing_app.ui.books
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import org.cescfe.book_publishing_app.R
 import org.cescfe.book_publishing_app.data.book.repository.BooksRepositoryImpl
 import org.cescfe.book_publishing_app.data.shared.remote.RetrofitClient
 import org.cescfe.book_publishing_app.domain.book.model.BookSummary
@@ -16,12 +18,13 @@ import org.cescfe.book_publishing_app.domain.shared.DomainResult
 data class BooksUiState(
     val bookSummaries: List<BookSummary> = emptyList(),
     val isLoading: Boolean = false,
-    val error: String? = null,
+    @get:StringRes val errorResId: Int? = null,
     val sessionExpired: Boolean = false
 )
 
-class BooksViewModel(private val booksRepository: BooksRepository = BooksRepositoryImpl(RetrofitClient.booksApi)) :
-    ViewModel() {
+class BooksViewModel(
+    private val booksRepository: BooksRepository = BooksRepositoryImpl(RetrofitClient.booksApi)
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(BooksUiState())
     val uiState: StateFlow<BooksUiState> = _uiState.asStateFlow()
@@ -34,7 +37,7 @@ class BooksViewModel(private val booksRepository: BooksRepository = BooksReposit
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(
                 isLoading = true,
-                error = null
+                errorResId = null
             )
 
             when (val result = booksRepository.getBooks()) {
@@ -42,7 +45,7 @@ class BooksViewModel(private val booksRepository: BooksRepository = BooksReposit
                     _uiState.value = _uiState.value.copy(
                         isLoading = false,
                         bookSummaries = result.data,
-                        error = null
+                        errorResId = null
                     )
                 }
                 is DomainResult.Error -> {
@@ -54,7 +57,7 @@ class BooksViewModel(private val booksRepository: BooksRepository = BooksReposit
                     } else {
                         _uiState.value = _uiState.value.copy(
                             isLoading = false,
-                            error = result.message
+                            errorResId = result.type.toStringResId()
                         )
                     }
                 }
@@ -64,5 +67,13 @@ class BooksViewModel(private val booksRepository: BooksRepository = BooksReposit
 
     fun retry() {
         loadBooks()
+    }
+
+    private fun DomainErrorType.toStringResId(): Int = when (this) {
+        DomainErrorType.TIMEOUT -> R.string.error_timeout
+        DomainErrorType.NETWORK_ERROR -> R.string.error_network
+        DomainErrorType.UNAUTHORIZED -> R.string.error_unauthorized
+        DomainErrorType.SERVER_ERROR -> R.string.error_server
+        DomainErrorType.UNKNOWN -> R.string.error_unknown
     }
 }

@@ -87,9 +87,9 @@ internal fun BooksScreenContent(uiState: BooksUiState, onRetry: () -> Unit, onNa
                 uiState.isLoading -> {
                     LoadingState()
                 }
-                uiState.error != null -> {
+                uiState.errorResId != null -> {
                     ErrorState(
-                        errorMessage = uiState.error,
+                        errorMessage = stringResource(uiState.errorResId),
                         onRetry = onRetry
                     )
                 }
@@ -204,7 +204,7 @@ private fun BooksScreenLoadingPreview() {
 private fun BooksScreenErrorPreview() {
     BookpublishingappTheme {
         BooksScreenContent(
-            uiState = BooksUiState(error = "Network error. Please check your connection."),
+            uiState = BooksUiState(errorResId = R.string.error_network),
             onRetry = {},
             onNavigate = {}
         )

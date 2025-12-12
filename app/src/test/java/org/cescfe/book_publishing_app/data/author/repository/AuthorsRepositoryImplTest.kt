@@ -110,7 +110,6 @@ class AuthorsRepositoryImplTest {
         assertTrue(result is DomainResult.Error)
         val error = result as DomainResult.Error
         assertEquals(DomainErrorType.TIMEOUT, error.type)
-        assertTrue(error.message.contains("timeout", ignoreCase = true))
     }
 
     @Test
@@ -122,7 +121,6 @@ class AuthorsRepositoryImplTest {
         assertTrue(result is DomainResult.Error)
         val error = result as DomainResult.Error
         assertEquals(DomainErrorType.NETWORK_ERROR, error.type)
-        assertTrue(error.message.contains("Network error", ignoreCase = true))
     }
 
     @Test
@@ -134,7 +132,6 @@ class AuthorsRepositoryImplTest {
         assertTrue(result is DomainResult.Error)
         val error = result as DomainResult.Error
         assertEquals(DomainErrorType.UNAUTHORIZED, error.type)
-        assertTrue(error.message.contains("Session expired", ignoreCase = true))
     }
 
     @Test
@@ -146,7 +143,6 @@ class AuthorsRepositoryImplTest {
         assertTrue(result is DomainResult.Error)
         val error = result as DomainResult.Error
         assertEquals(DomainErrorType.SERVER_ERROR, error.type)
-        assertTrue(error.message.contains("Server error", ignoreCase = true))
     }
 
     @Test

@@ -18,6 +18,7 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
+import org.cescfe.book_publishing_app.R
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class BooksViewModelTest {
@@ -52,7 +53,7 @@ class BooksViewModelTest {
 
         val state = viewModel.uiState.value
         assertFalse(state.isLoading)
-        assertNull(state.error)
+        assertNull(state.errorResId)
         assertFalse(state.sessionExpired)
         assertEquals(2, state.bookSummaries.size)
         assertEquals("Book One", state.bookSummaries[0].title)
@@ -68,7 +69,7 @@ class BooksViewModelTest {
 
         val state = viewModel.uiState.value
         assertFalse(state.isLoading)
-        assertNull(state.error)
+        assertNull(state.errorResId)
         assertTrue(state.bookSummaries.isEmpty())
     }
 
@@ -76,10 +77,7 @@ class BooksViewModelTest {
 
     @Test
     fun `loadBooks with network error should update error state`() = runTest {
-        mockRepository.result = DomainResult.Error(
-            DomainErrorType.NETWORK_ERROR,
-            "Network error. Please check your connection."
-        )
+        mockRepository.result = DomainResult.Error(DomainErrorType.NETWORK_ERROR)
 
         val viewModel = createViewModel()
         advanceUntilIdle()
@@ -88,47 +86,38 @@ class BooksViewModelTest {
         assertFalse(state.isLoading)
         assertFalse(state.sessionExpired)
         assertTrue(state.bookSummaries.isEmpty())
-        assertEquals("Network error. Please check your connection.", state.error)
+        assertEquals(R.string.error_network, state.errorResId)
     }
 
     @Test
     fun `loadBooks with server error should update error state`() = runTest {
-        mockRepository.result = DomainResult.Error(
-            DomainErrorType.SERVER_ERROR,
-            "Server error. Please try again later."
-        )
+        mockRepository.result = DomainResult.Error(DomainErrorType.SERVER_ERROR)
 
         val viewModel = createViewModel()
         advanceUntilIdle()
 
         val state = viewModel.uiState.value
         assertFalse(state.isLoading)
-        assertEquals("Server error. Please try again later.", state.error)
+        assertEquals(R.string.error_server, state.errorResId)
     }
 
     @Test
     fun `loadBooks with timeout should update error state`() = runTest {
-        mockRepository.result = DomainResult.Error(
-            DomainErrorType.TIMEOUT,
-            "Request timeout. Please try again."
-        )
+        mockRepository.result = DomainResult.Error(DomainErrorType.TIMEOUT)
 
         val viewModel = createViewModel()
         advanceUntilIdle()
 
         val state = viewModel.uiState.value
         assertFalse(state.isLoading)
-        assertTrue(state.error?.contains("timeout", ignoreCase = true) == true)
+        assertEquals(R.string.error_timeout, state.errorResId)
     }
 
     // ==================== SESSION EXPIRED ====================
 
     @Test
     fun `loadBooks with unauthorized should set sessionExpired true`() = runTest {
-        mockRepository.result = DomainResult.Error(
-            DomainErrorType.UNAUTHORIZED,
-            "Session expired. Please login again."
-        )
+        mockRepository.result = DomainResult.Error(DomainErrorType.UNAUTHORIZED)
 
         val viewModel = createViewModel()
         advanceUntilIdle()
@@ -136,7 +125,7 @@ class BooksViewModelTest {
         val state = viewModel.uiState.value
         assertFalse(state.isLoading)
         assertTrue(state.sessionExpired)
-        assertNull(state.error)
+        assertNull(state.errorResId)
     }
 
     // ==================== RETRY ====================
@@ -144,16 +133,13 @@ class BooksViewModelTest {
     @Test
     fun `retry should reload books`() = runTest {
         // First try: error
-        mockRepository.result = DomainResult.Error(
-            DomainErrorType.NETWORK_ERROR,
-            "Network error"
-        )
+        mockRepository.result = DomainResult.Error(DomainErrorType.NETWORK_ERROR)
 
         val viewModel = createViewModel()
         advanceUntilIdle()
 
         val errorState = viewModel.uiState.value
-        assertEquals("Network error", errorState.error)
+        assertEquals(R.string.error_network, errorState.errorResId)
 
         // Second try: success
         val books = listOf(createBook(id = "1", title = "Book One"))
@@ -164,26 +150,23 @@ class BooksViewModelTest {
 
         val successState = viewModel.uiState.value
         assertFalse(successState.isLoading)
-        assertNull(successState.error)
+        assertNull(successState.errorResId)
         assertEquals(1, successState.bookSummaries.size)
     }
 
     @Test
     fun `retry should clear previous error`() = runTest {
-        mockRepository.result = DomainResult.Error(
-            DomainErrorType.NETWORK_ERROR,
-            "Network error"
-        )
+        mockRepository.result = DomainResult.Error(DomainErrorType.NETWORK_ERROR)
 
         val viewModel = createViewModel()
         advanceUntilIdle()
-        assertTrue(viewModel.uiState.value.error != null)
+        assertTrue(viewModel.uiState.value.errorResId != null)
 
         mockRepository.result = DomainResult.Success(emptyList())
         viewModel.retry()
         advanceUntilIdle()
 
-        assertNull(viewModel.uiState.value.error)
+        assertNull(viewModel.uiState.value.errorResId)
     }
 
     // ==================== HELPERS ====================
