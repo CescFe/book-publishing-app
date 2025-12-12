@@ -9,9 +9,9 @@ import kotlinx.coroutines.launch
 import org.cescfe.book_publishing_app.data.book.repository.BooksRepositoryImpl
 import org.cescfe.book_publishing_app.data.shared.remote.RetrofitClient
 import org.cescfe.book_publishing_app.domain.book.model.BookSummary
-import org.cescfe.book_publishing_app.domain.book.model.BooksResult
 import org.cescfe.book_publishing_app.domain.book.repository.BooksRepository
 import org.cescfe.book_publishing_app.domain.shared.DomainErrorType
+import org.cescfe.book_publishing_app.domain.shared.DomainResult
 
 data class BooksUiState(
     val bookSummaries: List<BookSummary> = emptyList(),
@@ -38,14 +38,14 @@ class BooksViewModel(private val booksRepository: BooksRepository = BooksReposit
             )
 
             when (val result = booksRepository.getBooks()) {
-                is BooksResult.Success -> {
+                is DomainResult.Success -> {
                     _uiState.value = _uiState.value.copy(
                         isLoading = false,
                         bookSummaries = result.data,
                         error = null
                     )
                 }
-                is BooksResult.Error -> {
+                is DomainResult.Error -> {
                     if (result.type == DomainErrorType.UNAUTHORIZED) {
                         _uiState.value = _uiState.value.copy(
                             isLoading = false,
