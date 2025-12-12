@@ -20,12 +20,12 @@ class BookSummaryDTOTest {
 
         val book = dto.toDomain()
 
-        assertEquals("book-123", book.id)
-        assertEquals("The Lord of the Rings", book.title)
-        assertEquals("author-456", book.author)
-        assertEquals("collection-789", book.collection)
-        assertEquals(24.99, book.finalPrice, 0.001)
-        assertEquals("978-0-544-00341-5", book.isbn)
+        assertEquals(dto.id, book.id)
+        assertEquals(dto.title, book.title)
+        assertEquals(dto.authorId, book.author)
+        assertEquals(dto.collectionId, book.collection)
+        assertEquals(dto.finalPrice!!, book.finalPrice, 0.001)
+        assertEquals(dto.isbn, book.isbn)
     }
 
     @Test
@@ -43,7 +43,7 @@ class BookSummaryDTOTest {
 
         val book = dto.toDomain()
 
-        assertEquals(29.99, book.finalPrice, 0.001)
+        assertEquals(dto.basePrice, book.finalPrice, 0.001)
     }
 
     @Test

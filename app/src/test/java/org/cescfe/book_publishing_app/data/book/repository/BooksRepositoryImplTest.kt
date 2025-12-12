@@ -8,9 +8,9 @@ import okhttp3.ResponseBody.Companion.toResponseBody
 import org.cescfe.book_publishing_app.data.book.remote.api.BooksApi
 import org.cescfe.book_publishing_app.data.book.remote.dto.BookSummaryDTO
 import org.cescfe.book_publishing_app.data.book.remote.dto.BooksResponse
-import org.cescfe.book_publishing_app.data.book.remote.dto.PaginationMeta
-import org.cescfe.book_publishing_app.domain.book.model.BooksResult
+import org.cescfe.book_publishing_app.data.shared.remote.dto.PaginationMeta
 import org.cescfe.book_publishing_app.domain.shared.DomainErrorType
+import org.cescfe.book_publishing_app.domain.shared.DomainResult
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -44,8 +44,8 @@ class BooksRepositoryImplTest {
 
         val result = repository.getBooks()
 
-        assertTrue(result is BooksResult.Success)
-        val success = result as BooksResult.Success
+        assertTrue(result is DomainResult.Success)
+        val success = result as DomainResult.Success
         assertEquals(1, success.data.size)
         assertEquals("book-123", success.data[0].id)
         assertEquals("The Lord of the Rings", success.data[0].title)
@@ -57,8 +57,8 @@ class BooksRepositoryImplTest {
 
         val result = repository.getBooks()
 
-        assertTrue(result is BooksResult.Success)
-        val success = result as BooksResult.Success
+        assertTrue(result is DomainResult.Success)
+        val success = result as DomainResult.Success
         assertEquals(0, success.data.size)
     }
 
@@ -73,8 +73,8 @@ class BooksRepositoryImplTest {
 
         val result = repository.getBooks()
 
-        assertTrue(result is BooksResult.Success)
-        val success = result as BooksResult.Success
+        assertTrue(result is DomainResult.Success)
+        val success = result as DomainResult.Success
         assertEquals(3, success.data.size)
     }
 
@@ -95,8 +95,8 @@ class BooksRepositoryImplTest {
 
         val result = repository.getBooks()
 
-        assertTrue(result is BooksResult.Success)
-        val book = (result as BooksResult.Success).data[0]
+        assertTrue(result is DomainResult.Success)
+        val book = (result as DomainResult.Success).data[0]
         assertEquals("f59514f6-dbe8-41d0-a4ce-3e6cdf27290e", book.id)
         assertEquals("The Lord of the Rings", book.title)
         assertEquals("d7a3c6f9-9dc3-4fbf-b61a-83d59c81903e", book.author)
@@ -112,8 +112,8 @@ class BooksRepositoryImplTest {
 
         val result = repository.getBooks()
 
-        assertTrue(result is BooksResult.Error)
-        val error = result as BooksResult.Error
+        assertTrue(result is DomainResult.Error)
+        val error = result as DomainResult.Error
         assertEquals(DomainErrorType.TIMEOUT, error.type)
         assertTrue(error.message.contains("timeout", ignoreCase = true))
     }
@@ -124,8 +124,8 @@ class BooksRepositoryImplTest {
 
         val result = repository.getBooks()
 
-        assertTrue(result is BooksResult.Error)
-        val error = result as BooksResult.Error
+        assertTrue(result is DomainResult.Error)
+        val error = result as DomainResult.Error
         assertEquals(DomainErrorType.NETWORK_ERROR, error.type)
         assertTrue(error.message.contains("Network error", ignoreCase = true))
     }
@@ -136,8 +136,8 @@ class BooksRepositoryImplTest {
 
         val result = repository.getBooks()
 
-        assertTrue(result is BooksResult.Error)
-        val error = result as BooksResult.Error
+        assertTrue(result is DomainResult.Error)
+        val error = result as DomainResult.Error
         assertEquals(DomainErrorType.UNAUTHORIZED, error.type)
         assertTrue(error.message.contains("Session expired", ignoreCase = true))
     }
@@ -148,8 +148,8 @@ class BooksRepositoryImplTest {
 
         val result = repository.getBooks()
 
-        assertTrue(result is BooksResult.Error)
-        val error = result as BooksResult.Error
+        assertTrue(result is DomainResult.Error)
+        val error = result as DomainResult.Error
         assertEquals(DomainErrorType.SERVER_ERROR, error.type)
         assertTrue(error.message.contains("Server error", ignoreCase = true))
     }
@@ -160,8 +160,8 @@ class BooksRepositoryImplTest {
 
         val result = repository.getBooks()
 
-        assertTrue(result is BooksResult.Error)
-        val error = result as BooksResult.Error
+        assertTrue(result is DomainResult.Error)
+        val error = result as DomainResult.Error
         assertEquals(DomainErrorType.SERVER_ERROR, error.type)
     }
 
@@ -171,8 +171,8 @@ class BooksRepositoryImplTest {
 
         val result = repository.getBooks()
 
-        assertTrue(result is BooksResult.Error)
-        val error = result as BooksResult.Error
+        assertTrue(result is DomainResult.Error)
+        val error = result as DomainResult.Error
         assertEquals(DomainErrorType.UNKNOWN, error.type)
     }
 
@@ -182,8 +182,8 @@ class BooksRepositoryImplTest {
 
         val result = repository.getBooks()
 
-        assertTrue(result is BooksResult.Error)
-        val error = result as BooksResult.Error
+        assertTrue(result is DomainResult.Error)
+        val error = result as DomainResult.Error
         assertEquals(DomainErrorType.UNKNOWN, error.type)
     }
 

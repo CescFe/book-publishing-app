@@ -8,9 +8,9 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.cescfe.book_publishing_app.domain.book.model.BookSummary
-import org.cescfe.book_publishing_app.domain.book.model.BooksResult
 import org.cescfe.book_publishing_app.domain.book.repository.BooksRepository
 import org.cescfe.book_publishing_app.domain.shared.DomainErrorType
+import org.cescfe.book_publishing_app.domain.shared.DomainResult
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -45,7 +45,7 @@ class BooksViewModelTest {
             createBook(id = "1", title = "Book One"),
             createBook(id = "2", title = "Book Two")
         )
-        mockRepository.result = BooksResult.Success(books)
+        mockRepository.result = DomainResult.Success(books)
 
         val viewModel = createViewModel()
         advanceUntilIdle()
@@ -61,7 +61,7 @@ class BooksViewModelTest {
 
     @Test
     fun `loadBooks with empty list should return empty books`() = runTest {
-        mockRepository.result = BooksResult.Success(emptyList())
+        mockRepository.result = DomainResult.Success(emptyList())
 
         val viewModel = createViewModel()
         advanceUntilIdle()
@@ -76,7 +76,7 @@ class BooksViewModelTest {
 
     @Test
     fun `loadBooks with network error should update error state`() = runTest {
-        mockRepository.result = BooksResult.Error(
+        mockRepository.result = DomainResult.Error(
             DomainErrorType.NETWORK_ERROR,
             "Network error. Please check your connection."
         )
@@ -93,7 +93,7 @@ class BooksViewModelTest {
 
     @Test
     fun `loadBooks with server error should update error state`() = runTest {
-        mockRepository.result = BooksResult.Error(
+        mockRepository.result = DomainResult.Error(
             DomainErrorType.SERVER_ERROR,
             "Server error. Please try again later."
         )
@@ -108,7 +108,7 @@ class BooksViewModelTest {
 
     @Test
     fun `loadBooks with timeout should update error state`() = runTest {
-        mockRepository.result = BooksResult.Error(
+        mockRepository.result = DomainResult.Error(
             DomainErrorType.TIMEOUT,
             "Request timeout. Please try again."
         )
@@ -125,7 +125,7 @@ class BooksViewModelTest {
 
     @Test
     fun `loadBooks with unauthorized should set sessionExpired true`() = runTest {
-        mockRepository.result = BooksResult.Error(
+        mockRepository.result = DomainResult.Error(
             DomainErrorType.UNAUTHORIZED,
             "Session expired. Please login again."
         )
@@ -144,7 +144,7 @@ class BooksViewModelTest {
     @Test
     fun `retry should reload books`() = runTest {
         // First try: error
-        mockRepository.result = BooksResult.Error(
+        mockRepository.result = DomainResult.Error(
             DomainErrorType.NETWORK_ERROR,
             "Network error"
         )
@@ -157,7 +157,7 @@ class BooksViewModelTest {
 
         // Second try: success
         val books = listOf(createBook(id = "1", title = "Book One"))
-        mockRepository.result = BooksResult.Success(books)
+        mockRepository.result = DomainResult.Success(books)
 
         viewModel.retry()
         advanceUntilIdle()
@@ -170,7 +170,7 @@ class BooksViewModelTest {
 
     @Test
     fun `retry should clear previous error`() = runTest {
-        mockRepository.result = BooksResult.Error(
+        mockRepository.result = DomainResult.Error(
             DomainErrorType.NETWORK_ERROR,
             "Network error"
         )
@@ -179,7 +179,7 @@ class BooksViewModelTest {
         advanceUntilIdle()
         assertTrue(viewModel.uiState.value.error != null)
 
-        mockRepository.result = BooksResult.Success(emptyList())
+        mockRepository.result = DomainResult.Success(emptyList())
         viewModel.retry()
         advanceUntilIdle()
 
@@ -208,7 +208,7 @@ class BooksViewModelTest {
 // ==================== MOCK ====================
 
 class MockBooksRepository : BooksRepository {
-    var result: BooksResult<List<BookSummary>> = BooksResult.Success(emptyList())
+    var result: DomainResult<List<BookSummary>> = DomainResult.Success(emptyList())
 
-    override suspend fun getBooks(): BooksResult<List<BookSummary>> = result
+    override suspend fun getBooks(): DomainResult<List<BookSummary>> = result
 }
