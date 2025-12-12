@@ -22,9 +22,8 @@ data class BooksUiState(
     val sessionExpired: Boolean = false
 )
 
-class BooksViewModel(
-    private val booksRepository: BooksRepository = BooksRepositoryImpl(RetrofitClient.booksApi)
-) : ViewModel() {
+class BooksViewModel(private val booksRepository: BooksRepository = BooksRepositoryImpl(RetrofitClient.booksApi)) :
+    ViewModel() {
 
     private val _uiState = MutableStateFlow(BooksUiState())
     val uiState: StateFlow<BooksUiState> = _uiState.asStateFlow()
