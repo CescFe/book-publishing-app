@@ -1,10 +1,10 @@
 package org.cescfe.book_publishing_app.data.shared.repository
 
+import java.io.IOException
+import java.net.SocketTimeoutException
 import org.cescfe.book_publishing_app.domain.shared.DomainErrorType
 import org.cescfe.book_publishing_app.domain.shared.DomainResult
 import retrofit2.HttpException
-import java.io.IOException
-import java.net.SocketTimeoutException
 
 object RepositoryErrorHandler {
 
