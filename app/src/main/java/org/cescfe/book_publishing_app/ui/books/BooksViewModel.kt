@@ -7,13 +7,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.cescfe.book_publishing_app.R
 import org.cescfe.book_publishing_app.data.book.repository.BooksRepositoryImpl
 import org.cescfe.book_publishing_app.data.shared.remote.RetrofitClient
 import org.cescfe.book_publishing_app.domain.book.model.BookSummary
 import org.cescfe.book_publishing_app.domain.book.repository.BooksRepository
 import org.cescfe.book_publishing_app.domain.shared.DomainErrorType
 import org.cescfe.book_publishing_app.domain.shared.DomainResult
+import org.cescfe.book_publishing_app.ui.shared.toStringResId
 
 data class BooksUiState(
     val bookSummaries: List<BookSummary> = emptyList(),
@@ -66,13 +66,5 @@ class BooksViewModel(private val booksRepository: BooksRepository = BooksReposit
 
     fun retry() {
         loadBooks()
-    }
-
-    private fun DomainErrorType.toStringResId(): Int = when (this) {
-        DomainErrorType.TIMEOUT -> R.string.error_timeout
-        DomainErrorType.NETWORK_ERROR -> R.string.error_network
-        DomainErrorType.UNAUTHORIZED -> R.string.error_unauthorized
-        DomainErrorType.SERVER_ERROR -> R.string.error_server
-        DomainErrorType.UNKNOWN -> R.string.error_unknown
     }
 }
