@@ -5,15 +5,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import org.cescfe.book_publishing_app.domain.book.model.Book
+import org.cescfe.book_publishing_app.domain.book.model.BookSummary
 import org.cescfe.book_publishing_app.ui.theme.BookpublishingappTheme
 
 @Preview(showBackground = true)
 @Composable
-private fun BookCardPreview() {
+private fun BookSummaryCardPreview() {
     BookpublishingappTheme {
-        BookCard(
-            book = Book(
+        BookSummaryCard(
+            bookSummary = BookSummary(
                 id = "1",
                 title = "The Lord of the Rings",
                 author = "J.R.R. Tolkien",
@@ -28,10 +28,10 @@ private fun BookCardPreview() {
 
 @Preview(showBackground = true)
 @Composable
-private fun BookCardNoIsbnPreview() {
+private fun BookSummaryCardNoIsbnPreview() {
     BookpublishingappTheme {
-        BookCard(
-            book = Book(
+        BookSummaryCard(
+            bookSummary = BookSummary(
                 id = "2",
                 title = "A Very Long Book Title That Might Overflow",
                 author = "Author Name",
@@ -46,10 +46,10 @@ private fun BookCardNoIsbnPreview() {
 
 @Preview(showBackground = true)
 @Composable
-private fun BookCardNoCollectionPreview() {
+private fun BookSummaryCardNoCollectionPreview() {
     BookpublishingappTheme {
-        BookCard(
-            book = Book(
+        BookSummaryCard(
+            bookSummary = BookSummary(
                 id = "3",
                 title = "Standalone Book",
                 author = "Standalone Author",

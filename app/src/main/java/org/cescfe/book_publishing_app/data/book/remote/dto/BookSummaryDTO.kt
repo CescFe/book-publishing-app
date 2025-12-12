@@ -2,10 +2,10 @@ package org.cescfe.book_publishing_app.data.book.remote.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import org.cescfe.book_publishing_app.domain.book.model.Book
+import org.cescfe.book_publishing_app.domain.book.model.BookSummary
 
 @Serializable
-data class BookDTO(
+data class BookSummaryDTO(
     val id: String,
     val title: String,
     @SerialName("author_id")
@@ -20,7 +20,7 @@ data class BookDTO(
     val status: String? = null
 )
 
-fun BookDTO.toDomain(): Book = Book(
+fun BookSummaryDTO.toDomain(): BookSummary = BookSummary(
     id = id,
     title = title,
     author = authorId,

@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class BooksResponse(val data: List<BookDTO>, val meta: PaginationMeta)
+data class BooksResponse(val data: List<BookSummaryDTO>, val meta: PaginationMeta)
 
 @Serializable
 data class PaginationMeta(

@@ -23,10 +23,10 @@ import androidx.compose.ui.unit.dp
 import java.text.NumberFormat
 import java.util.Locale
 import org.cescfe.book_publishing_app.R
-import org.cescfe.book_publishing_app.domain.book.model.Book
+import org.cescfe.book_publishing_app.domain.book.model.BookSummary
 
 @Composable
-fun BookCard(book: Book, modifier: Modifier = Modifier) {
+fun BookSummaryCard(bookSummary: BookSummary, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
@@ -50,7 +50,7 @@ fun BookCard(book: Book, modifier: Modifier = Modifier) {
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Text(
-                    text = book.title,
+                    text = bookSummary.title,
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     maxLines = 2,
@@ -58,7 +58,7 @@ fun BookCard(book: Book, modifier: Modifier = Modifier) {
                 )
 
                 Text(
-                    text = book.author,
+                    text = bookSummary.author,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,
@@ -66,7 +66,7 @@ fun BookCard(book: Book, modifier: Modifier = Modifier) {
                 )
 
                 Text(
-                    text = stringResource(R.string.book_card_collection, book.collection),
+                    text = stringResource(R.string.book_card_collection, bookSummary.collection),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,
@@ -80,17 +80,17 @@ fun BookCard(book: Book, modifier: Modifier = Modifier) {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = formatPrice(book.finalPrice),
+                        text = formatPrice(bookSummary.finalPrice),
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.SemiBold,
                         color = MaterialTheme.colorScheme.primary
                     )
 
                     Text(
-                        text = if (book.isbn.isNullOrBlank()) {
+                        text = if (bookSummary.isbn.isNullOrBlank()) {
                             stringResource(R.string.book_card_no_isbn)
                         } else {
-                            stringResource(R.string.book_card_isbn, book.isbn)
+                            stringResource(R.string.book_card_isbn, bookSummary.isbn)
                         },
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant

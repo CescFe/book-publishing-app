@@ -6,7 +6,7 @@ import kotlinx.coroutines.test.runTest
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.cescfe.book_publishing_app.data.book.remote.api.BooksApi
-import org.cescfe.book_publishing_app.data.book.remote.dto.BookDTO
+import org.cescfe.book_publishing_app.data.book.remote.dto.BookSummaryDTO
 import org.cescfe.book_publishing_app.data.book.remote.dto.BooksResponse
 import org.cescfe.book_publishing_app.data.book.remote.dto.PaginationMeta
 import org.cescfe.book_publishing_app.domain.book.model.BooksResult
@@ -198,7 +198,7 @@ class BooksRepositoryImplTest {
         finalPrice: Double? = null,
         isbn: String? = null,
         status: String? = null
-    ) = BookDTO(
+    ) = BookSummaryDTO(
         id = id,
         title = title,
         authorId = authorId,
@@ -209,7 +209,7 @@ class BooksRepositoryImplTest {
         status = status
     )
 
-    private fun createBooksResponse(books: List<BookDTO>) = BooksResponse(
+    private fun createBooksResponse(books: List<BookSummaryDTO>) = BooksResponse(
         data = books,
         meta = PaginationMeta(
             page = 1,

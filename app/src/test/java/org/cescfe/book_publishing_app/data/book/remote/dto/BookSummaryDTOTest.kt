@@ -3,11 +3,11 @@ package org.cescfe.book_publishing_app.data.book.remote.dto
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class BookDTOTest {
+class BookSummaryDTOTest {
 
     @Test
     fun `toDomain should map all fields correctly`() {
-        val dto = BookDTO(
+        val dto = BookSummaryDTO(
             id = "book-123",
             title = "The Lord of the Rings",
             authorId = "author-456",
@@ -30,7 +30,7 @@ class BookDTOTest {
 
     @Test
     fun `toDomain should use basePrice when finalPrice is null`() {
-        val dto = BookDTO(
+        val dto = BookSummaryDTO(
             id = "book-123",
             title = "Test Book",
             authorId = "author-456",
@@ -48,7 +48,7 @@ class BookDTOTest {
 
     @Test
     fun `toDomain should return empty string when isbn is null`() {
-        val dto = BookDTO(
+        val dto = BookSummaryDTO(
             id = "book-123",
             title = "Test Book",
             authorId = "author-456",
