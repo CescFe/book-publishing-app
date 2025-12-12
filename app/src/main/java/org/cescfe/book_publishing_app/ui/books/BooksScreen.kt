@@ -33,8 +33,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.cescfe.book_publishing_app.R
-import org.cescfe.book_publishing_app.domain.book.model.Book
-import org.cescfe.book_publishing_app.ui.books.components.BookCard
+import org.cescfe.book_publishing_app.domain.book.model.BookSummary
+import org.cescfe.book_publishing_app.ui.books.components.BookSummaryCard
 import org.cescfe.book_publishing_app.ui.shared.components.AppBottomBar
 import org.cescfe.book_publishing_app.ui.shared.components.BottomNavItem
 import org.cescfe.book_publishing_app.ui.theme.BookpublishingappTheme
@@ -93,11 +93,11 @@ internal fun BooksScreenContent(uiState: BooksUiState, onRetry: () -> Unit, onNa
                         onRetry = onRetry
                     )
                 }
-                uiState.books.isEmpty() -> {
+                uiState.bookSummaries.isEmpty() -> {
                     EmptyState()
                 }
                 else -> {
-                    BooksList(books = uiState.books)
+                    BooksList(bookSummaries = uiState.bookSummaries)
                 }
             }
         }
@@ -170,17 +170,17 @@ private fun EmptyState() {
 }
 
 @Composable
-private fun BooksList(books: List<Book>) {
+private fun BooksList(bookSummaries: List<BookSummary>) {
     LazyColumn(
         modifier = Modifier.testTag("books_list"),
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         items(
-            items = books,
+            items = bookSummaries,
             key = { book -> book.id }
         ) { book ->
-            BookCard(book = book)
+            BookSummaryCard(bookSummary = book)
         }
     }
 }
@@ -216,7 +216,7 @@ private fun BooksScreenErrorPreview() {
 private fun BooksScreenEmptyPreview() {
     BookpublishingappTheme {
         BooksScreenContent(
-            uiState = BooksUiState(books = emptyList()),
+            uiState = BooksUiState(bookSummaries = emptyList()),
             onRetry = {},
             onNavigate = {}
         )
@@ -229,8 +229,8 @@ private fun BooksScreenSuccessPreview() {
     BookpublishingappTheme {
         BooksScreenContent(
             uiState = BooksUiState(
-                books = listOf(
-                    Book(
+                bookSummaries = listOf(
+                    BookSummary(
                         id = "1",
                         title = "The Lord of the Rings",
                         author = "J.R.R. Tolkien",
@@ -238,7 +238,7 @@ private fun BooksScreenSuccessPreview() {
                         finalPrice = 29.99,
                         isbn = "978-0-544-00001-0"
                     ),
-                    Book(
+                    BookSummary(
                         id = "2",
                         title = "1984",
                         author = "George Orwell",

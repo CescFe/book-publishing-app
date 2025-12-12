@@ -8,13 +8,13 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.cescfe.book_publishing_app.data.auth.remote.RetrofitClient
 import org.cescfe.book_publishing_app.data.book.repository.BooksRepositoryImpl
-import org.cescfe.book_publishing_app.domain.book.model.Book
+import org.cescfe.book_publishing_app.domain.book.model.BookSummary
 import org.cescfe.book_publishing_app.domain.book.model.BooksResult
 import org.cescfe.book_publishing_app.domain.book.repository.BooksRepository
 import org.cescfe.book_publishing_app.domain.shared.DomainErrorType
 
 data class BooksUiState(
-    val books: List<Book> = emptyList(),
+    val bookSummaries: List<BookSummary> = emptyList(),
     val isLoading: Boolean = false,
     val error: String? = null,
     val sessionExpired: Boolean = false
@@ -41,7 +41,7 @@ class BooksViewModel(private val booksRepository: BooksRepository = BooksReposit
                 is BooksResult.Success -> {
                     _uiState.value = _uiState.value.copy(
                         isLoading = false,
-                        books = result.data,
+                        bookSummaries = result.data,
                         error = null
                     )
                 }

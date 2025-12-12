@@ -4,7 +4,7 @@ import java.io.IOException
 import java.net.SocketTimeoutException
 import org.cescfe.book_publishing_app.data.book.remote.api.BooksApi
 import org.cescfe.book_publishing_app.data.book.remote.dto.toDomain
-import org.cescfe.book_publishing_app.domain.book.model.Book
+import org.cescfe.book_publishing_app.domain.book.model.BookSummary
 import org.cescfe.book_publishing_app.domain.book.model.BooksResult
 import org.cescfe.book_publishing_app.domain.book.repository.BooksRepository
 import org.cescfe.book_publishing_app.domain.shared.DomainErrorType
@@ -12,7 +12,7 @@ import retrofit2.HttpException
 
 class BooksRepositoryImpl(private val booksApi: BooksApi) : BooksRepository {
 
-    override suspend fun getBooks(): BooksResult<List<Book>> = try {
+    override suspend fun getBooks(): BooksResult<List<BookSummary>> = try {
         val response = booksApi.getBooks()
         val books = response.data.map { it.toDomain() }
         BooksResult.Success(books)

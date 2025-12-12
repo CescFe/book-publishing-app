@@ -6,7 +6,7 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import org.cescfe.book_publishing_app.domain.book.model.Book
+import org.cescfe.book_publishing_app.domain.book.model.BookSummary
 import org.cescfe.book_publishing_app.ui.shared.components.BottomNavItem
 import org.cescfe.book_publishing_app.ui.theme.BookpublishingappTheme
 import org.junit.Rule
@@ -107,7 +107,7 @@ class BooksScreenTest {
         composeTestRule.setContent {
             BookpublishingappTheme {
                 BooksScreenContent(
-                    uiState = BooksUiState(books = emptyList(), isLoading = false),
+                    uiState = BooksUiState(bookSummaries = emptyList(), isLoading = false),
                     onRetry = {}
                 )
             }
@@ -120,8 +120,8 @@ class BooksScreenTest {
 
     @Test
     fun booksScreen_showsBooksList_whenBooksAvailable() {
-        val books = listOf(
-            Book(
+        val bookSummaries = listOf(
+            BookSummary(
                 id = "1",
                 title = "The Lord of the Rings",
                 author = "J.R.R. Tolkien",
@@ -134,7 +134,7 @@ class BooksScreenTest {
         composeTestRule.setContent {
             BookpublishingappTheme {
                 BooksScreenContent(
-                    uiState = BooksUiState(books = books),
+                    uiState = BooksUiState(bookSummaries = bookSummaries),
                     onRetry = {}
                 )
             }
@@ -145,8 +145,8 @@ class BooksScreenTest {
 
     @Test
     fun booksScreen_showsBookTitle_whenBooksAvailable() {
-        val books = listOf(
-            Book(
+        val bookSummaries = listOf(
+            BookSummary(
                 id = "1",
                 title = "The Lord of the Rings",
                 author = "J.R.R. Tolkien",
@@ -159,7 +159,7 @@ class BooksScreenTest {
         composeTestRule.setContent {
             BookpublishingappTheme {
                 BooksScreenContent(
-                    uiState = BooksUiState(books = books),
+                    uiState = BooksUiState(bookSummaries = bookSummaries),
                     onRetry = {}
                 )
             }

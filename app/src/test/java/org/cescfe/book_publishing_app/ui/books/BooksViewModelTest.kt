@@ -7,7 +7,7 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import org.cescfe.book_publishing_app.domain.book.model.Book
+import org.cescfe.book_publishing_app.domain.book.model.BookSummary
 import org.cescfe.book_publishing_app.domain.book.model.BooksResult
 import org.cescfe.book_publishing_app.domain.book.repository.BooksRepository
 import org.cescfe.book_publishing_app.domain.shared.DomainErrorType
@@ -54,9 +54,9 @@ class BooksViewModelTest {
         assertFalse(state.isLoading)
         assertNull(state.error)
         assertFalse(state.sessionExpired)
-        assertEquals(2, state.books.size)
-        assertEquals("Book One", state.books[0].title)
-        assertEquals("Book Two", state.books[1].title)
+        assertEquals(2, state.bookSummaries.size)
+        assertEquals("Book One", state.bookSummaries[0].title)
+        assertEquals("Book Two", state.bookSummaries[1].title)
     }
 
     @Test
@@ -69,7 +69,7 @@ class BooksViewModelTest {
         val state = viewModel.uiState.value
         assertFalse(state.isLoading)
         assertNull(state.error)
-        assertTrue(state.books.isEmpty())
+        assertTrue(state.bookSummaries.isEmpty())
     }
 
     // ==================== ERROR CASES ====================
@@ -87,7 +87,7 @@ class BooksViewModelTest {
         val state = viewModel.uiState.value
         assertFalse(state.isLoading)
         assertFalse(state.sessionExpired)
-        assertTrue(state.books.isEmpty())
+        assertTrue(state.bookSummaries.isEmpty())
         assertEquals("Network error. Please check your connection.", state.error)
     }
 
@@ -165,7 +165,7 @@ class BooksViewModelTest {
         val successState = viewModel.uiState.value
         assertFalse(successState.isLoading)
         assertNull(successState.error)
-        assertEquals(1, successState.books.size)
+        assertEquals(1, successState.bookSummaries.size)
     }
 
     @Test
@@ -195,7 +195,7 @@ class BooksViewModelTest {
         collection: String = "Default Collection",
         finalPrice: Double = 10.0,
         isbn: String = "978-0-000000-00-0"
-    ) = Book(
+    ) = BookSummary(
         id = id,
         title = title,
         author = author,
@@ -208,7 +208,7 @@ class BooksViewModelTest {
 // ==================== MOCK ====================
 
 class MockBooksRepository : BooksRepository {
-    var result: BooksResult<List<Book>> = BooksResult.Success(emptyList())
+    var result: BooksResult<List<BookSummary>> = BooksResult.Success(emptyList())
 
-    override suspend fun getBooks(): BooksResult<List<Book>> = result
+    override suspend fun getBooks(): BooksResult<List<BookSummary>> = result
 }
