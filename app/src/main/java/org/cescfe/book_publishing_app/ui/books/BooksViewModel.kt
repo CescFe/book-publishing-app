@@ -9,9 +9,9 @@ import kotlinx.coroutines.launch
 import org.cescfe.book_publishing_app.data.auth.remote.RetrofitClient
 import org.cescfe.book_publishing_app.data.book.repository.BooksRepositoryImpl
 import org.cescfe.book_publishing_app.domain.book.model.Book
-import org.cescfe.book_publishing_app.domain.book.model.BooksErrorType
 import org.cescfe.book_publishing_app.domain.book.model.BooksResult
 import org.cescfe.book_publishing_app.domain.book.repository.BooksRepository
+import org.cescfe.book_publishing_app.domain.shared.DomainErrorType
 
 data class BooksUiState(
     val books: List<Book> = emptyList(),
@@ -46,7 +46,7 @@ class BooksViewModel(private val booksRepository: BooksRepository = BooksReposit
                     )
                 }
                 is BooksResult.Error -> {
-                    if (result.type == BooksErrorType.UNAUTHORIZED) {
+                    if (result.type == DomainErrorType.UNAUTHORIZED) {
                         _uiState.value = _uiState.value.copy(
                             isLoading = false,
                             sessionExpired = true
