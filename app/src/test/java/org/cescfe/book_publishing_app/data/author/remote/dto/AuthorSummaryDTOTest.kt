@@ -23,7 +23,7 @@ class AuthorSummaryDTOTest {
     }
 
     @Test
-    fun `toDomain should return empty strings when both pseudonym and email are null`() {
+    fun `toDomain should return empty strings when optional fields are null`() {
         val dto = AuthorSummaryDTO(
             id = "author-123",
             fullName = "Anonymous Author",
