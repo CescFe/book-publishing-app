@@ -35,7 +35,7 @@ class BooksRepositoryImpl(private val booksApi: BooksApi) : BooksRepository {
         )
     }
 
-    private fun mapHttpExceptionToError(exception: HttpException): BooksResult.Error = when (exception.code()) {
+    private fun mapHttpExceptionToError(ex: HttpException): BooksResult.Error = when (ex.code()) {
         401 -> BooksResult.Error(
             DomainErrorType.UNAUTHORIZED,
             "Session expired. Please login again."

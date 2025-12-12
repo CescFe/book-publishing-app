@@ -8,7 +8,7 @@ import okhttp3.ResponseBody.Companion.toResponseBody
 import org.cescfe.book_publishing_app.data.book.remote.api.BooksApi
 import org.cescfe.book_publishing_app.data.book.remote.dto.BookSummaryDTO
 import org.cescfe.book_publishing_app.data.book.remote.dto.BooksResponse
-import org.cescfe.book_publishing_app.data.book.remote.dto.PaginationMeta
+import org.cescfe.book_publishing_app.data.shared.remote.dto.PaginationMeta
 import org.cescfe.book_publishing_app.domain.book.model.BooksResult
 import org.cescfe.book_publishing_app.domain.shared.DomainErrorType
 import org.junit.Assert.assertEquals
