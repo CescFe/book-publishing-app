@@ -1,5 +1,6 @@
 package org.cescfe.book_publishing_app.ui.books
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,11 +13,12 @@ import org.cescfe.book_publishing_app.domain.book.model.BookSummary
 import org.cescfe.book_publishing_app.domain.book.repository.BooksRepository
 import org.cescfe.book_publishing_app.domain.shared.DomainErrorType
 import org.cescfe.book_publishing_app.domain.shared.DomainResult
+import org.cescfe.book_publishing_app.ui.shared.toStringResId
 
 data class BooksUiState(
     val bookSummaries: List<BookSummary> = emptyList(),
     val isLoading: Boolean = false,
-    val error: String? = null,
+    @get:StringRes val errorResId: Int? = null,
     val sessionExpired: Boolean = false
 )
 
@@ -34,7 +36,7 @@ class BooksViewModel(private val booksRepository: BooksRepository = BooksReposit
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(
                 isLoading = true,
-                error = null
+                errorResId = null
             )
 
             when (val result = booksRepository.getBooks()) {
@@ -42,7 +44,7 @@ class BooksViewModel(private val booksRepository: BooksRepository = BooksReposit
                     _uiState.value = _uiState.value.copy(
                         isLoading = false,
                         bookSummaries = result.data,
-                        error = null
+                        errorResId = null
                     )
                 }
                 is DomainResult.Error -> {
@@ -54,7 +56,7 @@ class BooksViewModel(private val booksRepository: BooksRepository = BooksReposit
                     } else {
                         _uiState.value = _uiState.value.copy(
                             isLoading = false,
-                            error = result.message
+                            errorResId = result.type.toStringResId()
                         )
                     }
                 }

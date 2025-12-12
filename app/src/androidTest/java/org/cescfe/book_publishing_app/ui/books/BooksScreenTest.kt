@@ -6,6 +6,7 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import org.cescfe.book_publishing_app.R
 import org.cescfe.book_publishing_app.domain.book.model.BookSummary
 import org.cescfe.book_publishing_app.ui.shared.components.BottomNavItem
 import org.cescfe.book_publishing_app.ui.theme.BookpublishingappTheme
@@ -53,19 +54,17 @@ class BooksScreenTest {
 
     @Test
     fun booksScreen_showsErrorMessage_whenError() {
-        val errorMessage = "Network error. Please check your connection."
-
         composeTestRule.setContent {
             BookpublishingappTheme {
                 BooksScreenContent(
-                    uiState = BooksUiState(error = errorMessage),
+                    uiState = BooksUiState(errorResId = R.string.error_network),
                     onRetry = {}
                 )
             }
         }
 
         composeTestRule.onNodeWithTag("error_state").assertIsDisplayed()
-        composeTestRule.onNodeWithText(errorMessage).assertIsDisplayed()
+        composeTestRule.onNodeWithText("Network error. Please check your connection.").assertIsDisplayed()
     }
 
     @Test
@@ -73,7 +72,7 @@ class BooksScreenTest {
         composeTestRule.setContent {
             BookpublishingappTheme {
                 BooksScreenContent(
-                    uiState = BooksUiState(error = "Some error"),
+                    uiState = BooksUiState(errorResId = R.string.error_network),
                     onRetry = {}
                 )
             }
@@ -89,7 +88,7 @@ class BooksScreenTest {
         composeTestRule.setContent {
             BookpublishingappTheme {
                 BooksScreenContent(
-                    uiState = BooksUiState(error = "Some error"),
+                    uiState = BooksUiState(errorResId = R.string.error_network),
                     onRetry = { retryCalled = true }
                 )
             }

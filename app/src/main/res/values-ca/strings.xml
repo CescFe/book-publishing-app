@@ -31,4 +31,11 @@
 
     <!-- Authors Screen -->
     <string name="authors_title">Autors</string>
+
+    <!-- Error Messages -->
+    <string name="error_timeout">Temps de sol·licitud esgotat. Per favor torne a provar.</string>
+    <string name="error_network">Error d\'internet. Verifique la connexió</string>
+    <string name="error_unauthorized">Sessió caducada. Per favor torne a iniciar sessió.</string>
+    <string name="error_server">Error del servidor. Per favor prove més tard.</string>
+    <string name="error_unknown">S\'ha produït un error inesperat</string>
 </resources>
