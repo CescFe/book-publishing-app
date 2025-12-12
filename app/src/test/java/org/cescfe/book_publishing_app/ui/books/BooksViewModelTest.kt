@@ -8,9 +8,9 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.cescfe.book_publishing_app.domain.book.model.Book
-import org.cescfe.book_publishing_app.domain.book.model.BooksErrorType
 import org.cescfe.book_publishing_app.domain.book.model.BooksResult
 import org.cescfe.book_publishing_app.domain.book.repository.BooksRepository
+import org.cescfe.book_publishing_app.domain.shared.DomainErrorType
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -77,7 +77,7 @@ class BooksViewModelTest {
     @Test
     fun `loadBooks with network error should update error state`() = runTest {
         mockRepository.result = BooksResult.Error(
-            BooksErrorType.NETWORK_ERROR,
+            DomainErrorType.NETWORK_ERROR,
             "Network error. Please check your connection."
         )
 
@@ -94,7 +94,7 @@ class BooksViewModelTest {
     @Test
     fun `loadBooks with server error should update error state`() = runTest {
         mockRepository.result = BooksResult.Error(
-            BooksErrorType.SERVER_ERROR,
+            DomainErrorType.SERVER_ERROR,
             "Server error. Please try again later."
         )
 
@@ -109,7 +109,7 @@ class BooksViewModelTest {
     @Test
     fun `loadBooks with timeout should update error state`() = runTest {
         mockRepository.result = BooksResult.Error(
-            BooksErrorType.TIMEOUT,
+            DomainErrorType.TIMEOUT,
             "Request timeout. Please try again."
         )
 
@@ -126,7 +126,7 @@ class BooksViewModelTest {
     @Test
     fun `loadBooks with unauthorized should set sessionExpired true`() = runTest {
         mockRepository.result = BooksResult.Error(
-            BooksErrorType.UNAUTHORIZED,
+            DomainErrorType.UNAUTHORIZED,
             "Session expired. Please login again."
         )
 
@@ -145,7 +145,7 @@ class BooksViewModelTest {
     fun `retry should reload books`() = runTest {
         // First try: error
         mockRepository.result = BooksResult.Error(
-            BooksErrorType.NETWORK_ERROR,
+            DomainErrorType.NETWORK_ERROR,
             "Network error"
         )
 
@@ -171,7 +171,7 @@ class BooksViewModelTest {
     @Test
     fun `retry should clear previous error`() = runTest {
         mockRepository.result = BooksResult.Error(
-            BooksErrorType.NETWORK_ERROR,
+            DomainErrorType.NETWORK_ERROR,
             "Network error"
         )
 
