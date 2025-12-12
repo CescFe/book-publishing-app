@@ -6,8 +6,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.cescfe.book_publishing_app.data.auth.remote.RetrofitClient
 import org.cescfe.book_publishing_app.data.book.repository.BooksRepositoryImpl
+import org.cescfe.book_publishing_app.data.shared.remote.RetrofitClient
 import org.cescfe.book_publishing_app.domain.book.model.BookSummary
 import org.cescfe.book_publishing_app.domain.book.model.BooksResult
 import org.cescfe.book_publishing_app.domain.book.repository.BooksRepository

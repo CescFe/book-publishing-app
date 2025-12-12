@@ -1,11 +1,13 @@
-package org.cescfe.book_publishing_app.data.auth.remote
+package org.cescfe.book_publishing_app.data.shared.remote
 
 import java.util.concurrent.TimeUnit
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor as OkHttpLoggingInterceptor
+import okhttp3.logging.HttpLoggingInterceptor
+import org.cescfe.book_publishing_app.data.auth.remote.AuthInterceptor
 import org.cescfe.book_publishing_app.data.auth.remote.api.AuthApi
+import org.cescfe.book_publishing_app.data.author.remote.api.AuthorsApi
 import org.cescfe.book_publishing_app.data.book.remote.api.BooksApi
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -20,8 +22,8 @@ object RetrofitClient {
         encodeDefaults = false
     }
 
-    private val loggingInterceptor = OkHttpLoggingInterceptor().apply {
-        level = OkHttpLoggingInterceptor.Level.BODY
+    private val loggingInterceptor = HttpLoggingInterceptor().apply {
+        level = HttpLoggingInterceptor.Level.BODY
     }
 
     private val authInterceptor = AuthInterceptor()
@@ -42,4 +44,5 @@ object RetrofitClient {
 
     val authApi: AuthApi = retrofit.create(AuthApi::class.java)
     val booksApi: BooksApi = retrofit.create(BooksApi::class.java)
+    val authorsApi: AuthorsApi = retrofit.create(AuthorsApi::class.java)
 }

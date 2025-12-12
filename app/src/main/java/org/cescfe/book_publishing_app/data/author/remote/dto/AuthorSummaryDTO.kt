@@ -17,5 +17,5 @@ fun AuthorSummaryDTO.toDomain(): AuthorSummary = AuthorSummary(
     id = id,
     fullName = fullName,
     pseudonym = pseudonym ?: "",
-    email = email ?: "",
+    email = email ?: ""
 )
