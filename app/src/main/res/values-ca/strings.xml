@@ -21,6 +21,12 @@
     <string name="book_card_isbn">ISBN: %1$s</string>
     <string name="book_card_no_isbn">Sense ISBN</string>
 
+    <!-- Author Card -->
+    <string name="author_card_pseudonym">Pseudònim: %1$s</string>
+    <string name="author_card_no_pseudonym">Sense pseudònim</string>
+    <string name="author_card_email">Email: %1$s</string>
+    <string name="author_card_no_email">Sense email</string>
+
     <!-- Books Screen -->
     <string name="books_title">Llibres</string>
     <string name="books_retry">Reintentar</string>
