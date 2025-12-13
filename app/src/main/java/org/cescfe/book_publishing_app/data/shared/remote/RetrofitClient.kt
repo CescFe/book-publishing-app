@@ -9,6 +9,7 @@ import org.cescfe.book_publishing_app.data.auth.remote.AuthInterceptor
 import org.cescfe.book_publishing_app.data.auth.remote.api.AuthApi
 import org.cescfe.book_publishing_app.data.author.remote.api.AuthorsApi
 import org.cescfe.book_publishing_app.data.book.remote.api.BooksApi
+import org.cescfe.book_publishing_app.data.collection.remote.api.CollectionsApi
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
 
@@ -44,5 +45,6 @@ object RetrofitClient {
 
     val authApi: AuthApi = retrofit.create(AuthApi::class.java)
     val booksApi: BooksApi = retrofit.create(BooksApi::class.java)
+    val collectionsApi: CollectionsApi = retrofit.create(CollectionsApi::class.java)
     val authorsApi: AuthorsApi = retrofit.create(AuthorsApi::class.java)
 }
