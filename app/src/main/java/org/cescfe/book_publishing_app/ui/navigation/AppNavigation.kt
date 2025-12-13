@@ -64,6 +64,12 @@ fun AppNavigation(navController: NavHostController) {
         }
         composable(Routes.COLLECTIONS) {
             CollectionsScreen(
+                onSessionExpired = {
+                    TokenManager.clearToken()
+                    navController.navigate(Routes.LOGIN) {
+                        popUpTo(Routes.BOOKS) { inclusive = true }
+                    }
+                },
                 onNavigate = { item ->
                     if (item.route != Routes.COLLECTIONS) {
                         navController.navigate(item.route) {
