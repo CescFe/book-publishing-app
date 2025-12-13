@@ -34,9 +34,11 @@
     <string name="author_card_email">Email: %1$s</string>
     <string name="author_card_no_email">No email</string>
 
+    <!-- Shared Screen -->
+    <string name="retry">Retry</string>
+
     <!-- Books Screen -->
     <string name="books_title">Books</string>
-    <string name="books_retry">Retry</string>
     <string name="books_empty">No books available</string>
 
     <!-- Collections Screen -->
