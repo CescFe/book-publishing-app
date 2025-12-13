@@ -77,6 +77,12 @@ fun AppNavigation(navController: NavHostController) {
         }
         composable(Routes.AUTHORS) {
             AuthorsScreen(
+                onSessionExpired = {
+                    TokenManager.clearToken()
+                    navController.navigate(Routes.LOGIN) {
+                        popUpTo(Routes.BOOKS) { inclusive = true }
+                    }
+                },
                 onNavigate = { item ->
                     if (item.route != Routes.AUTHORS) {
                         navController.navigate(item.route) {

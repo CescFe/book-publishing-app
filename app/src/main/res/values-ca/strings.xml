@@ -37,6 +37,7 @@
 
     <!-- Authors Screen -->
     <string name="authors_title">Autors</string>
+    <string name="authors_empty">No hi ha autors disponibles</string>
 
     <!-- Error Messages -->
     <string name="error_timeout">Temps de sol·licitud esgotat. Per favor torne a provar.</string>
