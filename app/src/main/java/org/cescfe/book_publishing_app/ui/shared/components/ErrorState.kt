@@ -19,11 +19,7 @@ import androidx.compose.ui.unit.dp
 import org.cescfe.book_publishing_app.R
 
 @Composable
-fun ErrorState(
-    errorMessage: String,
-    onRetry: () -> Unit,
-    modifier: Modifier = Modifier
-) {
+fun ErrorState(errorMessage: String, onRetry: () -> Unit, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()

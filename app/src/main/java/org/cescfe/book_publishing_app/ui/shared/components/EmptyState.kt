@@ -21,11 +21,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun EmptyState(
-    @DrawableRes iconRes: Int,
-    @StringRes messageRes: Int,
-    modifier: Modifier = Modifier
-) {
+fun EmptyState(@DrawableRes iconRes: Int, @StringRes messageRes: Int, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()
