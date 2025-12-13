@@ -60,7 +60,7 @@ fun CollectionSummaryCard(collectionSummary: CollectionSummary, modifier: Modifi
                     } else {
                         stringResource(R.string.collection_card_reading_level, collectionSummary.readingLevel)
                     },
-                    style = MaterialTheme.typography.bodySmall,
+                    style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
@@ -72,7 +72,7 @@ fun CollectionSummaryCard(collectionSummary: CollectionSummary, modifier: Modifi
                     } else {
                         stringResource(R.string.collection_card_language, collectionSummary.primaryLanguage)
                     },
-                    style = MaterialTheme.typography.bodySmall,
+                    style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
@@ -84,7 +84,7 @@ fun CollectionSummaryCard(collectionSummary: CollectionSummary, modifier: Modifi
                     } else {
                         stringResource(R.string.collection_card_genre, collectionSummary.primaryGenre)
                     },
-                    style = MaterialTheme.typography.bodySmall,
+                    style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
