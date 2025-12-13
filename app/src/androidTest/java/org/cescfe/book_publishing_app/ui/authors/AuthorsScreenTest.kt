@@ -6,6 +6,8 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import org.cescfe.book_publishing_app.R
+import org.cescfe.book_publishing_app.domain.author.model.AuthorSummary
 import org.cescfe.book_publishing_app.ui.shared.components.BottomNavItem
 import org.cescfe.book_publishing_app.ui.theme.BookpublishingappTheme
 import org.junit.Rule
@@ -22,24 +24,143 @@ class AuthorsScreenTest {
     fun authorsScreen_rendersWithoutCrash() {
         composeTestRule.setContent {
             BookpublishingappTheme {
-                AuthorsScreen()
+                AuthorsScreenContent(
+                    uiState = AuthorsUiState(),
+                    onRetry = {}
+                )
             }
         }
 
         composeTestRule.onNodeWithTag("authors_screen").assertIsDisplayed()
     }
 
-    // ==================== TOP BAR ====================
+    // ==================== LOADING STATE ====================
 
     @Test
-    fun authorsScreen_showsTitle() {
+    fun authorsScreen_showsLoadingIndicator_whenLoading() {
         composeTestRule.setContent {
             BookpublishingappTheme {
-                AuthorsScreen()
+                AuthorsScreenContent(
+                    uiState = AuthorsUiState(isLoading = true),
+                    onRetry = {}
+                )
             }
         }
 
-        composeTestRule.onNodeWithText("Authors").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("loading_indicator").assertIsDisplayed()
+    }
+
+    // ==================== ERROR STATE ====================
+
+    @Test
+    fun authorsScreen_showsErrorMessage_whenError() {
+        composeTestRule.setContent {
+            BookpublishingappTheme {
+                AuthorsScreenContent(
+                    uiState = AuthorsUiState(errorResId = R.string.error_network),
+                    onRetry = {}
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithTag("error_state").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Network error. Please check your connection.").assertIsDisplayed()
+    }
+
+    @Test
+    fun authorsScreen_showsRetryButton_whenError() {
+        composeTestRule.setContent {
+            BookpublishingappTheme {
+                AuthorsScreenContent(
+                    uiState = AuthorsUiState(errorResId = R.string.error_network),
+                    onRetry = {}
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithTag("retry_button").assertIsDisplayed()
+    }
+
+    @Test
+    fun authorsScreen_retryButton_callsOnRetry() {
+        var retryCalled = false
+
+        composeTestRule.setContent {
+            BookpublishingappTheme {
+                AuthorsScreenContent(
+                    uiState = AuthorsUiState(errorResId = R.string.error_network),
+                    onRetry = { retryCalled = true }
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithTag("retry_button").performClick()
+
+        assert(retryCalled) { "onRetry should have been called" }
+    }
+
+    // ==================== EMPTY STATE ====================
+
+    @Test
+    fun authorsScreen_showsEmptyState_whenNoAuthorsAndNotLoading() {
+        composeTestRule.setContent {
+            BookpublishingappTheme {
+                AuthorsScreenContent(
+                    uiState = AuthorsUiState(authorSummaries = emptyList(), isLoading = false),
+                    onRetry = {}
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithTag("empty_state").assertIsDisplayed()
+    }
+
+    // ==================== SUCCESS STATE ====================
+
+    @Test
+    fun authorsScreen_showsAuthorsList_whenAuthorsAvailable() {
+        val authorSummaries = listOf(
+            AuthorSummary(
+                id = "1",
+                fullName = "J.R.R. Tolkien",
+                pseudonym = "Tolkien",
+                email = "tolkien@example.com"
+            )
+        )
+
+        composeTestRule.setContent {
+            BookpublishingappTheme {
+                AuthorsScreenContent(
+                    uiState = AuthorsUiState(authorSummaries = authorSummaries),
+                    onRetry = {}
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithTag("authors_list").assertIsDisplayed()
+    }
+
+    @Test
+    fun authorsScreen_showsAuthorName_whenAuthorsAvailable() {
+        val authorSummaries = listOf(
+            AuthorSummary(
+                id = "1",
+                fullName = "J.R.R. Tolkien",
+                pseudonym = "Tolkien",
+                email = "tolkien@example.com"
+            )
+        )
+
+        composeTestRule.setContent {
+            BookpublishingappTheme {
+                AuthorsScreenContent(
+                    uiState = AuthorsUiState(authorSummaries = authorSummaries),
+                    onRetry = {}
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithText("J.R.R. Tolkien").assertIsDisplayed()
     }
 
     // ==================== BOTTOM NAVIGATION ====================
@@ -48,7 +169,11 @@ class AuthorsScreenTest {
     fun authorsScreen_showsBottomNavigationBar() {
         composeTestRule.setContent {
             BookpublishingappTheme {
-                AuthorsScreen()
+                AuthorsScreenContent(
+                    uiState = AuthorsUiState(),
+                    onRetry = {},
+                    onNavigate = {}
+                )
             }
         }
 
@@ -61,7 +186,9 @@ class AuthorsScreenTest {
 
         composeTestRule.setContent {
             BookpublishingappTheme {
-                AuthorsScreen(
+                AuthorsScreenContent(
+                    uiState = AuthorsUiState(),
+                    onRetry = {},
                     onNavigate = { item -> navigatedItem = item }
                 )
             }
@@ -80,7 +207,9 @@ class AuthorsScreenTest {
 
         composeTestRule.setContent {
             BookpublishingappTheme {
-                AuthorsScreen(
+                AuthorsScreenContent(
+                    uiState = AuthorsUiState(),
+                    onRetry = {},
                     onNavigate = { item -> navigatedItem = item }
                 )
             }
