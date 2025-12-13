@@ -35,9 +35,11 @@
     <string name="author_card_email">Email: %1$s</string>
     <string name="author_card_no_email">Sense email</string>
 
+    <!-- Shared Screen -->
+    <string name="retry">Reintentar</string>
+
     <!-- Books Screen -->
     <string name="books_title">Llibres</string>
-    <string name="books_retry">Reintentar</string>
     <string name="books_empty">No hi ha llibres disponibles</string>
 
     <!-- Collections Screen -->

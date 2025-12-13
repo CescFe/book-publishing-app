@@ -6,9 +6,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import org.cescfe.book_publishing_app.data.auth.TokenManager
 import org.cescfe.book_publishing_app.ui.auth.LoginScreen
-import org.cescfe.book_publishing_app.ui.authors.AuthorsScreen
-import org.cescfe.book_publishing_app.ui.books.BooksScreen
-import org.cescfe.book_publishing_app.ui.collections.CollectionsScreen
+import org.cescfe.book_publishing_app.ui.author.AuthorsScreen
+import org.cescfe.book_publishing_app.ui.book.BooksScreen
+import org.cescfe.book_publishing_app.ui.collection.CollectionsScreen
 import org.cescfe.book_publishing_app.ui.splash.SplashScreen
 
 object Routes {
