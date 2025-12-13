@@ -1,4 +1,4 @@
-package org.cescfe.book_publishing_app.ui.collections
+package org.cescfe.book_publishing_app.ui.authors
 
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
