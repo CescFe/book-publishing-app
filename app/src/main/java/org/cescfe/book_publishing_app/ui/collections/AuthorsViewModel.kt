@@ -1,4 +1,4 @@
-package org.cescfe.book_publishing_app.ui.books
+package org.cescfe.book_publishing_app.ui.collections
 
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
@@ -7,46 +7,46 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.cescfe.book_publishing_app.data.book.repository.BooksRepositoryImpl
+import org.cescfe.book_publishing_app.data.author.repository.AuthorsRepositoryImpl
 import org.cescfe.book_publishing_app.data.shared.remote.RetrofitClient
-import org.cescfe.book_publishing_app.domain.book.model.BookSummary
-import org.cescfe.book_publishing_app.domain.book.repository.BooksRepository
+import org.cescfe.book_publishing_app.domain.author.model.AuthorSummary
+import org.cescfe.book_publishing_app.domain.author.repository.AuthorsRepository
 import org.cescfe.book_publishing_app.domain.shared.DomainErrorType
 import org.cescfe.book_publishing_app.domain.shared.DomainResult
 import org.cescfe.book_publishing_app.ui.shared.toStringResId
 
-data class BooksUiState(
-    val bookSummaries: List<BookSummary> = emptyList(),
+data class AuthorsUiState(
+    val authorSummaries: List<AuthorSummary> = emptyList(),
     val isLoading: Boolean = false,
     @get:StringRes val errorResId: Int? = null,
     val sessionExpired: Boolean = false
 )
 
-class BooksViewModel(
-    private val booksRepository: BooksRepository = BooksRepositoryImpl(
-        RetrofitClient.booksApi
+class AuthorsViewModel(
+    private val authorsRepository: AuthorsRepository = AuthorsRepositoryImpl(
+        RetrofitClient.authorsApi
     )
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(BooksUiState())
-    val uiState: StateFlow<BooksUiState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(AuthorsUiState())
+    val uiState: StateFlow<AuthorsUiState> = _uiState.asStateFlow()
 
     init {
-        loadBooks()
+        loadAuthors()
     }
 
-    fun loadBooks() {
+    private fun loadAuthors() {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(
                 isLoading = true,
                 errorResId = null
             )
 
-            when (val result = booksRepository.getBooks()) {
+            when (val result = authorsRepository.getAuthors()) {
                 is DomainResult.Success -> {
                     _uiState.value = _uiState.value.copy(
                         isLoading = false,
-                        bookSummaries = result.data,
+                        authorSummaries = result.data,
                         errorResId = null
                     )
                 }
@@ -68,6 +68,6 @@ class BooksViewModel(
     }
 
     fun retry() {
-        loadBooks()
+        loadAuthors()
     }
 }
