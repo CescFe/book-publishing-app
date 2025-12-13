@@ -42,6 +42,7 @@
 
     <!-- Collections Screen -->
     <string name="collections_title">Col·leccions</string>
+    <string name="collections_empty">No hi ha col·leccions disponibles</string>
 
     <!-- Authors Screen -->
     <string name="authors_title">Autors</string>
