@@ -72,7 +72,7 @@ fun AuthorSummaryCard(authorSummary: AuthorSummary, modifier: Modifier = Modifie
                     } else {
                         stringResource(R.string.author_card_email, authorSummary.email)
                     },
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
