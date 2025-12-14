@@ -6,7 +6,7 @@
     <string name="splash_logo_description">Logotip de l\'aplicació</string>
 
     <!-- Login -->
-    <string name="login_title">Benvingut</string>
+    <string name="login_title">Denes Backoffice</string>
     <string name="login_username_label">Usuari</string>
     <string name="login_password_label">Contrasenya</string>
     <string name="login_button_authenticate">Autenticar</string>

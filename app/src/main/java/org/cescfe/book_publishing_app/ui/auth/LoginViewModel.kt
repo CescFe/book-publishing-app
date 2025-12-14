@@ -19,8 +19,11 @@ data class LoginUiState(
     val isAuthenticated: Boolean = false
 )
 
-class LoginViewModel(private val authRepository: AuthRepository = AuthRepositoryImpl(RetrofitClient.authApi)) :
-    ViewModel() {
+class LoginViewModel(
+    private val authRepository: AuthRepository = AuthRepositoryImpl(
+        RetrofitClient.authApi
+    )
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(LoginUiState())
     val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()

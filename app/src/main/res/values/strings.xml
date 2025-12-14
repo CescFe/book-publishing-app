@@ -5,7 +5,7 @@
     <string name="splash_logo_description">App logo</string>
 
     <!-- Login -->
-    <string name="login_title">Welcome</string>
+    <string name="login_title">Denes Backoffice</string>
     <string name="login_username_label">User</string>
     <string name="login_password_label">Password</string>
     <string name="login_button_authenticate">Authenticate</string>
