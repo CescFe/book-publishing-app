@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Denes Backoffice</string>
+    <string name="app_name">Denes Catalog</string>
 
     <!-- Splash -->
     <string name="splash_logo_description">App logo</string>

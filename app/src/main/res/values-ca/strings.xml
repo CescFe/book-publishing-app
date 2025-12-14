@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Denes Backoffice</string>
+    <string name="app_name">Denes Catàleg</string>
 
     <!-- Splash -->
     <string name="splash_logo_description">Logotip de l\'aplicació</string>
 
     <!-- Login -->
-    <string name="login_title">Denes Backoffice</string>
+    <string name="login_title">Gestor de fons editorial</string>
     <string name="login_username_label">Usuari</string>
     <string name="login_password_label">Contrasenya</string>
     <string name="login_button_authenticate">Autenticar</string>
