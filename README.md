@@ -5,6 +5,24 @@
 
 Frontend client for the Book Publishing platform. Native Android application which consumes the [book-publishing-backend](https://github.com/CescFe/book-publishing-backend) RESTful API to manage books, authors, and collections.
 
+---
+
+## 📑 Table of Contents
+
+- [📌 About the Project](#-about-the-project)
+    - [🔎 Tech Stack](#-tech-stack)
+    - [🏗️ Architecture](#-architecture)
+    - [🧱 Structure](#-structure)
+- [📱 Screens](#-screens)
+- [🌍 Internationalization](#-internationalization)
+- [🧪 Testing Strategy](#-testing-strategy)
+- [⚙️ CI/CD Workflow](#-cicd-workflow)
+- [Code Quality](#code-quality)
+- [🔌 API Integration](#-api-integration)
+- [License](#license)
+
+---
+
 ## 📌 About the Project
 
 ### 🔎 Tech Stack
