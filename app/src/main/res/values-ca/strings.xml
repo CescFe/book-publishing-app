@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Book Publishing</string>
-    <string name="app_brand_name">Editorial Denes</string>
+    <string name="app_name">Denes Backoffice</string>
+
+    <!-- Splash -->
     <string name="splash_logo_description">Logotip de l\'aplicació</string>
-    <string name="home_welcome">Hola World!</string>
 
     <!-- Login -->
     <string name="login_title">Benvingut</string>
