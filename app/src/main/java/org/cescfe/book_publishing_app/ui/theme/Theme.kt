@@ -23,6 +23,17 @@ private val LightDenesBrand = lightColorScheme(
     tertiary = GreenDiccRima
 )
 
+@Composable
+fun BookpublishingappTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
+    val colorScheme = if (darkTheme) DarkDenesBrand else LightDenesBrand
+
+    MaterialTheme(
+        colorScheme = colorScheme,
+        typography = Typography,
+        content = content
+    )
+}
+
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
     secondary = PurpleGrey80,
@@ -44,7 +55,7 @@ private val LightColorScheme = lightColorScheme(
 )
 
 @Composable
-fun BookpublishingappTheme(
+fun BookpublishingappDynamicTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
