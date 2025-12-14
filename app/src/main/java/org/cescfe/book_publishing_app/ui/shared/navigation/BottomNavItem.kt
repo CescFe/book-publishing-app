@@ -6,7 +6,7 @@ import org.cescfe.book_publishing_app.R
 enum class BottomNavItem(val route: String, @field:DrawableRes val iconResId: Int, val labelResId: Int) {
     Books(
         route = "books",
-        iconResId = R.drawable.book_2,
+        iconResId = R.drawable.ic_menu_book,
         labelResId = R.string.nav_books
     ),
     Collections(
@@ -16,7 +16,7 @@ enum class BottomNavItem(val route: String, @field:DrawableRes val iconResId: In
     ),
     Authors(
         route = "authors",
-        iconResId = R.drawable.group,
+        iconResId = R.drawable.ic_article_person,
         labelResId = R.string.nav_authors
     );
 

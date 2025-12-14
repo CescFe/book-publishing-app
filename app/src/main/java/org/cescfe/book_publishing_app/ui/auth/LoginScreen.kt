@@ -1,5 +1,6 @@
 package org.cescfe.book_publishing_app.ui.auth
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -22,6 +24,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -70,9 +73,15 @@ private fun LoginContent(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
+            Image(
+                painter = painterResource(id = R.mipmap.ic_launcher_foreground),
+                contentDescription = stringResource(R.string.splash_logo_description),
+                modifier = Modifier.size(120.dp)
+            )
+
             Text(
                 text = stringResource(R.string.login_title),
-                style = MaterialTheme.typography.headlineMedium,
+                style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.primary
             )
 
