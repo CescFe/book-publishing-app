@@ -9,15 +9,16 @@ Frontend client for the Book Publishing platform. Native Android application whi
 
 ### 🔎 Tech Stack
 
-- **Kotlin** 2.0
-- **Jetpack Compose** - Modern declarative UI
-- **Material Design 3** - Design system
-- **Hilt** - Dependency injection
-- **Retrofit** - HTTP client
-- **Kotlin Coroutines** - Asynchronous programming
-- **Jetpack Navigation** - Navigation framework
-- **ViewModel** - UI data holder
-- **Gradle** - Build system
+| Technology                | Purpose                               |
+|---------------------------|---------------------------------------|
+| **Kotlin 2.0**            | Programming language                  |
+| **Jetpack Compose**       | Modern declarative UI toolkit         |
+| **Material Design 3**     | Design system with brand theming      |
+| **Retrofit + OkHttp**     | HTTP client for API communication     |
+| **Kotlin Coroutines**     | Asynchronous operations in ViewModels |
+| **Jetpack Navigation**    | Navigation between screens            |
+| **ViewModel + StateFlow** | UI state management                   |
+| **Gradle + Spotless**     | Build system and code formatting      |
 
 ### 🏗️ Architecture
 
@@ -33,8 +34,8 @@ app/src/main/java/org/cescfe/book_publishing_app/
 ├── ui/
 │ ├── theme/ # Design system & theming
 │ ├── navigation/ # Navigation graphs
-│ ├── components/ # Shared UI components
-│ ├── auth/ # Authentication flows
+│ ├── shared/ # Shared components
+│ ├── auth/ # Authentication flow
 │ ├── authors/ # Author management
 │ ├── books/ # Book management
 │ └── collections/ # Collection management
@@ -47,21 +48,63 @@ app/src/main/java/org/cescfe/book_publishing_app/
 └── repository/ # Repository implementations
 ```
 
-### 🌍 Internationalization
+## 📱 Screens
 
-The app is developed natively in English but displays all UI text in Catalan to end users. The architecture supports easy future translations:
+### Login
+Authentication screen with Editorial Denes branding.
 
-- **Development**: English string resources (`values/strings.xml`)
-- **Users**: Catalan translations (`values-ca/strings.xml`)
-- **Future-ready**: Easy addition of new languages
+<!-- TODO: Add screenshot -->
 
-### 🧪 Testing Strategy
+### Books
+List of all books in the catalog with title, author, collection, and price.
 
-- **Unit Tests**: ViewModels, Use Cases, Repository logic
-- **UI Tests**: Critical user flows with Compose testing
-- **Integration Tests**: API service integration
+<!-- TODO: Add screenshot -->
 
-### Code Quality
+### Authors
+List of authors with name, pseudonym, and email information.
+
+<!-- TODO: Add screenshot -->
+
+### Collections
+List of collections with reading level, language, and genre details.
+
+<!-- TODO: Add screenshot -->
+
+## 🌍 Internationalization
+
+The app is developed natively in English. In addition, the app dynamically adapts to the device language, supporting Catalan and Spanish.
+
+## 🧪 Testing Strategy
+
+- **Unit Tests**: ViewModels, DTOs, Repository logic
+- **Instrumented Tests**: UI components with Compose Testing
+
+```bash
+# Run unit tests
+./gradlew test
+
+# Run instrumented tests (requires emulator/device)
+./gradlew connectedAndroidTest
+```
+
+## ⚙️ CI/CD Workflow
+
+### Automatic Validation
+
+Every push to `main` and every pull request automatically runs:
+- ✅ **Spotless Check** — Code formatting validation
+- ✅ **Android Lint** — Static code analysis
+- ✅ **Unit Tests** — ViewModel and repository tests
+- ✅ **Build** — Full project compilation
+
+### Create Tag and Release
+
+1. Go to **Actions** → **Create Release Tag**
+2. Run manually with the desired version (e.g., `v0.1.0`)
+3. This creates a Git tag
+4. Go to **Tags** → Click on **Release**
+
+## Code Quality
 
 ```bash
 # Check all formatting
@@ -77,6 +120,13 @@ The app is developed natively in English but displays all UI text in Catalan to 
 ## 🔌 API Integration
 
 The app consumes the [book-publishing-backend](https://github.com/CescFe/book-publishing-backend) RESTful API.
+
+| Endpoint           | Description          |
+|--------------------|----------------------|
+| `POST /auth/login` | User authentication  |
+| `GET /books`       | List all books       |
+| `GET /authors`     | List all authors     |
+| `GET /collections` | List all collections |
 
 ## License
 
