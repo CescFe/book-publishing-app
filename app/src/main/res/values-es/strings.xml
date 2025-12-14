@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Denes Catálogo</string>
+
+    <!-- Splash -->
+    <string name="splash_logo_description">Logotipo de la aplicación</string>
+
+    <!-- Login -->
+    <string name="login_title">Gestor de fondo editorial</string>
+    <string name="login_username_label">Usuario</string>
+    <string name="login_password_label">Contraseña</string>
+    <string name="login_button_authenticate">Autenticar</string>
+
+    <!-- Bottom Navigation -->
+    <string name="nav_books">Libros</string>
+    <string name="nav_collections">Colecciones</string>
+    <string name="nav_authors">Autores</string>
+
+    <!-- Book Card -->
+    <string name="book_card_collection">Colección: %1$s</string>
+    <string name="book_card_isbn">ISBN: %1$s</string>
+    <string name="book_card_no_isbn">Sin ISBN</string>
+
+    <!-- Collection Card -->
+    <string name="collection_card_reading_level">Nivel de lectura: %1$s</string>
+    <string name="collection_card_no_reading_level">Sin nivel de lectura</string>
+    <string name="collection_card_language">Idioma: %1$s</string>
+    <string name="collection_card_no_language">Sin idioma especificado</string>
+    <string name="collection_card_genre">Género: %1$s</string>
+    <string name="collection_card_no_genre">Sin género</string>
+
+    <!-- Author Card -->
+    <string name="author_card_pseudonym">Seudónimo: %1$s</string>
+    <string name="author_card_no_pseudonym">Sin seudónimo</string>
+    <string name="author_card_email">Email: %1$s</string>
+    <string name="author_card_no_email">Sin email</string>
+
+    <!-- Shared Screen -->
+    <string name="retry">Reintentar</string>
+
+    <!-- Books Screen -->
+    <string name="books_title">Libros</string>
+    <string name="books_empty">No hay libros disponibles</string>
+
+    <!-- Collections Screen -->
+    <string name="collections_title">Colecciones</string>
+    <string name="collections_empty">No hay colecciones disponibles</string>
+
+    <!-- Authors Screen -->
+    <string name="authors_title">Autores</string>
+    <string name="authors_empty">No hay autores disponibles</string>
+
+    <!-- Error Messages -->
+    <string name="error_timeout">Tiempo de solicitud agotado. Por favor, inténtelo de nuevo.</string>
+    <string name="error_network">Error de red. Verifique su conexión.</string>
+    <string name="error_unauthorized">Sesión caducada. Por favor, inicie sesión de nuevo.</string>
+    <string name="error_server">Error del servidor. Por favor, inténtelo más tarde.</string>
+    <string name="error_unknown">Se ha producido un error inesperado</string>
+</resources>
