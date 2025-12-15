@@ -8,10 +8,8 @@ import org.cescfe.book_publishing_app.domain.book.model.BookSummary
 data class BookSummaryDTO(
     val id: String,
     val title: String,
-    @SerialName("author_id")
-    val authorId: String,
-    @SerialName("collection_id")
-    val collectionId: String,
+    val author: AuthorRefDTO,
+    val collection: CollectionRefDTO,
     @SerialName("base_price")
     val basePrice: Double,
     @SerialName("final_price")
@@ -23,8 +21,8 @@ data class BookSummaryDTO(
 fun BookSummaryDTO.toDomain(): BookSummary = BookSummary(
     id = id,
     title = title,
-    author = authorId,
-    collection = collectionId,
+    author = author.name,
+    collection = collection.name,
     finalPrice = finalPrice ?: basePrice,
     isbn = isbn ?: ""
 )

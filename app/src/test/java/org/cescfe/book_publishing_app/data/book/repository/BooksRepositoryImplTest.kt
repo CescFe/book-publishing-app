@@ -6,8 +6,10 @@ import kotlinx.coroutines.test.runTest
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.cescfe.book_publishing_app.data.book.remote.api.BooksApi
+import org.cescfe.book_publishing_app.data.book.remote.dto.AuthorRefDTO
 import org.cescfe.book_publishing_app.data.book.remote.dto.BookSummaryDTO
 import org.cescfe.book_publishing_app.data.book.remote.dto.BooksResponse
+import org.cescfe.book_publishing_app.data.book.remote.dto.CollectionRefDTO
 import org.cescfe.book_publishing_app.data.shared.remote.dto.PaginationMeta
 import org.cescfe.book_publishing_app.domain.shared.DomainErrorType
 import org.cescfe.book_publishing_app.domain.shared.DomainResult
@@ -47,8 +49,8 @@ class BooksRepositoryImplTest {
         assertTrue(result is DomainResult.Success)
         val success = result as DomainResult.Success
         assertEquals(1, success.data.size)
-        assertEquals("book-123", success.data[0].id)
-        assertEquals("The Lord of the Rings", success.data[0].title)
+        assertEquals(bookDto.id, success.data[0].id)
+        assertEquals(bookDto.title, success.data[0].title)
     }
 
     @Test
@@ -97,11 +99,11 @@ class BooksRepositoryImplTest {
 
         assertTrue(result is DomainResult.Success)
         val book = (result as DomainResult.Success).data[0]
-        assertEquals("f59514f6-dbe8-41d0-a4ce-3e6cdf27290e", book.id)
-        assertEquals("The Lord of the Rings", book.title)
-        assertEquals("d7a3c6f9-9dc3-4fbf-b61a-83d59c81903e", book.author)
-        assertEquals("8f5ef275-4987-47bc-8643-ff4e5efd6523", book.collection)
-        assertEquals(29.99, book.finalPrice, 0.001)
+        assertEquals(bookDto.id, book.id)
+        assertEquals(bookDto.title, book.title)
+        assertEquals(bookDto.author.name, book.author)
+        assertEquals(bookDto.collection.name, book.collection)
+        assertEquals(bookDto.basePrice, book.finalPrice, 0.001)
     }
 
     // ==================== ERROR HANDLING ====================
@@ -189,7 +191,9 @@ class BooksRepositoryImplTest {
         id: String = "default-id",
         title: String = "Default Title",
         authorId: String = "default-author",
+        authorName: String = "Default Author Name",
         collectionId: String = "default-collection",
+        collectionName: String = "Default Collection Name",
         basePrice: Double = 10.0,
         finalPrice: Double? = null,
         isbn: String? = null,
@@ -197,8 +201,8 @@ class BooksRepositoryImplTest {
     ) = BookSummaryDTO(
         id = id,
         title = title,
-        authorId = authorId,
-        collectionId = collectionId,
+        author = AuthorRefDTO(id = authorId, name = authorName),
+        collection = CollectionRefDTO(id = collectionId, name = collectionName),
         basePrice = basePrice,
         finalPrice = finalPrice,
         isbn = isbn,
