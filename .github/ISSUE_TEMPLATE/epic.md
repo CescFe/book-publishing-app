@@ -12,11 +12,6 @@ Describe the overarching goal or objective that this epic aims to achieve.
 ### Description
 Provide a comprehensive description of the epic, including context, background, and any relevant information.
 
-### Sub-issues to solve (in suggested order)
-- [ ] Sub-issue 1
-- [ ] Sub-issue 2
-- [ ] Sub-issue 3
-
 ### Checklist
 - [ ] All sub-issues have been created and linked
 - [ ] Priority order has been established
