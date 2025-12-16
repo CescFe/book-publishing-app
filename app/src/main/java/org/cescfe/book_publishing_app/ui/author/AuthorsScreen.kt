@@ -110,10 +110,7 @@ internal fun AuthorsScreenContent(
 }
 
 @Composable
-private fun AuthorsList(
-    authorSummaries: List<AuthorSummary>,
-    onAuthorClick: (String) -> Unit = {}
-) {
+private fun AuthorsList(authorSummaries: List<AuthorSummary>, onAuthorClick: (String) -> Unit = {}) {
     LazyColumn(
         modifier = Modifier.testTag("authors_list"),
         contentPadding = PaddingValues(16.dp),

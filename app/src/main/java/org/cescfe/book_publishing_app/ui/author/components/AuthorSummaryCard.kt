@@ -25,16 +25,12 @@ import org.cescfe.book_publishing_app.R
 import org.cescfe.book_publishing_app.domain.author.model.AuthorSummary
 
 @Composable
-fun AuthorSummaryCard(
-    authorSummary: AuthorSummary,
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit = {}
-) {
+fun AuthorSummaryCard(authorSummary: AuthorSummary, modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
     Card(
         modifier = modifier
             .fillMaxWidth()
             .clickable(onClick = onClick)
-            .testTag($$"author_summary_card_${authorSummary.id}"),
+            .testTag("author_summary_card_${authorSummary.id}"),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Row(

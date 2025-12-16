@@ -18,11 +18,7 @@ import org.cescfe.book_publishing_app.ui.theme.BookpublishingappTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AuthorScreen(
-    authorId: String,
-    onSessionExpired: () -> Unit,
-    onNavigateUp: () -> Unit
-) {
+fun AuthorScreen(authorId: String, onSessionExpired: () -> Unit, onNavigateUp: () -> Unit) {
     Scaffold(
         modifier = Modifier.testTag("author_screen"),
         topBar = {
