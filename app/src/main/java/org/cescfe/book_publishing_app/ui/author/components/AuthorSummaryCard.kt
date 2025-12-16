@@ -1,5 +1,6 @@
 package org.cescfe.book_publishing_app.ui.author.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -23,9 +25,16 @@ import org.cescfe.book_publishing_app.R
 import org.cescfe.book_publishing_app.domain.author.model.AuthorSummary
 
 @Composable
-fun AuthorSummaryCard(authorSummary: AuthorSummary, modifier: Modifier = Modifier) {
+fun AuthorSummaryCard(
+    authorSummary: AuthorSummary,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
+) {
     Card(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .testTag($$"author_summary_card_${authorSummary.id}"),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Row(
