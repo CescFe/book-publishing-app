@@ -90,7 +90,7 @@ class BooksRepositoryImplTest {
             authorId = "d7a3c6f9-9dc3-4fbf-b61a-83d59c81903e",
             collectionId = "8f5ef275-4987-47bc-8643-ff4e5efd6523",
             basePrice = 29.99,
-            finalPrice = null,
+            finalPrice = 31.19,
             isbn = null
         )
         mockBooksApi.successResponse = createBooksResponse(listOf(bookDto))
@@ -103,7 +103,7 @@ class BooksRepositoryImplTest {
         assertEquals(bookDto.title, book.title)
         assertEquals(bookDto.author.name, book.author)
         assertEquals(bookDto.collection.name, book.collection)
-        assertEquals(bookDto.basePrice, book.finalPrice, 0.001)
+        assertEquals(bookDto.finalPrice, book.finalPrice, 0.001)
     }
 
     // ==================== ERROR HANDLING ====================
@@ -195,7 +195,7 @@ class BooksRepositoryImplTest {
         collectionId: String = "default-collection",
         collectionName: String = "Default Collection Name",
         basePrice: Double = 10.0,
-        finalPrice: Double? = null,
+        finalPrice: Double = 10.04,
         isbn: String? = null,
         status: String? = null
     ) = BookSummaryDTO(

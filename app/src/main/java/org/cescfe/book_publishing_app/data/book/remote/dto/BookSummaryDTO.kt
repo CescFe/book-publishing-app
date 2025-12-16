@@ -13,7 +13,7 @@ data class BookSummaryDTO(
     @SerialName("base_price")
     val basePrice: Double,
     @SerialName("final_price")
-    val finalPrice: Double? = null,
+    val finalPrice: Double,
     val isbn: String? = null,
     val status: String? = null
 )
@@ -23,6 +23,6 @@ fun BookSummaryDTO.toDomain(): BookSummary = BookSummary(
     title = title,
     author = author.name,
     collection = collection.name,
-    finalPrice = finalPrice ?: basePrice,
+    finalPrice = finalPrice,
     isbn = isbn ?: ""
 )
