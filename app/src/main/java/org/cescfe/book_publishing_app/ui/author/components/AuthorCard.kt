@@ -24,9 +24,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import org.cescfe.book_publishing_app.R
 import org.cescfe.book_publishing_app.domain.author.model.Author
-import androidx.core.net.toUri
 
 @Composable
 fun AuthorCard(author: Author, modifier: Modifier = Modifier) {
@@ -189,11 +189,9 @@ private fun AuthorInfoRow(
     }
 }
 
-private fun isValidUrl(url: String): Boolean {
-    return try {
-        val uri = url.toUri()
-        uri.scheme != null && (uri.scheme == "http" || uri.scheme == "https")
-    } catch (_: Exception) {
-        false
-    }
+private fun isValidUrl(url: String): Boolean = try {
+    val uri = url.toUri()
+    uri.scheme != null && (uri.scheme == "http" || uri.scheme == "https")
+} catch (_: Exception) {
+    false
 }

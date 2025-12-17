@@ -17,7 +17,8 @@ private fun AuthorCardPreview() {
                 id = "1",
                 fullName = "J.R.R. Tolkien",
                 pseudonym = "Tolkien",
-                biography = "John Ronald Reuel Tolkien was an English writer and philologist. He was the author of the high fantasy works The Hobbit and The Lord of the Rings.",
+                biography = "John Ronald Reuel Tolkien was an English writer and philologist. " +
+                    "He was the author of the high fantasy works The Hobbit and The Lord of the Rings.",
                 email = "tolkien@example.com",
                 website = "https://www.tolkienestate.com"
             ),
@@ -72,9 +73,9 @@ private fun AuthorCardLongContentPreview() {
                 fullName = "A Very Long Author Name That Might Overflow The Card Layout",
                 pseudonym = "Very Long Pseudonym That Could Also Overflow",
                 biography = "This is a very long biography that contains multiple sentences and paragraphs. " +
-                        "It describes the author's life, works, and achievements in great detail. " +
-                        "The biography might be so long that it needs to be truncated with ellipsis. " +
-                        "This ensures that the card layout remains clean and readable even with extensive content.",
+                    "It describes the author's life, works, and achievements in great detail. " +
+                    "The biography might be so long that it needs to be truncated with ellipsis. " +
+                    "This ensures that the card layout remains clean and readable even with extensive content.",
                 email = "verylongemailaddress@example.com",
                 website = "https://www.verylongwebsitename.com/very/long/path/to/page"
             ),
