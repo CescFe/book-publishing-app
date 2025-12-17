@@ -27,6 +27,7 @@ jobs:
         with:
           java-version: '17'
           distribution: 'corretto'
+          cache: 'gradle'
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
@@ -45,13 +46,21 @@ jobs:
         run: chmod +x gradlew
 
       - name: Run Spotless check
-        run: ./gradlew spotlessCheck
+        run: ./gradlew spotlessCheck --no-daemon --build-cache
+        env:
+          GRADLE_OPTS: -Dorg.gradle.jvmargs=-Xmx2048m -Dorg.gradle.parallel=true -Dorg.gradle.caching=true
 
       - name: Run Android Lint
-        run: ./gradlew lint
+        run: ./gradlew lint --no-daemon --build-cache
+        env:
+          GRADLE_OPTS: -Dorg.gradle.jvmargs=-Xmx2048m -Dorg.gradle.parallel=true -Dorg.gradle.caching=true
 
       - name: Run unit tests
-        run: ./gradlew test
+        run: ./gradlew test --no-daemon --build-cache --parallel
+        env:
+          GRADLE_OPTS: -Dorg.gradle.jvmargs=-Xmx2048m -Dorg.gradle.parallel=true -Dorg.gradle.caching=true
 
       - name: Build project
-        run: ./gradlew build
+        run: ./gradlew assembleDebug --no-daemon --build-cache --parallel
+        env:
+          GRADLE_OPTS: -Dorg.gradle.jvmargs=-Xmx2048m -Dorg.gradle.parallel=true -Dorg.gradle.caching=true
