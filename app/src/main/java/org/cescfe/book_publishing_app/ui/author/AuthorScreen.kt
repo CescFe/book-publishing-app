@@ -58,11 +58,7 @@ fun AuthorScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun AuthorScreenContent(
-    uiState: AuthorUiState,
-    onRetry: () -> Unit,
-    onNavigateUp: () -> Unit
-) {
+internal fun AuthorScreenContent(uiState: AuthorUiState, onRetry: () -> Unit, onNavigateUp: () -> Unit) {
     Scaffold(
         modifier = Modifier.testTag("author_screen"),
         topBar = {
@@ -104,7 +100,7 @@ internal fun AuthorScreenContent(
                 uiState.errorResId != null -> {
                     ErrorState(
                         errorMessage = stringResource(uiState.errorResId),
-                        onRetry = onRetry,
+                        onRetry = onRetry
                     )
                 }
                 uiState.author != null -> {
@@ -158,7 +154,7 @@ private fun AuthorScreenSuccessPreview() {
                     fullName = "J.R.R. Tolkien",
                     pseudonym = "Tolkien",
                     biography = "John Ronald Reuel Tolkien was an English writer and philologist. " +
-                            "He was the author of the high fantasy works The Hobbit and The Lord of the Rings.",
+                        "He was the author of the high fantasy works The Hobbit and The Lord of the Rings.",
                     email = "tolkien@example.com",
                     website = "https://www.tolkienestate.com"
                 )
