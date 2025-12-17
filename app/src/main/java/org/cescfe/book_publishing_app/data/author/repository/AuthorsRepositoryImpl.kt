@@ -25,7 +25,10 @@ class AuthorsRepositoryImpl(private val authorsApi: AuthorsApi) : AuthorsReposit
         RepositoryErrorHandler.handleException(e)
     }
 
-    override suspend fun deleteAuthorById(authorId: String): DomainResult<Unit> {
-        TODO("Not yet implemented")
+    override suspend fun deleteAuthorById(authorId: String): DomainResult<Unit> = try {
+        authorsApi.deleteAuthorById(authorId)
+        DomainResult.Success(Unit)
+    } catch (e: Exception) {
+        RepositoryErrorHandler.handleException(e)
     }
 }

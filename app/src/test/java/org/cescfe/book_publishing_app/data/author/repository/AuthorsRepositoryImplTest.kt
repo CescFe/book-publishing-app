@@ -284,6 +284,89 @@ class AuthorsRepositoryImplTest {
         assertEquals(DomainErrorType.UNKNOWN, error.type)
     }
 
+    // ==================== DELETE AUTHOR BY ID - SUCCESS CASE ====================
+
+    @Test
+    fun `deleteAuthorById with successful deletion should return Success with Unit`() = runTest {
+        mockAuthorsApi.deleteSuccess = true
+
+        val result = repository.deleteAuthorById("author-123")
+
+        assertTrue(result is DomainResult.Success)
+        val success = result as DomainResult.Success
+        assertEquals(Unit, success.data)
+        assertEquals("author-123", mockAuthorsApi.deleteAuthorId)
+    }
+
+    // ==================== DELETE AUTHOR BY ID - API CALL VERIFICATION ====================
+
+    @Test
+    fun `deleteAuthorById should call API with correct author ID`() = runTest {
+        mockAuthorsApi.deleteSuccess = true
+        val expectedAuthorId = "test-author-id-456"
+
+        repository.deleteAuthorById(expectedAuthorId)
+
+        assertEquals(expectedAuthorId, mockAuthorsApi.deleteAuthorId)
+    }
+
+    // ==================== DELETE AUTHOR BY ID - ERROR HANDLING ====================
+
+    @Test
+    fun `deleteAuthorById with SocketTimeoutException should return Timeout error`() = runTest {
+        mockAuthorsApi.deleteException = SocketTimeoutException("Connection timed out")
+
+        val result = repository.deleteAuthorById("author-123")
+
+        assertTrue(result is DomainResult.Error)
+        val error = result as DomainResult.Error
+        assertEquals(DomainErrorType.TIMEOUT, error.type)
+    }
+
+    @Test
+    fun `deleteAuthorById with IOException should return NetworkError`() = runTest {
+        mockAuthorsApi.deleteException = IOException("Network unavailable")
+
+        val result = repository.deleteAuthorById("author-123")
+
+        assertTrue(result is DomainResult.Error)
+        val error = result as DomainResult.Error
+        assertEquals(DomainErrorType.NETWORK_ERROR, error.type)
+    }
+
+    @Test
+    fun `deleteAuthorById with 401 HttpException should return Unauthorized error`() = runTest {
+        mockAuthorsApi.deleteHttpException = createHttpException(401)
+
+        val result = repository.deleteAuthorById("author-123")
+
+        assertTrue(result is DomainResult.Error)
+        val error = result as DomainResult.Error
+        assertEquals(DomainErrorType.UNAUTHORIZED, error.type)
+    }
+
+    @Test
+    fun `deleteAuthorById with 404 HttpException should return Unknown error`() = runTest {
+        mockAuthorsApi.deleteHttpException = createHttpException(404)
+
+        val result = repository.deleteAuthorById("non-existent")
+
+        assertTrue(result is DomainResult.Error)
+        val error = result as DomainResult.Error
+        assertEquals(DomainErrorType.UNKNOWN, error.type)
+    }
+
+    @Test
+    fun `deleteAuthorById with 500 HttpException should return ServerError`() = runTest {
+        mockAuthorsApi.deleteHttpException = createHttpException(500)
+
+        val result = repository.deleteAuthorById("author-123")
+
+        assertTrue(result is DomainResult.Error)
+        val error = result as DomainResult.Error
+        assertEquals(DomainErrorType.SERVER_ERROR, error.type)
+    }
+
     // ==================== LIST AUTHORS - HELPERS ====================
 
     private fun createAuthorSummaryDTO(
@@ -326,6 +409,11 @@ class MockAuthorsApi : AuthorsApi {
     var authorHttpException: HttpException? = null
     var authorException: Throwable? = null
 
+    var deleteSuccess: Boolean = false
+    var deleteHttpException: HttpException? = null
+    var deleteException: Throwable? = null
+    var deleteAuthorId: String? = null
+
     override suspend fun getAuthors(): AuthorsResponse = when {
         httpException != null -> throw httpException!!
         exception != null -> throw exception!!
@@ -338,5 +426,15 @@ class MockAuthorsApi : AuthorsApi {
         authorException != null -> throw authorException!!
         authorResponse != null -> authorResponse!!
         else -> throw RuntimeException("Mock not configured for getAuthorById")
+    }
+
+    override suspend fun deleteAuthorById(authorId: String) {
+        deleteAuthorId = authorId
+        when {
+            deleteHttpException != null -> throw deleteHttpException!!
+            deleteException != null -> throw deleteException!!
+            deleteSuccess -> Unit
+            else -> throw RuntimeException("Mock not configured for deleteAuthorById")
+        }
     }
 }
