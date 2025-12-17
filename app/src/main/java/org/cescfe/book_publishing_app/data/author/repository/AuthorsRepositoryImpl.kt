@@ -24,4 +24,11 @@ class AuthorsRepositoryImpl(private val authorsApi: AuthorsApi) : AuthorsReposit
     } catch (e: Exception) {
         RepositoryErrorHandler.handleException(e)
     }
+
+    override suspend fun deleteAuthorById(authorId: String): DomainResult<Unit> = try {
+        authorsApi.deleteAuthorById(authorId)
+        DomainResult.Success(Unit)
+    } catch (e: Exception) {
+        RepositoryErrorHandler.handleException(e)
+    }
 }

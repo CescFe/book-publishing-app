@@ -3,12 +3,11 @@ package org.cescfe.book_publishing_app.data.collection.repository
 import java.io.IOException
 import java.net.SocketTimeoutException
 import kotlinx.coroutines.test.runTest
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.ResponseBody.Companion.toResponseBody
 import org.cescfe.book_publishing_app.data.collection.remote.api.CollectionsApi
 import org.cescfe.book_publishing_app.data.collection.remote.dto.CollectionSummaryDTO
 import org.cescfe.book_publishing_app.data.collection.remote.dto.CollectionsResponse
 import org.cescfe.book_publishing_app.data.shared.remote.dto.PaginationMeta
+import org.cescfe.book_publishing_app.data.shared.repository.helper.TestHttpExceptionFactory
 import org.cescfe.book_publishing_app.domain.shared.DomainErrorType
 import org.cescfe.book_publishing_app.domain.shared.DomainResult
 import org.junit.Assert.assertEquals
@@ -16,7 +15,6 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import retrofit2.HttpException
-import retrofit2.Response
 
 class CollectionsRepositoryImplTest {
 
@@ -128,7 +126,7 @@ class CollectionsRepositoryImplTest {
 
     @Test
     fun `getCollections with 401 HttpException should return Unauthorized error`() = runTest {
-        mockCollectionsApi.httpException = createHttpException(401)
+        mockCollectionsApi.httpException = TestHttpExceptionFactory.create(401)
 
         val result = repository.getCollections()
 
@@ -139,7 +137,7 @@ class CollectionsRepositoryImplTest {
 
     @Test
     fun `getCollections with 500 HttpException should return ServerError`() = runTest {
-        mockCollectionsApi.httpException = createHttpException(500)
+        mockCollectionsApi.httpException = TestHttpExceptionFactory.create(500)
 
         val result = repository.getCollections()
 
@@ -150,7 +148,7 @@ class CollectionsRepositoryImplTest {
 
     @Test
     fun `getCollections with 503 HttpException should return ServerError`() = runTest {
-        mockCollectionsApi.httpException = createHttpException(503)
+        mockCollectionsApi.httpException = TestHttpExceptionFactory.create(503)
 
         val result = repository.getCollections()
 
@@ -172,7 +170,7 @@ class CollectionsRepositoryImplTest {
 
     @Test
     fun `getCollections with 404 HttpException should return Unknown error`() = runTest {
-        mockCollectionsApi.httpException = createHttpException(404)
+        mockCollectionsApi.httpException = TestHttpExceptionFactory.create(404)
 
         val result = repository.getCollections()
 
@@ -206,12 +204,6 @@ class CollectionsRepositoryImplTest {
             totalPages = 1
         )
     )
-
-    private fun createHttpException(code: Int): HttpException {
-        val responseBody = "Error".toResponseBody("application/json".toMediaType())
-        val response = Response.error<Any>(code, responseBody)
-        return HttpException(response)
-    }
 }
 
 // ==================== MOCK ====================
