@@ -180,8 +180,6 @@ class AuthorsRepositoryImplTest {
         assertEquals(DomainErrorType.UNKNOWN, error.type)
     }
 
-
-
     // ==================== GET AUTHOR BY ID - DTO TRANSFORMATION ====================
 
     @Test
