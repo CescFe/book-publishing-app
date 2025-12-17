@@ -7,7 +7,6 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.cescfe.book_publishing_app.data.author.remote.api.AuthorsApi
 import org.cescfe.book_publishing_app.data.author.remote.dto.AuthorDTO
-import org.cescfe.book_publishing_app.data.author.remote.dto.AuthorResponse
 import org.cescfe.book_publishing_app.data.author.remote.dto.AuthorSummaryDTO
 import org.cescfe.book_publishing_app.data.author.remote.dto.AuthorsResponse
 import org.cescfe.book_publishing_app.data.shared.remote.dto.PaginationMeta
@@ -192,7 +191,7 @@ class AuthorsRepositoryImplTest {
             email = "jane@example.com",
             website = null
         )
-        mockAuthorsApi.authorResponse = AuthorResponse(authorDto)
+        mockAuthorsApi.authorResponse = authorDto
 
         val result = repository.getAuthorById("d7a3c6f9-9dc3-4fbf-b61a-83d59c81903e")
 
@@ -323,7 +322,7 @@ class MockAuthorsApi : AuthorsApi {
     var httpException: HttpException? = null
     var exception: Throwable? = null
 
-    var authorResponse: AuthorResponse? = null
+    var authorResponse: AuthorDTO? = null
     var authorHttpException: HttpException? = null
     var authorException: Throwable? = null
 
@@ -334,7 +333,7 @@ class MockAuthorsApi : AuthorsApi {
         else -> throw RuntimeException("Mock not configured")
     }
 
-    override suspend fun getAuthorById(id: String): AuthorResponse = when {
+    override suspend fun getAuthorById(id: String): AuthorDTO = when {
         authorHttpException != null -> throw authorHttpException!!
         authorException != null -> throw authorException!!
         authorResponse != null -> authorResponse!!

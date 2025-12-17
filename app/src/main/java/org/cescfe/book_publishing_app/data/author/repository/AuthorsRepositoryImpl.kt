@@ -18,8 +18,8 @@ class AuthorsRepositoryImpl(private val authorsApi: AuthorsApi) : AuthorsReposit
     }
 
     override suspend fun getAuthorById(authorId: String): DomainResult<Author> = try {
-        val response = authorsApi.getAuthorById(authorId)
-        val author = response.data.toDomain()
+        val authorDto = authorsApi.getAuthorById(authorId)
+        val author = authorDto.toDomain()
         DomainResult.Success(author)
     } catch (e: Exception) {
         RepositoryErrorHandler.handleException(e)
