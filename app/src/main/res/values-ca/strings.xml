@@ -36,11 +36,20 @@
     <string name="collection_card_genre">Gènere: %1$s</string>
     <string name="collection_card_no_genre">Sense gènere</string>
 
-    <!-- Author Card -->
+    <!-- Author Summary Card -->
     <string name="author_card_pseudonym">Pseudònim: %1$s</string>
     <string name="author_card_no_pseudonym">Sense pseudònim</string>
     <string name="author_card_email">Email: %1$s</string>
     <string name="author_card_no_email">Sense email</string>
+
+    <!-- Author Card -->
+    <string name="author_card_icon_description">Icona d\'autor</string>
+    <string name="author_card_pseudonym_label">Pseudònim</string>
+    <string name="author_card_biography_label">Biografia</string>
+    <string name="author_card_no_biography">Sense biografia</string>
+    <string name="author_card_email_label">Email</string>
+    <string name="author_card_website_label">Pàgina web</string>
+    <string name="author_card_no_website">Sense pàgina web</string>
 
     <!-- Shared Screen -->
     <string name="retry">Reintentar</string>
@@ -66,4 +75,5 @@
     <string name="error_unauthorized">Sessió caducada. Per favor torne a iniciar sessió.</string>
     <string name="error_server">Error del servidor. Per favor prove més tard.</string>
     <string name="error_unknown">S\'ha produït un error inesperat</string>
+    <string name="author_card_website_open_error">No s\'ha pogut obrir l\'enllaç</string>
 </resources>

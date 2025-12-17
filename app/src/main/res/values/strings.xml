@@ -35,11 +35,20 @@
     <string name="collection_card_genre">Genre: %1$s</string>
     <string name="collection_card_no_genre">No genre</string>
 
-    <!-- Author Card -->
+    <!-- Author Summary Card -->
     <string name="author_card_pseudonym">Pseudonym: %1$s</string>
     <string name="author_card_no_pseudonym">No pseudonym</string>
     <string name="author_card_email">Email: %1$s</string>
     <string name="author_card_no_email">No email</string>
+
+    <!-- Author Card -->
+    <string name="author_card_icon_description">Author icon</string>
+    <string name="author_card_pseudonym_label">Pseudonym</string>
+    <string name="author_card_biography_label">Biography</string>
+    <string name="author_card_no_biography">No biography available</string>
+    <string name="author_card_email_label">Email</string>
+    <string name="author_card_website_label">Website</string>
+    <string name="author_card_no_website">No website available</string>
 
     <!-- Shared Screen -->
     <string name="retry">Retry</string>
@@ -65,4 +74,5 @@
     <string name="error_unauthorized">Session expired. Please login again.</string>
     <string name="error_server">Server error. Please try again later.</string>
     <string name="error_unknown">An unexpected error occurred</string>
+    <string name="author_card_website_open_error">Unable to open website</string>
 </resources>
