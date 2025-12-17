@@ -31,7 +31,10 @@ class AuthorViewModel(
     private val _uiState = MutableStateFlow(AuthorUiState())
     val uiState: StateFlow<AuthorUiState> = _uiState.asStateFlow()
 
+    private var lastAuthorId: String? = null
+
     fun loadAuthor(authorId: String) {
+        lastAuthorId = authorId
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(
                 isLoading = true,
@@ -64,9 +67,9 @@ class AuthorViewModel(
     }
 
     fun retry() {
-        val currentAuthorId = _uiState.value.author?.id
-        if (currentAuthorId != null) {
-            loadAuthor(currentAuthorId)
+        val authorIdToRetry = lastAuthorId ?: _uiState.value.author?.id
+        if (authorIdToRetry != null) {
+            loadAuthor(authorIdToRetry)
         }
     }
 }
