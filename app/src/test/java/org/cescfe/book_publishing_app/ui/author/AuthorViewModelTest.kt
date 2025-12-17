@@ -8,7 +8,7 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.cescfe.book_publishing_app.R
-import org.cescfe.book_publishing_app.domain.author.model.AuthorSummary
+import org.cescfe.book_publishing_app.domain.author.model.Author
 import org.cescfe.book_publishing_app.domain.shared.DomainErrorType
 import org.cescfe.book_publishing_app.domain.shared.DomainResult
 import org.cescfe.book_publishing_app.ui.author.helper.MockAuthorsRepository
@@ -21,7 +21,7 @@ import org.junit.Before
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class AuthorsViewModelTest {
+class AuthorViewModelTest {
 
     private lateinit var mockRepository: MockAuthorsRepository
 
@@ -36,64 +36,87 @@ class AuthorsViewModelTest {
         Dispatchers.resetMain()
     }
 
-    private fun createViewModel(): AuthorsViewModel = AuthorsViewModel(mockRepository)
+    private fun createViewModel(): AuthorViewModel = AuthorViewModel(mockRepository)
 
     // ==================== SUCCESS CASES ====================
 
     @Test
-    fun `loadAuthors with success should update authors list`() = runTest {
-        val authors = listOf(
-            createAuthor(id = "1", fullName = "Author One"),
-            createAuthor(id = "2", fullName = "Author Two")
+    fun `loadAuthor with success should update author`() = runTest {
+        val author = createAuthor(
+            id = "author-123",
+            fullName = "J.R.R. Tolkien",
+            pseudonym = "Tolkien",
+            biography = "English writer",
+            email = "tolkien@example.com",
+            website = "https://www.tolkienestate.com"
         )
-        mockRepository.authorsResult = DomainResult.Success(authors)
+        mockRepository.authorResult = DomainResult.Success(author)
 
         val viewModel = createViewModel()
+        viewModel.loadAuthor("author-123")
         advanceUntilIdle()
 
         val state = viewModel.uiState.value
         assertFalse(state.isLoading)
         assertNull(state.errorResId)
         assertFalse(state.sessionExpired)
-        assertEquals(authors.size, state.authorSummaries.size)
-        assertEquals(authors[0].fullName, state.authorSummaries[0].fullName)
-        assertEquals(authors[1].fullName, state.authorSummaries[1].fullName)
+        assertEquals(author.id, state.author!!.id)
+        assertEquals(author.fullName, state.author.fullName)
+        assertEquals(author.pseudonym, state.author.pseudonym)
+        assertEquals(author.biography, state.author.biography)
+        assertEquals(author.email, state.author.email)
+        assertEquals(author.website, state.author.website)
     }
 
     @Test
-    fun `loadAuthors with empty list should return empty authors`() = runTest {
-        mockRepository.authorsResult = DomainResult.Success(emptyList())
+    fun `loadAuthor with null optional fields should handle correctly`() = runTest {
+        val author = createAuthor(
+            id = "author-456",
+            fullName = "George Orwell",
+            pseudonym = null,
+            biography = null,
+            email = null,
+            website = null
+        )
+        mockRepository.authorResult = DomainResult.Success(author)
 
         val viewModel = createViewModel()
+        viewModel.loadAuthor("author-456")
         advanceUntilIdle()
 
         val state = viewModel.uiState.value
         assertFalse(state.isLoading)
-        assertNull(state.errorResId)
-        assertTrue(state.authorSummaries.isEmpty())
+        assertEquals(author.id, state.author!!.id)
+        assertEquals(author.fullName, state.author.fullName)
+        assertNull(state.author.pseudonym)
+        assertNull(state.author.biography)
+        assertNull(state.author.email)
+        assertNull(state.author.website)
     }
 
     // ==================== ERROR CASES ====================
 
     @Test
-    fun `loadAuthors with network error should update error state`() = runTest {
-        mockRepository.authorsResult = DomainResult.Error(DomainErrorType.NETWORK_ERROR)
+    fun `loadAuthor with network error should update error state`() = runTest {
+        mockRepository.authorResult = DomainResult.Error(DomainErrorType.NETWORK_ERROR)
 
         val viewModel = createViewModel()
+        viewModel.loadAuthor("author-123")
         advanceUntilIdle()
 
         val state = viewModel.uiState.value
         assertFalse(state.isLoading)
         assertFalse(state.sessionExpired)
-        assertTrue(state.authorSummaries.isEmpty())
+        assertNull(state.author)
         assertEquals(R.string.error_network, state.errorResId)
     }
 
     @Test
-    fun `loadAuthors with server error should update error state`() = runTest {
-        mockRepository.authorsResult = DomainResult.Error(DomainErrorType.SERVER_ERROR)
+    fun `loadAuthor with server error should update error state`() = runTest {
+        mockRepository.authorResult = DomainResult.Error(DomainErrorType.SERVER_ERROR)
 
         val viewModel = createViewModel()
+        viewModel.loadAuthor("author-123")
         advanceUntilIdle()
 
         val state = viewModel.uiState.value
@@ -102,10 +125,11 @@ class AuthorsViewModelTest {
     }
 
     @Test
-    fun `loadAuthors with timeout should update error state`() = runTest {
-        mockRepository.authorsResult = DomainResult.Error(DomainErrorType.TIMEOUT)
+    fun `loadAuthor with timeout should update error state`() = runTest {
+        mockRepository.authorResult = DomainResult.Error(DomainErrorType.TIMEOUT)
 
         val viewModel = createViewModel()
+        viewModel.loadAuthor("author-123")
         advanceUntilIdle()
 
         val state = viewModel.uiState.value
@@ -116,10 +140,11 @@ class AuthorsViewModelTest {
     // ==================== SESSION EXPIRED ====================
 
     @Test
-    fun `loadAuthors with unauthorized should set sessionExpired true`() = runTest {
-        mockRepository.authorsResult = DomainResult.Error(DomainErrorType.UNAUTHORIZED)
+    fun `loadAuthor with unauthorized should set sessionExpired true`() = runTest {
+        mockRepository.authorResult = DomainResult.Error(DomainErrorType.UNAUTHORIZED)
 
         val viewModel = createViewModel()
+        viewModel.loadAuthor("author-123")
         advanceUntilIdle()
 
         val state = viewModel.uiState.value
@@ -131,19 +156,20 @@ class AuthorsViewModelTest {
     // ==================== RETRY ====================
 
     @Test
-    fun `retry should reload authors`() = runTest {
+    fun `retry should reload author`() = runTest {
         // First try: error
-        mockRepository.authorsResult = DomainResult.Error(DomainErrorType.NETWORK_ERROR)
+        mockRepository.authorResult = DomainResult.Error(DomainErrorType.NETWORK_ERROR)
 
         val viewModel = createViewModel()
+        viewModel.loadAuthor("author-123")
         advanceUntilIdle()
 
         val errorState = viewModel.uiState.value
         assertEquals(R.string.error_network, errorState.errorResId)
 
         // Second try: success
-        val authors = listOf(createAuthor(id = "1", fullName = "Author One"))
-        mockRepository.authorsResult = DomainResult.Success(authors)
+        val author = createAuthor(id = "author-123", fullName = "Author One")
+        mockRepository.authorResult = DomainResult.Success(author)
 
         viewModel.retry()
         advanceUntilIdle()
@@ -151,22 +177,33 @@ class AuthorsViewModelTest {
         val successState = viewModel.uiState.value
         assertFalse(successState.isLoading)
         assertNull(successState.errorResId)
-        assertEquals(1, successState.authorSummaries.size)
+        assertEquals(author.id, successState.author?.id)
     }
 
     @Test
     fun `retry should clear previous error`() = runTest {
-        mockRepository.authorsResult = DomainResult.Error(DomainErrorType.NETWORK_ERROR)
+        mockRepository.authorResult = DomainResult.Error(DomainErrorType.NETWORK_ERROR)
 
         val viewModel = createViewModel()
+        viewModel.loadAuthor("author-123")
         advanceUntilIdle()
         assertTrue(viewModel.uiState.value.errorResId != null)
 
-        mockRepository.authorsResult = DomainResult.Success(emptyList())
+        val author = createAuthor(id = "author-123", fullName = "Author One")
+        mockRepository.authorResult = DomainResult.Success(author)
         viewModel.retry()
         advanceUntilIdle()
 
         assertNull(viewModel.uiState.value.errorResId)
+    }
+
+    @Test
+    fun `retry without loaded author should not crash`() = runTest {
+        val viewModel = createViewModel()
+        viewModel.retry()
+        advanceUntilIdle()
+
+        assertNull(viewModel.uiState.value.author)
     }
 
     // ==================== HELPERS ====================
@@ -175,11 +212,15 @@ class AuthorsViewModelTest {
         id: String = "default-id",
         fullName: String = "Default Name",
         pseudonym: String? = null,
-        email: String? = null
-    ) = AuthorSummary(
+        biography: String? = null,
+        email: String? = null,
+        website: String? = null
+    ) = Author(
         id = id,
         fullName = fullName,
         pseudonym = pseudonym,
-        email = email
+        biography = biography,
+        email = email,
+        website = website
     )
 }
