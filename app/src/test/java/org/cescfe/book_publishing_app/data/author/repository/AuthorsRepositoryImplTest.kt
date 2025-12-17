@@ -6,6 +6,8 @@ import kotlinx.coroutines.test.runTest
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.cescfe.book_publishing_app.data.author.remote.api.AuthorsApi
+import org.cescfe.book_publishing_app.data.author.remote.dto.AuthorDTO
+import org.cescfe.book_publishing_app.data.author.remote.dto.AuthorResponse
 import org.cescfe.book_publishing_app.data.author.remote.dto.AuthorSummaryDTO
 import org.cescfe.book_publishing_app.data.author.remote.dto.AuthorsResponse
 import org.cescfe.book_publishing_app.data.shared.remote.dto.PaginationMeta
@@ -29,11 +31,11 @@ class AuthorsRepositoryImplTest {
         repository = AuthorsRepositoryImpl(mockAuthorsApi)
     }
 
-    // ==================== SUCCESS CASES ====================
+    // ==================== LIST AUTHORS - SUCCESS CASES ====================
 
     @Test
     fun `getAuthors with valid response should return Success with authors list`() = runTest {
-        val authorDto = createAuthorDTO(
+        val authorDto = createAuthorSummaryDTO(
             id = "author-123",
             fullName = "J.R.R. Tolkien",
             pseudonym = "Tolkien",
@@ -64,9 +66,9 @@ class AuthorsRepositoryImplTest {
     @Test
     fun `getAuthors with multiple authors should return all authors`() = runTest {
         val authors = listOf(
-            createAuthorDTO(id = "author-1", fullName = "Author One"),
-            createAuthorDTO(id = "author-2", fullName = "Author Two"),
-            createAuthorDTO(id = "author-3", fullName = "Author Three")
+            createAuthorSummaryDTO(id = "author-1", fullName = "Author One"),
+            createAuthorSummaryDTO(id = "author-2", fullName = "Author Two"),
+            createAuthorSummaryDTO(id = "author-3", fullName = "Author Three")
         )
         mockAuthorsApi.successResponse = createAuthorsResponse(authors)
 
@@ -77,11 +79,11 @@ class AuthorsRepositoryImplTest {
         assertEquals(3, success.data.size)
     }
 
-    // ==================== DTO TRANSFORMATION ====================
+    // ==================== LIST AUTHORS - DTO TRANSFORMATION ====================
 
     @Test
     fun `getAuthors should transform DTO to domain model correctly`() = runTest {
-        val authorDto = createAuthorDTO(
+        val authorDto = createAuthorSummaryDTO(
             id = "d7a3c6f9-9dc3-4fbf-b61a-83d59c81903e",
             fullName = "George Orwell",
             pseudonym = null,
@@ -99,7 +101,7 @@ class AuthorsRepositoryImplTest {
         assertEquals("", author.email)
     }
 
-    // ==================== ERROR HANDLING ====================
+    // ==================== LIST AUTHORS - ERROR HANDLING ====================
 
     @Test
     fun `getAuthors with SocketTimeoutException should return Timeout error`() = runTest {
@@ -178,9 +180,114 @@ class AuthorsRepositoryImplTest {
         assertEquals(DomainErrorType.UNKNOWN, error.type)
     }
 
-    // ==================== HELPERS ====================
+    // ==================== GET AUTHOR BY ID - DTO TRANSFORMATION ====================
 
-    private fun createAuthorDTO(
+    @Test
+    fun `getAuthorById should transform DTO to domain model correctly`() = runTest {
+        val authorDto = AuthorDTO(
+            id = "d7a3c6f9-9dc3-4fbf-b61a-83d59c81903e",
+            fullName = "Jane Austen",
+            pseudonym = "A Lady",
+            biography = "English novelist",
+            email = "jane@example.com",
+            website = null
+        )
+        mockAuthorsApi.authorResponse = AuthorResponse(authorDto)
+
+        val result = repository.getAuthorById("d7a3c6f9-9dc3-4fbf-b61a-83d59c81903e")
+
+        assertTrue(result is DomainResult.Success)
+        val author = (result as DomainResult.Success).data
+        assertEquals(authorDto.id, author.id)
+        assertEquals(authorDto.fullName, author.fullName)
+        assertEquals(authorDto.pseudonym, author.pseudonym)
+        assertEquals(authorDto.biography, author.biography)
+        assertEquals(authorDto.email, author.email)
+        assertEquals(authorDto.website, author.website)
+    }
+
+    // ==================== GET AUTHOR BY ID - ERROR HANDLING ====================
+
+    @Test
+    fun `getAuthorById with SocketTimeoutException should return Timeout error`() = runTest {
+        mockAuthorsApi.authorException = SocketTimeoutException("Connection timed out")
+
+        val result = repository.getAuthorById("author-123")
+
+        assertTrue(result is DomainResult.Error)
+        val error = result as DomainResult.Error
+        assertEquals(DomainErrorType.TIMEOUT, error.type)
+    }
+
+    @Test
+    fun `getAuthorById with IOException should return NetworkError`() = runTest {
+        mockAuthorsApi.authorException = IOException("Network unavailable")
+
+        val result = repository.getAuthorById("author-123")
+
+        assertTrue(result is DomainResult.Error)
+        val error = result as DomainResult.Error
+        assertEquals(DomainErrorType.NETWORK_ERROR, error.type)
+    }
+
+    @Test
+    fun `getAuthorById with 401 HttpException should return Unauthorized error`() = runTest {
+        mockAuthorsApi.authorHttpException = createHttpException(401)
+
+        val result = repository.getAuthorById("author-123")
+
+        assertTrue(result is DomainResult.Error)
+        val error = result as DomainResult.Error
+        assertEquals(DomainErrorType.UNAUTHORIZED, error.type)
+    }
+
+    @Test
+    fun `getAuthorById with 404 HttpException should return Unknown error`() = runTest {
+        mockAuthorsApi.authorHttpException = createHttpException(404)
+
+        val result = repository.getAuthorById("non-existent")
+
+        assertTrue(result is DomainResult.Error)
+        val error = result as DomainResult.Error
+        assertEquals(DomainErrorType.UNKNOWN, error.type)
+    }
+
+    @Test
+    fun `getAuthorById with 500 HttpException should return ServerError`() = runTest {
+        mockAuthorsApi.authorHttpException = createHttpException(500)
+
+        val result = repository.getAuthorById("author-123")
+
+        assertTrue(result is DomainResult.Error)
+        val error = result as DomainResult.Error
+        assertEquals(DomainErrorType.SERVER_ERROR, error.type)
+    }
+
+    @Test
+    fun `getAuthorById with 503 HttpException should return ServerError`() = runTest {
+        mockAuthorsApi.authorHttpException = createHttpException(503)
+
+        val result = repository.getAuthorById("author-123")
+
+        assertTrue(result is DomainResult.Error)
+        val error = result as DomainResult.Error
+        assertEquals(DomainErrorType.SERVER_ERROR, error.type)
+    }
+
+    @Test
+    fun `getAuthorById with unknown exception should return Unknown error`() = runTest {
+        mockAuthorsApi.authorException = RuntimeException("Something unexpected")
+
+        val result = repository.getAuthorById("author-123")
+
+        assertTrue(result is DomainResult.Error)
+        val error = result as DomainResult.Error
+        assertEquals(DomainErrorType.UNKNOWN, error.type)
+    }
+
+    // ==================== LIST AUTHORS - HELPERS ====================
+
+    private fun createAuthorSummaryDTO(
         id: String = "default-id",
         fullName: String = "Default Author",
         pseudonym: String? = null,
@@ -216,10 +323,21 @@ class MockAuthorsApi : AuthorsApi {
     var httpException: HttpException? = null
     var exception: Throwable? = null
 
+    var authorResponse: AuthorResponse? = null
+    var authorHttpException: HttpException? = null
+    var authorException: Throwable? = null
+
     override suspend fun getAuthors(): AuthorsResponse = when {
         httpException != null -> throw httpException!!
         exception != null -> throw exception!!
         successResponse != null -> successResponse!!
         else -> throw RuntimeException("Mock not configured")
+    }
+
+    override suspend fun getAuthorById(id: String): AuthorResponse = when {
+        authorHttpException != null -> throw authorHttpException!!
+        authorException != null -> throw authorException!!
+        authorResponse != null -> authorResponse!!
+        else -> throw RuntimeException("Mock not configured for getAuthorById")
     }
 }

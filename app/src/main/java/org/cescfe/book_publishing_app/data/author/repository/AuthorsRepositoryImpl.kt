@@ -17,7 +17,11 @@ class AuthorsRepositoryImpl(private val authorsApi: AuthorsApi) : AuthorsReposit
         RepositoryErrorHandler.handleException(e)
     }
 
-    override suspend fun getAuthorById(authorId: String): DomainResult<Author> {
-        TODO("Not yet implemented")
+    override suspend fun getAuthorById(authorId: String): DomainResult<Author> = try {
+        val response = authorsApi.getAuthorById(authorId)
+        val author = response.data.toDomain()
+        DomainResult.Success(author)
+    } catch (e: Exception) {
+        RepositoryErrorHandler.handleException(e)
     }
 }
