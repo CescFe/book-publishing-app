@@ -16,7 +16,7 @@ jobs:
       cancel-in-progress: true
     if: |
       (github.event_name == 'pull_request' && github.event.pull_request.draft == false) ||
-      (github.event_name == 'push' && !contains(github.event.head_commit.message, 'Merge pull request'))
+      (github.event_name == 'push' && github.event.head_commit.author.name != 'github-actions[bot]' && !contains(github.event.head_commit.message, 'Merge pull request') && !contains(github.event.head_commit.message, 'Merge branch'))
 
     steps:
       - name: Checkout code
@@ -32,27 +32,30 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Cache Gradle dependencies
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      - name: Download Spotless dependencies
+        run: ./gradlew spotlessInternalRegisterDependencies --build-cache
+        env:
+          GRADLE_OPTS: -Dorg.gradle.jvmargs=-Xmx2048m -Dorg.gradle.caching=true
+
       - name: Run Spotless check
-        run: ./gradlew spotlessCheck
+        run: ./gradlew spotlessCheck --build-cache
+        env:
+          GRADLE_OPTS: -Dorg.gradle.jvmargs=-Xmx2048m -Dorg.gradle.caching=true -Dorg.gradle.parallel=true
 
       - name: Run Android Lint
-        run: ./gradlew lint
+        run: ./gradlew lint --build-cache
+        env:
+          GRADLE_OPTS: -Dorg.gradle.jvmargs=-Xmx2048m -Dorg.gradle.caching=true
 
       - name: Run unit tests
-        run: ./gradlew test
+        run: ./gradlew test --build-cache --parallel
+        env:
+          GRADLE_OPTS: -Dorg.gradle.jvmargs=-Xmx2048m -Dorg.gradle.caching=true -Dorg.gradle.parallel=true
 
       - name: Build project
-        run: ./gradlew assembleDebug
+        run: ./gradlew assembleDebug --build-cache --parallel
+        env:
+          GRADLE_OPTS: -Dorg.gradle.jvmargs=-Xmx2048m -Dorg.gradle.caching=true -Dorg.gradle.parallel=true
