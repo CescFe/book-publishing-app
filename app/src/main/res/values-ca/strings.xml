@@ -75,4 +75,5 @@
     <string name="error_unauthorized">Sessió caducada. Per favor torne a iniciar sessió.</string>
     <string name="error_server">Error del servidor. Per favor prove més tard.</string>
     <string name="error_unknown">S\'ha produït un error inesperat</string>
+    <string name="author_card_website_open_error">No s\'ha pogut obrir l\'enllaç</string>
 </resources>

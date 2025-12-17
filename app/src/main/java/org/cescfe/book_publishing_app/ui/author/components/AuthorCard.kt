@@ -1,6 +1,7 @@
 package org.cescfe.book_publishing_app.ui.author.components
 
 import android.content.Intent
+import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -31,6 +32,7 @@ import org.cescfe.book_publishing_app.domain.author.model.Author
 @Composable
 fun AuthorCard(author: Author, modifier: Modifier = Modifier) {
     val context = LocalContext.current
+    val websiteErrorText = stringResource(R.string.author_card_website_open_error)
 
     Card(
         modifier = modifier
@@ -140,7 +142,12 @@ fun AuthorCard(author: Author, modifier: Modifier = Modifier) {
                                         try {
                                             val intent = Intent(Intent.ACTION_VIEW, website.toUri())
                                             context.startActivity(intent)
-                                        } catch (e: Exception) {
+                                        } catch (_: Exception) {
+                                            Toast.makeText(
+                                                context,
+                                                websiteErrorText,
+                                                Toast.LENGTH_SHORT
+                                            ).show()
                                         }
                                     }
                                 } else {
