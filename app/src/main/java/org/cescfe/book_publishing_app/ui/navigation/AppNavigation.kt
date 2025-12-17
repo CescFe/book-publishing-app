@@ -2,10 +2,13 @@ package org.cescfe.book_publishing_app.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import org.cescfe.book_publishing_app.data.auth.TokenManager
 import org.cescfe.book_publishing_app.ui.auth.LoginScreen
+import org.cescfe.book_publishing_app.ui.author.AuthorScreen
 import org.cescfe.book_publishing_app.ui.author.AuthorsScreen
 import org.cescfe.book_publishing_app.ui.book.BooksScreen
 import org.cescfe.book_publishing_app.ui.collection.CollectionsScreen
@@ -17,6 +20,9 @@ object Routes {
     const val BOOKS = "books"
     const val COLLECTIONS = "collections"
     const val AUTHORS = "authors"
+    const val AUTHOR = "author"
+
+    fun authorDetails(authorId: String) = "author/$authorId"
 }
 
 @Composable
@@ -97,6 +103,31 @@ fun AppNavigation(navController: NavHostController) {
                             restoreState = true
                         }
                     }
+                },
+                onAuthorClick = { authorId ->
+                    navController.navigate(Routes.authorDetails(authorId))
+                }
+            )
+        }
+        composable(
+            route = "${Routes.AUTHOR}/{authorId}",
+            arguments = listOf(
+                navArgument("authorId") {
+                    type = NavType.StringType
+                }
+            )
+        ) { backStackEntry ->
+            val authorId = backStackEntry.arguments?.getString("authorId") ?: ""
+            AuthorScreen(
+                authorId = authorId,
+                onSessionExpired = {
+                    TokenManager.clearToken()
+                    navController.navigate(Routes.LOGIN) {
+                        popUpTo(Routes.BOOKS) { inclusive = true }
+                    }
+                },
+                onNavigateUp = {
+                    navController.navigateUp()
                 }
             )
         }

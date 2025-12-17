@@ -221,4 +221,37 @@ class AuthorsScreenTest {
             "Should navigate to Collections, but got $navigatedItem"
         }
     }
+
+    // ==================== AUTHOR CLICK NAVIGATION ====================
+
+    @Test
+    fun authorsScreen_callsOnAuthorClick_withCorrectAuthorId_whenAuthorCardClicked() {
+        val authorId = "test-author-id-123"
+        var clickedAuthorId: String? = null
+
+        val authorSummaries = listOf(
+            AuthorSummary(
+                id = authorId,
+                fullName = "J.R.R. Tolkien",
+                pseudonym = "Tolkien",
+                email = "tolkien@example.com"
+            )
+        )
+
+        composeTestRule.setContent {
+            BookpublishingappTheme {
+                AuthorsScreenContent(
+                    uiState = AuthorsUiState(authorSummaries = authorSummaries),
+                    onRetry = {},
+                    onAuthorClick = { id -> clickedAuthorId = id }
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithTag("author_summary_card_$authorId").performClick()
+
+        assert(clickedAuthorId == authorId) {
+            "Expected author ID $authorId, but got $clickedAuthorId"
+        }
+    }
 }

@@ -36,7 +36,8 @@ import org.cescfe.book_publishing_app.ui.theme.BookpublishingappTheme
 fun AuthorsScreen(
     viewModel: AuthorsViewModel = viewModel(),
     onSessionExpired: () -> Unit,
-    onNavigate: (BottomNavItem) -> Unit = {}
+    onNavigate: (BottomNavItem) -> Unit = {},
+    onAuthorClick: (String) -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -49,7 +50,8 @@ fun AuthorsScreen(
     AuthorsScreenContent(
         uiState = uiState,
         onRetry = viewModel::retry,
-        onNavigate = onNavigate
+        onNavigate = onNavigate,
+        onAuthorClick = onAuthorClick
     )
 }
 
@@ -58,7 +60,8 @@ fun AuthorsScreen(
 internal fun AuthorsScreenContent(
     uiState: AuthorsUiState,
     onRetry: () -> Unit,
-    onNavigate: (BottomNavItem) -> Unit = {}
+    onNavigate: (BottomNavItem) -> Unit = {},
+    onAuthorClick: (String) -> Unit = {}
 ) {
     Scaffold(
         modifier = Modifier.testTag("authors_screen"),
@@ -96,7 +99,10 @@ internal fun AuthorsScreenContent(
                     )
                 }
                 else -> {
-                    AuthorsList(authorSummaries = uiState.authorSummaries)
+                    AuthorsList(
+                        authorSummaries = uiState.authorSummaries,
+                        onAuthorClick = onAuthorClick
+                    )
                 }
             }
         }
@@ -104,7 +110,7 @@ internal fun AuthorsScreenContent(
 }
 
 @Composable
-private fun AuthorsList(authorSummaries: List<AuthorSummary>) {
+private fun AuthorsList(authorSummaries: List<AuthorSummary>, onAuthorClick: (String) -> Unit = {}) {
     LazyColumn(
         modifier = Modifier.testTag("authors_list"),
         contentPadding = PaddingValues(16.dp),
@@ -114,7 +120,10 @@ private fun AuthorsList(authorSummaries: List<AuthorSummary>) {
             items = authorSummaries,
             key = { author -> author.id }
         ) { author ->
-            AuthorSummaryCard(authorSummary = author)
+            AuthorSummaryCard(
+                authorSummary = author,
+                onClick = { onAuthorClick(author.id) }
+            )
         }
     }
 }

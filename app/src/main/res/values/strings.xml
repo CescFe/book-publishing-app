@@ -49,6 +49,9 @@
     <string name="authors_title">Authors</string>
     <string name="authors_empty">No authors available</string>
 
+    <!-- Authors Screen -->
+    <string name="author_title">Author</string>
+
     <!-- Error Messages -->
     <string name="error_timeout">Request timeout. Please try again.</string>
     <string name="error_network">Network error. Please check your connection.</string>
