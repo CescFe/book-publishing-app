@@ -4,12 +4,12 @@ import java.io.IOException
 import java.net.SocketTimeoutException
 import kotlinx.coroutines.test.runTest
 import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.ResponseBody
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.cescfe.book_publishing_app.data.auth.TokenManager
 import org.cescfe.book_publishing_app.data.auth.remote.api.AuthApi
 import org.cescfe.book_publishing_app.data.auth.remote.dto.LoginRequest
 import org.cescfe.book_publishing_app.data.auth.remote.dto.LoginResponse
+import org.cescfe.book_publishing_app.data.shared.repository.helper.TestHttpExceptionFactory
 import org.cescfe.book_publishing_app.domain.auth.model.AuthResult
 import org.cescfe.book_publishing_app.domain.auth.model.ErrorType
 import org.junit.After
@@ -18,7 +18,6 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import retrofit2.HttpException
-import retrofit2.Response
 
 class AuthRepositoryImplTest {
 
@@ -59,7 +58,7 @@ class AuthRepositoryImplTest {
 
     @Test
     fun `login with 401 should return InvalidCredentials error`() = runTest {
-        mockAuthApi.httpException = createHttpException(401, "Bad credentials")
+        mockAuthApi.httpException = TestHttpExceptionFactory.create(401, "Bad credentials")
 
         val result = repository.login("wrong@example.com", "wrong")
 
@@ -71,7 +70,7 @@ class AuthRepositoryImplTest {
 
     @Test
     fun `login with 500 should return ServerError`() = runTest {
-        mockAuthApi.httpException = createHttpException(500, "Internal server error")
+        mockAuthApi.httpException = TestHttpExceptionFactory.create(500, "Internal server error")
 
         val result = repository.login("test@example.com", "password")
 
@@ -144,7 +143,7 @@ class AuthRepositoryImplTest {
                 .toResponseBody(
                     "application/json".toMediaType()
                 )
-        mockAuthApi.httpException = createHttpException(401, errorBody = errorBody)
+        mockAuthApi.httpException = TestHttpExceptionFactory.create(401, errorBody = errorBody)
 
         val result = repository.login("wrong@example.com", "wrong")
 
@@ -152,19 +151,6 @@ class AuthRepositoryImplTest {
         val error = result as AuthResult.Error
         assertEquals(ErrorType.INVALID_CREDENTIALS, error.type)
         assertEquals("Invalid credentials", error.message)
-    }
-
-    private fun createHttpException(
-        code: Int,
-        message: String? = null,
-        errorBody: ResponseBody? = null
-    ): HttpException {
-        val responseBody = errorBody ?: (
-            message
-                ?: "Error"
-            ).toResponseBody("application/json".toMediaType())
-        val response = Response.error<Any>(code, responseBody)
-        return HttpException(response)
     }
 }
 
