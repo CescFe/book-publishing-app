@@ -21,4 +21,7 @@ class MockAuthorsRepository : AuthorsRepository {
     override suspend fun getAuthors(): DomainResult<List<AuthorSummary>> = authorsResult
 
     override suspend fun getAuthorById(authorId: String): DomainResult<Author> = authorResult
+    override suspend fun deleteAuthorById(authorId: String): DomainResult<Unit> {
+        TODO("Not yet implemented")
+    }
 }
