@@ -36,11 +36,20 @@
     <string name="collection_card_genre">Género: %1$s</string>
     <string name="collection_card_no_genre">Sin género</string>
 
-    <!-- Author Card -->
+    <!-- Author Summary Card -->
     <string name="author_card_pseudonym">Seudónimo: %1$s</string>
     <string name="author_card_no_pseudonym">Sin seudónimo</string>
     <string name="author_card_email">Email: %1$s</string>
     <string name="author_card_no_email">Sin email</string>
+
+    <!-- Author Card -->
+    <string name="author_card_icon_description">Icono de autor</string>
+    <string name="author_card_pseudonym_label">Pseudónimo</string>
+    <string name="author_card_biography_label">Biografía</string>
+    <string name="author_card_no_biography">Sin biografía</string>
+    <string name="author_card_email_label">Email</string>
+    <string name="author_card_website_label">Página web</string>
+    <string name="author_card_no_website">Sin página web</string>
 
     <!-- Shared Screen -->
     <string name="retry">Reintentar</string>
