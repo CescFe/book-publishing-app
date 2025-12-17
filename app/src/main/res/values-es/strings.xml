@@ -11,10 +11,17 @@
     <string name="login_password_label">Contraseña</string>
     <string name="login_button_authenticate">Autenticar</string>
 
-    <!-- Bottom Navigation -->
+    <!-- App Bottom Navigation Bar -->
     <string name="nav_books">Libros</string>
     <string name="nav_collections">Colecciones</string>
     <string name="nav_authors">Autores</string>
+
+    <!-- Detail Actions Bottom Bar -->
+    <string name="action_edit">Editar</string>
+    <string name="action_delete">Eliminar</string>
+
+    <!-- Actions Top Bar -->
+    <string name="navigate_back">Retroceder</string>
 
     <!-- Book Card -->
     <string name="book_card_collection">Colección: %1$s</string>
