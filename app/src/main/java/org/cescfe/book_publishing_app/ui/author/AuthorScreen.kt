@@ -84,10 +84,10 @@ internal fun AuthorScreenContent(
         bottomBar = {
             DetailActionsBottomBar(
                 onEditClick = {
-                    // Placeholder for future implementation
+                    // TODO: Placeholder for future implementation
                 },
                 onDeleteClick = {
-                    // Placeholder for future implementation
+                    // TODO: Placeholder for future implementation
                 }
             )
         }
@@ -99,13 +99,12 @@ internal fun AuthorScreenContent(
         ) {
             when {
                 uiState.isLoading -> {
-                    LoadingState(modifier = Modifier.testTag("author_screen_loading"))
+                    LoadingState()
                 }
                 uiState.errorResId != null -> {
                     ErrorState(
                         errorMessage = stringResource(uiState.errorResId),
                         onRetry = onRetry,
-                        modifier = Modifier.testTag("author_screen_error")
                     )
                 }
                 uiState.author != null -> {
@@ -115,7 +114,6 @@ internal fun AuthorScreenContent(
                             .fillMaxSize()
                             .padding(16.dp)
                             .verticalScroll(rememberScrollState())
-                            .testTag("author_card_container")
                     )
                 }
             }

@@ -47,7 +47,6 @@ class AuthorScreenTest {
             }
         }
 
-        composeTestRule.onNodeWithTag("author_screen_loading").assertIsDisplayed()
         composeTestRule.onNodeWithTag("loading_indicator").assertIsDisplayed()
     }
 
@@ -65,7 +64,6 @@ class AuthorScreenTest {
             }
         }
 
-        composeTestRule.onNodeWithTag("author_screen_error").assertIsDisplayed()
         composeTestRule.onNodeWithTag("error_state").assertIsDisplayed()
         composeTestRule.onNodeWithText("Network error. Please check your connection.").assertIsDisplayed()
     }
@@ -112,7 +110,6 @@ class AuthorScreenTest {
             }
         }
 
-        composeTestRule.onNodeWithTag("author_card_container").assertIsDisplayed()
         composeTestRule.onNodeWithTag("author_card_author-123").assertIsDisplayed()
     }
 
