@@ -3,6 +3,7 @@ package org.cescfe.book_publishing_app.data.author.repository
 import org.cescfe.book_publishing_app.data.author.remote.api.AuthorsApi
 import org.cescfe.book_publishing_app.data.author.remote.dto.toDomain
 import org.cescfe.book_publishing_app.data.shared.repository.RepositoryErrorHandler
+import org.cescfe.book_publishing_app.domain.author.model.Author
 import org.cescfe.book_publishing_app.domain.author.model.AuthorSummary
 import org.cescfe.book_publishing_app.domain.author.repository.AuthorsRepository
 import org.cescfe.book_publishing_app.domain.shared.DomainResult
@@ -14,5 +15,9 @@ class AuthorsRepositoryImpl(private val authorsApi: AuthorsApi) : AuthorsReposit
         DomainResult.Success(authors)
     } catch (e: Exception) {
         RepositoryErrorHandler.handleException(e)
+    }
+
+    override suspend fun getAuthorById(authorId: String): DomainResult<Author> {
+        TODO("Not yet implemented")
     }
 }
