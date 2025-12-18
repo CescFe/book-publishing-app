@@ -3,6 +3,7 @@ package org.cescfe.book_publishing_app.data.author.repository.helper
 import org.cescfe.book_publishing_app.data.author.remote.api.AuthorsApi
 import org.cescfe.book_publishing_app.data.author.remote.dto.AuthorDTO
 import org.cescfe.book_publishing_app.data.author.remote.dto.AuthorsResponse
+import org.cescfe.book_publishing_app.data.author.remote.dto.CreateAuthorRequestDTO
 import retrofit2.HttpException
 
 class MockAuthorsApi : AuthorsApi {
@@ -13,6 +14,7 @@ class MockAuthorsApi : AuthorsApi {
     var authorResponse: AuthorDTO? = null
     var authorHttpException: HttpException? = null
     var authorException: Throwable? = null
+    var createAuthorRequest: CreateAuthorRequestDTO? = null
 
     var deleteSuccess: Boolean = false
     var deleteHttpException: HttpException? = null
@@ -31,6 +33,16 @@ class MockAuthorsApi : AuthorsApi {
         authorException != null -> throw authorException!!
         authorResponse != null -> authorResponse!!
         else -> throw RuntimeException("Mock not configured for getAuthorById")
+    }
+
+    override suspend fun createAuthor(request: CreateAuthorRequestDTO): AuthorDTO {
+        createAuthorRequest = request
+        return when {
+            authorHttpException != null -> throw authorHttpException!!
+            authorException != null -> throw authorException!!
+            authorResponse != null -> authorResponse!!
+            else -> throw RuntimeException("Mock not configured for createAuthor")
+        }
     }
 
     override suspend fun deleteAuthorById(authorId: String) {
