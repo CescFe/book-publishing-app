@@ -101,7 +101,9 @@ internal fun AuthorScreenContent(
                 onEditClick = {
                     // TODO: Placeholder for future implementation
                 },
-                onDeleteClick = { showDeleteDialog = true }
+                onDeleteClick = {
+                    showDeleteDialog = true
+                }
             )
         }
     ) { innerPadding ->
