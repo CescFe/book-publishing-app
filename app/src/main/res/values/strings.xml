@@ -69,6 +69,7 @@
     <!-- Create Author Screen -->
     <string name="create_author_title">Create Author</string>
     <string name="action_save">Save</string>
+    <string name="error_full_name_required">Full name is required</string>
 
     <!-- Author Screen -->
     <string name="author_title">Author</string>
