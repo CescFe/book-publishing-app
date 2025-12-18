@@ -19,7 +19,9 @@ data class AuthorUiState(
     val author: Author? = null,
     val isLoading: Boolean = false,
     @get:StringRes val errorResId: Int? = null,
-    val sessionExpired: Boolean = false
+    val sessionExpired: Boolean = false,
+    val isDeleting: Boolean = false,
+    val deleteSuccess: Boolean = false
 )
 
 class AuthorViewModel(
@@ -58,6 +60,38 @@ class AuthorViewModel(
                     } else {
                         _uiState.value = _uiState.value.copy(
                             isLoading = false,
+                            errorResId = result.type.toStringResId()
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    fun deleteAuthor() {
+        val authorId = _uiState.value.author?.id ?: return
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(
+                isDeleting = true,
+                errorResId = null
+            )
+
+            when (val result = authorsRepository.deleteAuthorById(authorId)) {
+                is DomainResult.Success -> {
+                    _uiState.value = _uiState.value.copy(
+                        isDeleting = false,
+                        deleteSuccess = true
+                    )
+                }
+                is DomainResult.Error -> {
+                    if (result.type == DomainErrorType.UNAUTHORIZED) {
+                        _uiState.value = _uiState.value.copy(
+                            isDeleting = false,
+                            sessionExpired = true
+                        )
+                    } else {
+                        _uiState.value = _uiState.value.copy(
+                            isDeleting = false,
                             errorResId = result.type.toStringResId()
                         )
                     }
