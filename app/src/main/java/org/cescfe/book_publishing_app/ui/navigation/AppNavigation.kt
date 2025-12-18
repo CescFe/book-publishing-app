@@ -90,7 +90,9 @@ fun AppNavigation(navController: NavHostController) {
                 }
             )
         }
-        composable(Routes.AUTHORS) {
+        composable(Routes.AUTHORS) { backStackEntry ->
+            val shouldRefresh = backStackEntry.savedStateHandle.get<Boolean>("refresh") ?: false
+
             AuthorsScreen(
                 onSessionExpired = {
                     TokenManager.clearToken()
@@ -112,6 +114,10 @@ fun AppNavigation(navController: NavHostController) {
                 },
                 onCreateAuthorClick = {
                     navController.navigate(Routes.CREATE_AUTHOR)
+                },
+                shouldRefresh = shouldRefresh,
+                onRefreshHandled = {
+                    backStackEntry.savedStateHandle["refresh"] = false
                 }
             )
         }
@@ -155,6 +161,8 @@ fun AppNavigation(navController: NavHostController) {
                     navController.navigate(Routes.author(authorId)) {
                         popUpTo(Routes.AUTHORS) { inclusive = false }
                     }
+                    navController.getBackStackEntry(Routes.AUTHORS)
+                        .savedStateHandle["refresh"] = true
                 }
             )
         }

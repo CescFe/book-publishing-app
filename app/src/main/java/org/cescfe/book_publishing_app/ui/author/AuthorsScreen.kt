@@ -42,9 +42,18 @@ fun AuthorsScreen(
     onSessionExpired: () -> Unit,
     onNavigate: (BottomNavItem) -> Unit = {},
     onAuthorClick: (String) -> Unit = {},
-    onCreateAuthorClick: () -> Unit = {}
+    onCreateAuthorClick: () -> Unit = {},
+    shouldRefresh: Boolean = false,
+    onRefreshHandled: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(shouldRefresh) {
+        if (shouldRefresh) {
+            viewModel.retry()
+            onRefreshHandled()
+        }
+    }
 
     LaunchedEffect(uiState.sessionExpired) {
         if (uiState.sessionExpired) {
