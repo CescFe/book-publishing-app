@@ -2,6 +2,7 @@ package org.cescfe.book_publishing_app.ui.author.helper
 
 import org.cescfe.book_publishing_app.domain.author.model.Author
 import org.cescfe.book_publishing_app.domain.author.model.AuthorSummary
+import org.cescfe.book_publishing_app.domain.author.model.CreateAuthorRequest
 import org.cescfe.book_publishing_app.domain.author.repository.AuthorsRepository
 import org.cescfe.book_publishing_app.domain.shared.DomainResult
 
@@ -24,4 +25,7 @@ class MockAuthorsRepository : AuthorsRepository {
 
     override suspend fun getAuthorById(authorId: String): DomainResult<Author> = authorResult
     override suspend fun deleteAuthorById(authorId: String): DomainResult<Unit> = deleteResult
+    override suspend fun createAuthor(request: CreateAuthorRequest): DomainResult<Author> {
+        TODO("Not yet implemented")
+    }
 }
