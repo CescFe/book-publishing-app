@@ -39,15 +39,15 @@
     <!-- Author Summary Card -->
     <string name="author_card_pseudonym">Pseudònim: %1$s</string>
     <string name="author_card_no_pseudonym">Sense pseudònim</string>
-    <string name="author_card_email">Email: %1$s</string>
-    <string name="author_card_no_email">Sense email</string>
+    <string name="author_card_email">Correu electrònic: %1$s</string>
+    <string name="author_card_no_email">Sense correu electrònic</string>
 
     <!-- Author Card -->
     <string name="author_card_icon_description">Icona d\'autor</string>
     <string name="author_card_pseudonym_label">Pseudònim</string>
     <string name="author_card_biography_label">Biografia</string>
     <string name="author_card_no_biography">Sense biografia</string>
-    <string name="author_card_email_label">Email</string>
+    <string name="author_card_email_label">Correu electrònic</string>
     <string name="author_card_website_label">Pàgina web</string>
     <string name="author_card_no_website">Sense pàgina web</string>
 
@@ -71,6 +71,13 @@
     <string name="create_author_title">Crear Autor</string>
     <string name="action_save">Guardar</string>
     <string name="error_full_name_required">El nom complet és obligatori</string>
+
+    <!-- Create Author Form -->
+    <string name="author_full_name_label">Nom complet *</string>
+    <string name="author_pseudonym_label">Pseudònim</string>
+    <string name="author_biography_label">Biografia</string>
+    <string name="author_email_label">Correu electrònic</string>
+    <string name="author_website_label">Pàgina web</string>
 
     <!-- Author Screen -->
     <string name="author_title">Autor</string>

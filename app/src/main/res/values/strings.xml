@@ -71,6 +71,13 @@
     <string name="action_save">Save</string>
     <string name="error_full_name_required">Full name is required</string>
 
+    <!-- Create Author Form -->
+    <string name="author_full_name_label">Full Name *</string>
+    <string name="author_pseudonym_label">Pseudonym</string>
+    <string name="author_biography_label">Biography</string>
+    <string name="author_email_label">Email</string>
+    <string name="author_website_label">Website</string>
+
     <!-- Author Screen -->
     <string name="author_title">Author</string>
 
