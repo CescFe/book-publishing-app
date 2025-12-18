@@ -2,6 +2,7 @@ package org.cescfe.book_publishing_app.ui.author
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
@@ -135,6 +136,103 @@ class AuthorScreenTest {
         }
 
         composeTestRule.onNodeWithText("J.R.R. Tolkien").assertIsDisplayed()
+    }
+
+    // ==================== DELETE DIALOG ====================
+
+    @Test
+    fun authorScreen_showsDeleteDialog_whenDeleteIconClicked() {
+        val author = Author(
+            id = "author-123",
+            fullName = "J.R.R. Tolkien",
+            pseudonym = null,
+            biography = null,
+            email = null,
+            website = null
+        )
+
+        composeTestRule.setContent {
+            BookpublishingappTheme {
+                AuthorScreenContent(
+                    uiState = AuthorUiState(author = author),
+                    onRetry = {},
+                    onNavigateUp = {}
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithContentDescription("Delete").performClick()
+        composeTestRule.onNodeWithTag("confirmation_dialog").assertIsDisplayed()
+    }
+
+    @Test
+    fun authorScreen_dismissesDialog_whenDismissClicked() {
+        val author = Author(
+            id = "author-123",
+            fullName = "J.R.R. Tolkien",
+            pseudonym = null,
+            biography = null,
+            email = null,
+            website = null
+        )
+
+        composeTestRule.setContent {
+            BookpublishingappTheme {
+                AuthorScreenContent(
+                    uiState = AuthorUiState(author = author),
+                    onRetry = {},
+                    onNavigateUp = {}
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithContentDescription("Delete").performClick()
+        composeTestRule.onNodeWithTag("confirmation_dialog").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("dismiss_button").performClick()
+        composeTestRule.onNodeWithTag("confirmation_dialog").assertDoesNotExist()
+    }
+
+    @Test
+    fun authorScreen_callsOnDeleteAuthor_whenConfirmClicked() {
+        var deleteCalled = false
+        val author = Author(
+            id = "author-123",
+            fullName = "J.R.R. Tolkien",
+            pseudonym = null,
+            biography = null,
+            email = null,
+            website = null
+        )
+
+        composeTestRule.setContent {
+            BookpublishingappTheme {
+                AuthorScreenContent(
+                    uiState = AuthorUiState(author = author),
+                    onRetry = {},
+                    onNavigateUp = {},
+                    onDeleteAuthor = { deleteCalled = true }
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithContentDescription("Delete").performClick()
+        composeTestRule.onNodeWithTag("confirm_button").performClick()
+        assert(deleteCalled) { "onDeleteAuthor should have been called" }
+    }
+
+    @Test
+    fun authorScreen_showsLoadingState_whenDeleting() {
+        composeTestRule.setContent {
+            BookpublishingappTheme {
+                AuthorScreenContent(
+                    uiState = AuthorUiState(isDeleting = true),
+                    onRetry = {},
+                    onNavigateUp = {}
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithTag("loading_indicator").assertIsDisplayed()
     }
 
     // ==================== NAVIGATION ====================
