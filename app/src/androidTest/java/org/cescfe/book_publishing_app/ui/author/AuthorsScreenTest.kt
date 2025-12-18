@@ -68,20 +68,6 @@ class AuthorsScreenTest {
     }
 
     @Test
-    fun authorsScreen_showsRetryButton_whenError() {
-        composeTestRule.setContent {
-            BookpublishingappTheme {
-                AuthorsScreenContent(
-                    uiState = AuthorsUiState(errorResId = R.string.error_network),
-                    onRetry = {}
-                )
-            }
-        }
-
-        composeTestRule.onNodeWithTag("retry_button").assertIsDisplayed()
-    }
-
-    @Test
     fun authorsScreen_retryButton_callsOnRetry() {
         var retryCalled = false
 
@@ -164,21 +150,6 @@ class AuthorsScreenTest {
     }
 
     // ==================== BOTTOM NAVIGATION ====================
-
-    @Test
-    fun authorsScreen_showsBottomNavigationBar() {
-        composeTestRule.setContent {
-            BookpublishingappTheme {
-                AuthorsScreenContent(
-                    uiState = AuthorsUiState(),
-                    onRetry = {},
-                    onNavigate = {}
-                )
-            }
-        }
-
-        composeTestRule.onNodeWithTag("app_bottom_bar").assertIsDisplayed()
-    }
 
     @Test
     fun authorsScreen_bottomBar_callsOnNavigate_whenBooksClicked() {
