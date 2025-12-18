@@ -144,7 +144,18 @@ fun AppNavigation(navController: NavHostController) {
         }
         composable(Routes.CREATE_AUTHOR) {
             CreateAuthorScreen(
-                onNavigateUp = { navController.navigateUp() }
+                onNavigateUp = { navController.navigateUp() },
+                onSessionExpired = {
+                    TokenManager.clearToken()
+                    navController.navigate(Routes.LOGIN) {
+                        popUpTo(Routes.BOOKS) { inclusive = true }
+                    }
+                },
+                onAuthorCreated = { authorId ->
+                    navController.navigate(Routes.author(authorId)) {
+                        popUpTo(Routes.AUTHORS) { inclusive = false }
+                    }
+                }
             )
         }
     }
