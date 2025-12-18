@@ -14,6 +14,7 @@ class MockAuthorsApi : AuthorsApi {
     var authorResponse: AuthorDTO? = null
     var authorHttpException: HttpException? = null
     var authorException: Throwable? = null
+    var createAuthorRequest: CreateAuthorRequestDTO? = null
 
     var deleteSuccess: Boolean = false
     var deleteHttpException: HttpException? = null
@@ -35,7 +36,13 @@ class MockAuthorsApi : AuthorsApi {
     }
 
     override suspend fun createAuthor(request: CreateAuthorRequestDTO): AuthorDTO {
-        TODO("Not yet implemented")
+        createAuthorRequest = request
+        return when {
+            authorHttpException != null -> throw authorHttpException!!
+            authorException != null -> throw authorException!!
+            authorResponse != null -> authorResponse!!
+            else -> throw RuntimeException("Mock not configured for createAuthor")
+        }
     }
 
     override suspend fun deleteAuthorById(authorId: String) {
