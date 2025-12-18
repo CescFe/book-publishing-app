@@ -92,24 +92,32 @@ class CreateAuthorViewModelTest {
     // ==================== VALIDATION CASES ====================
 
     @Test
-    fun `createAuthor with blank fullName should set validation error`() = runTest {
+    fun `form is invalid when fullName is blank`() = runTest {
         val viewModel = createViewModel()
         viewModel.onFullNameChange("   ")
-        viewModel.createAuthor()
 
         val state = viewModel.uiState.value
-        assertEquals(R.string.error_full_name_required, state.errorResId)
-        assertNull(state.createdAuthorId)
+        assertFalse(state.isFormValid)
+        assertEquals(R.string.error_full_name_required, state.fullNameError)
     }
 
     @Test
-    fun `createAuthor with empty fullName should set validation error`() = runTest {
+    fun `form is invalid when fullName is empty`() = runTest {
         val viewModel = createViewModel()
-        viewModel.createAuthor()
 
         val state = viewModel.uiState.value
-        assertEquals(R.string.error_full_name_required, state.errorResId)
+        assertFalse(state.isFormValid)
+    }
+
+    @Test
+    fun `createAuthor does nothing when form is invalid`() = runTest {
+        val viewModel = createViewModel()
+        viewModel.createAuthor()
+        advanceUntilIdle()
+
+        val state = viewModel.uiState.value
         assertNull(state.createdAuthorId)
+        assertFalse(state.isLoading)
     }
 
     // ==================== SESSION EXPIRED ====================

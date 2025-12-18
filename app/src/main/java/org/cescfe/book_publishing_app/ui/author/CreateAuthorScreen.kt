@@ -104,7 +104,7 @@ internal fun CreateAuthorScreenContent(
                 onSaveClick = {
                     showConfirmDialog = true
                 },
-                enabled = !uiState.isLoading
+                enabled = !uiState.isLoading && uiState.isFormValid
             )
         }
     ) { innerPadding ->
@@ -133,7 +133,11 @@ internal fun CreateAuthorScreenContent(
                         onEmailChange = onEmailChange,
                         website = uiState.website,
                         onWebsiteChange = onWebsiteChange,
-                        fullNameError = uiState.errorResId?.let { stringResource(it) }
+                        fullNameError = uiState.fullNameError?.let { stringResource(it) },
+                        pseudonymError = uiState.pseudonymError?.let { stringResource(it) },
+                        biographyError = uiState.biographyError?.let { stringResource(it) },
+                        emailError = uiState.emailError?.let { stringResource(it) },
+                        websiteError = uiState.websiteError?.let { stringResource(it) }
                     )
                 }
             }
