@@ -8,10 +8,10 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.cescfe.book_publishing_app.R
-import org.cescfe.book_publishing_app.domain.author.model.AuthorSummary
 import org.cescfe.book_publishing_app.domain.shared.DomainErrorType
 import org.cescfe.book_publishing_app.domain.shared.DomainResult
 import org.cescfe.book_publishing_app.ui.author.helper.MockAuthorsRepository
+import org.cescfe.book_publishing_app.ui.author.helper.TestAuthorFactory
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -21,7 +21,7 @@ import org.junit.Before
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class AuthorsViewModelTest {
+class ListAuthorsViewModelTest {
 
     private lateinit var mockRepository: MockAuthorsRepository
 
@@ -43,8 +43,8 @@ class AuthorsViewModelTest {
     @Test
     fun `loadAuthors with success should update authors list`() = runTest {
         val authors = listOf(
-            createAuthor(id = "1", fullName = "Author One"),
-            createAuthor(id = "2", fullName = "Author Two")
+            TestAuthorFactory.createAuthorSummary(id = "1", fullName = "Author One"),
+            TestAuthorFactory.createAuthorSummary(id = "2", fullName = "Author Two")
         )
         mockRepository.authorsResult = DomainResult.Success(authors)
 
@@ -142,7 +142,7 @@ class AuthorsViewModelTest {
         assertEquals(R.string.error_network, errorState.errorResId)
 
         // Second try: success
-        val authors = listOf(createAuthor(id = "1", fullName = "Author One"))
+        val authors = listOf(TestAuthorFactory.createAuthorSummary(id = "1", fullName = "Author One"))
         mockRepository.authorsResult = DomainResult.Success(authors)
 
         viewModel.retry()
@@ -168,18 +168,4 @@ class AuthorsViewModelTest {
 
         assertNull(viewModel.uiState.value.errorResId)
     }
-
-    // ==================== HELPERS ====================
-
-    private fun createAuthor(
-        id: String = "default-id",
-        fullName: String = "Default Name",
-        pseudonym: String? = null,
-        email: String? = null
-    ) = AuthorSummary(
-        id = id,
-        fullName = fullName,
-        pseudonym = pseudonym,
-        email = email
-    )
 }

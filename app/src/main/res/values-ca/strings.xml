@@ -70,6 +70,7 @@
     <!-- Create Author Screen -->
     <string name="create_author_title">Crear Autor</string>
     <string name="action_save">Guardar</string>
+    <string name="error_full_name_required">El nom complet és obligatori</string>
 
     <!-- Author Screen -->
     <string name="author_title">Autor</string>
