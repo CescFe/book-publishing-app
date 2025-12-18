@@ -22,13 +22,12 @@ fun CreateBottomBar(modifier: Modifier = Modifier, onSaveClick: () -> Unit = {})
         NavigationBarItem(
             selected = false,
             onClick = onSaveClick,
+            modifier = Modifier.testTag("save_button"),
             icon = {
                 Icon(
                     painter = painterResource(R.drawable.ic_save),
                     contentDescription = stringResource(R.string.action_save),
-                    modifier = Modifier
-                        .size(29.dp)
-                        .testTag("save_button")
+                    modifier = Modifier.size(29.dp)
                 )
             }
         )

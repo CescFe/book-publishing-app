@@ -45,8 +45,7 @@ fun ConfirmationDialog(
                     modifier = Modifier.testTag("confirm_button")
                 ) {
                     Text(
-                        text = confirmText,
-                        color = MaterialTheme.colorScheme.error
+                        text = confirmText
                     )
                 }
             },
