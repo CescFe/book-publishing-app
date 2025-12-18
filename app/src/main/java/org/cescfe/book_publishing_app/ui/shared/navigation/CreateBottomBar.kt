@@ -17,10 +17,7 @@ import org.cescfe.book_publishing_app.R
 import org.cescfe.book_publishing_app.ui.theme.BookpublishingappTheme
 
 @Composable
-fun CreateBottomBar(
-    modifier: Modifier = Modifier,
-    onSaveClick: () -> Unit = {}
-) {
+fun CreateBottomBar(modifier: Modifier = Modifier, onSaveClick: () -> Unit = {}) {
     Surface(
         modifier = modifier.testTag("create_bottom_bar"),
         tonalElevation = 3.dp
