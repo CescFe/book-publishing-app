@@ -52,17 +52,8 @@ class AuthorViewModel(
                     )
                 }
                 is DomainResult.Error -> {
-                    if (result.type == DomainErrorType.UNAUTHORIZED) {
-                        _uiState.value = _uiState.value.copy(
-                            isLoading = false,
-                            sessionExpired = true
-                        )
-                    } else {
-                        _uiState.value = _uiState.value.copy(
-                            isLoading = false,
-                            errorResId = result.type.toStringResId()
-                        )
-                    }
+                    _uiState.value = _uiState.value.copy(isLoading = false)
+                    handleError(result.type)
                 }
             }
         }
@@ -84,19 +75,18 @@ class AuthorViewModel(
                     )
                 }
                 is DomainResult.Error -> {
-                    if (result.type == DomainErrorType.UNAUTHORIZED) {
-                        _uiState.value = _uiState.value.copy(
-                            isDeleting = false,
-                            sessionExpired = true
-                        )
-                    } else {
-                        _uiState.value = _uiState.value.copy(
-                            isDeleting = false,
-                            errorResId = result.type.toStringResId()
-                        )
-                    }
+                    _uiState.value = _uiState.value.copy(isDeleting = false)
+                    handleError(result.type)
                 }
             }
+        }
+    }
+
+    private fun handleError(errorType: DomainErrorType) {
+        if (errorType == DomainErrorType.UNAUTHORIZED) {
+            _uiState.value = _uiState.value.copy(sessionExpired = true)
+        } else {
+            _uiState.value = _uiState.value.copy(errorResId = errorType.toStringResId())
         }
     }
 
