@@ -32,7 +32,15 @@ data class CreateAuthorUiState(
     @get:StringRes val errorResId: Int? = null,
     val sessionExpired: Boolean = false,
     val createdAuthorId: String? = null
-)
+) {
+    val isFormValid: Boolean
+        get() = fullName.isNotBlank() &&
+                fullNameError == null &&
+                pseudonymError == null &&
+                biographyError == null &&
+                emailError == null &&
+                websiteError == null
+}
 
 class CreateAuthorViewModel(
     private val authorsRepository: AuthorsRepository = AuthorsRepositoryImpl(
@@ -89,28 +97,9 @@ class CreateAuthorViewModel(
     }
 
     fun createAuthor() {
+        if (!_uiState.value.isFormValid) return
+
         val currentState = _uiState.value
-
-        val fullNameResult = AuthorValidation.validateFullName(currentState.fullName)
-        val pseudonymResult = AuthorValidation.validatePseudonym(currentState.pseudonym)
-        val biographyResult = AuthorValidation.validateBiography(currentState.biography)
-        val emailResult = AuthorValidation.validateEmail(currentState.email)
-        val websiteResult = AuthorValidation.validateWebsite(currentState.website)
-
-        val hasErrors = listOf(fullNameResult, pseudonymResult, biographyResult, emailResult, websiteResult)
-            .any { it is ValidationResult.Error }
-
-        if (hasErrors) {
-            _uiState.value = currentState.copy(
-                fullNameError = fullNameResult.errorResIdOrNull(),
-                pseudonymError = pseudonymResult.errorResIdOrNull(),
-                biographyError = biographyResult.errorResIdOrNull(),
-                emailError = emailResult.errorResIdOrNull(),
-                websiteError = websiteResult.errorResIdOrNull()
-            )
-            return
-        }
-
         viewModelScope.launch {
             _uiState.value = currentState.copy(isLoading = true, errorResId = null)
 
