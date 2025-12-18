@@ -69,6 +69,10 @@
     <!-- Authors Screen -->
     <string name="author_title">Autor</string>
 
+    <!-- Author Delete Confirmation -->
+    <string name="author_delete_confirmation_title">Eliminar Author</string>
+    <string name="author_delete_confirmation_message">¿Eliminar este autor? La acción no puede deshacerse.</string>
+
     <!-- Confirmation Dialog -->
     <string name="dialog_dismiss">Descartar</string>
     <string name="dialog_confirm">Confirmar</string>

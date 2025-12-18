@@ -12,6 +12,7 @@ import org.cescfe.book_publishing_app.ui.author.AuthorScreen
 import org.cescfe.book_publishing_app.ui.author.AuthorsScreen
 import org.cescfe.book_publishing_app.ui.book.BooksScreen
 import org.cescfe.book_publishing_app.ui.collection.CollectionsScreen
+import org.cescfe.book_publishing_app.ui.shared.navigation.BottomNavItem
 import org.cescfe.book_publishing_app.ui.splash.SplashScreen
 
 object Routes {
@@ -128,6 +129,11 @@ fun AppNavigation(navController: NavHostController) {
                 },
                 onNavigateUp = {
                     navController.navigateUp()
+                },
+                onDeleteSuccess = {
+                    navController.navigate(BottomNavItem.Authors.route) {
+                        popUpTo(BottomNavItem.Authors.route) { inclusive = true }
+                    }
                 }
             )
         }

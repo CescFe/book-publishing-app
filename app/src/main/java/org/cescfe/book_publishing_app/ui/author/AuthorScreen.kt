@@ -15,6 +15,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
@@ -24,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.cescfe.book_publishing_app.R
 import org.cescfe.book_publishing_app.ui.author.components.AuthorCard
+import org.cescfe.book_publishing_app.ui.shared.components.ConfirmationDialog
 import org.cescfe.book_publishing_app.ui.shared.components.ErrorState
 import org.cescfe.book_publishing_app.ui.shared.components.LoadingState
 import org.cescfe.book_publishing_app.ui.shared.navigation.DetailActionsBottomBar
@@ -35,7 +39,8 @@ fun AuthorScreen(
     authorId: String,
     viewModel: AuthorViewModel = viewModel(),
     onSessionExpired: () -> Unit,
-    onNavigateUp: () -> Unit
+    onNavigateUp: () -> Unit,
+    onDeleteSuccess: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -49,16 +54,30 @@ fun AuthorScreen(
         }
     }
 
+    LaunchedEffect(uiState.deleteSuccess) {
+        if (uiState.deleteSuccess) {
+            onDeleteSuccess()
+        }
+    }
+
     AuthorScreenContent(
         uiState = uiState,
         onRetry = viewModel::retry,
-        onNavigateUp = onNavigateUp
+        onNavigateUp = onNavigateUp,
+        onDeleteAuthor = viewModel::deleteAuthor
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun AuthorScreenContent(uiState: AuthorUiState, onRetry: () -> Unit, onNavigateUp: () -> Unit) {
+internal fun AuthorScreenContent(
+    uiState: AuthorUiState,
+    onRetry: () -> Unit,
+    onNavigateUp: () -> Unit,
+    onDeleteAuthor: () -> Unit = {}
+) {
+    var showDeleteDialog by remember { mutableStateOf(false) }
+
     Scaffold(
         modifier = Modifier.testTag("author_screen"),
         topBar = {
@@ -83,7 +102,7 @@ internal fun AuthorScreenContent(uiState: AuthorUiState, onRetry: () -> Unit, on
                     // TODO: Placeholder for future implementation
                 },
                 onDeleteClick = {
-                    // TODO: Placeholder for future implementation
+                    showDeleteDialog = true
                 }
             )
         }
@@ -94,7 +113,7 @@ internal fun AuthorScreenContent(uiState: AuthorUiState, onRetry: () -> Unit, on
                 .padding(innerPadding)
         ) {
             when {
-                uiState.isLoading -> {
+                uiState.isLoading || uiState.isDeleting -> {
                     LoadingState()
                 }
                 uiState.errorResId != null -> {
@@ -115,6 +134,17 @@ internal fun AuthorScreenContent(uiState: AuthorUiState, onRetry: () -> Unit, on
             }
         }
     }
+
+    ConfirmationDialog(
+        title = stringResource(R.string.author_delete_confirmation_title),
+        message = stringResource(R.string.author_delete_confirmation_message),
+        onDismiss = { showDeleteDialog = false },
+        onConfirm = {
+            showDeleteDialog = false
+            onDeleteAuthor()
+        },
+        isVisible = showDeleteDialog
+    )
 }
 
 // ==================== PREVIEWS ====================
@@ -161,6 +191,20 @@ private fun AuthorScreenSuccessPreview() {
             ),
             onRetry = {},
             onNavigateUp = {}
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun AuthorScreenDeleteDialogPreview() {
+    BookpublishingappTheme {
+        ConfirmationDialog(
+            title = "Delete Author",
+            message = "Are you sure you want to delete this author? This action cannot be undone.",
+            onDismiss = {},
+            onConfirm = {},
+            isVisible = true
         )
     }
 }
