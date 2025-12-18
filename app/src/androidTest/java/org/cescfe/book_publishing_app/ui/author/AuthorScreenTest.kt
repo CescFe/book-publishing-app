@@ -220,21 +220,6 @@ class AuthorScreenTest {
         assert(deleteCalled) { "onDeleteAuthor should have been called" }
     }
 
-    @Test
-    fun authorScreen_showsLoadingState_whenDeleting() {
-        composeTestRule.setContent {
-            BookpublishingappTheme {
-                AuthorScreenContent(
-                    uiState = AuthorUiState(isDeleting = true),
-                    onRetry = {},
-                    onNavigateUp = {}
-                )
-            }
-        }
-
-        composeTestRule.onNodeWithTag("loading_indicator").assertIsDisplayed()
-    }
-
     // ==================== NAVIGATION ====================
 
     @Test

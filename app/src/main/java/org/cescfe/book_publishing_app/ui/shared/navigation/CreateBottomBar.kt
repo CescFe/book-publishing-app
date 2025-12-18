@@ -15,13 +15,14 @@ import org.cescfe.book_publishing_app.R
 import org.cescfe.book_publishing_app.ui.theme.BookpublishingappTheme
 
 @Composable
-fun CreateBottomBar(modifier: Modifier = Modifier, onSaveClick: () -> Unit = {}) {
+fun CreateBottomBar(modifier: Modifier = Modifier, onSaveClick: () -> Unit = {}, enabled: Boolean = true) {
     NavigationBar(
         modifier = modifier.testTag("create_bottom_bar")
     ) {
         NavigationBarItem(
             selected = false,
             onClick = onSaveClick,
+            enabled = enabled,
             modifier = Modifier.testTag("save_button"),
             icon = {
                 Icon(
