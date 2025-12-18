@@ -35,11 +35,11 @@ data class CreateAuthorUiState(
 ) {
     val isFormValid: Boolean
         get() = fullName.isNotBlank() &&
-                fullNameError == null &&
-                pseudonymError == null &&
-                biographyError == null &&
-                emailError == null &&
-                websiteError == null
+            fullNameError == null &&
+            pseudonymError == null &&
+            biographyError == null &&
+            emailError == null &&
+            websiteError == null
 }
 
 class CreateAuthorViewModel(
