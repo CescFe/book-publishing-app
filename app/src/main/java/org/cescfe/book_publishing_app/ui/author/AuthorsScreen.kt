@@ -7,7 +7,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -17,6 +20,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,7 +41,8 @@ fun AuthorsScreen(
     viewModel: AuthorsViewModel = viewModel(),
     onSessionExpired: () -> Unit,
     onNavigate: (BottomNavItem) -> Unit = {},
-    onAuthorClick: (String) -> Unit = {}
+    onAuthorClick: (String) -> Unit = {},
+    onCreateAuthorClick: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -51,7 +56,8 @@ fun AuthorsScreen(
         uiState = uiState,
         onRetry = viewModel::retry,
         onNavigate = onNavigate,
-        onAuthorClick = onAuthorClick
+        onAuthorClick = onAuthorClick,
+        onCreateAuthorClick = onCreateAuthorClick
     )
 }
 
@@ -61,7 +67,8 @@ internal fun AuthorsScreenContent(
     uiState: AuthorsUiState,
     onRetry: () -> Unit,
     onNavigate: (BottomNavItem) -> Unit = {},
-    onAuthorClick: (String) -> Unit = {}
+    onAuthorClick: (String) -> Unit = {},
+    onCreateAuthorClick: () -> Unit = {}
 ) {
     Scaffold(
         modifier = Modifier.testTag("authors_screen"),
@@ -75,6 +82,18 @@ internal fun AuthorsScreenContent(
                 selectedItem = BottomNavItem.Authors,
                 onItemClick = onNavigate
             )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = onCreateAuthorClick,
+                shape = CircleShape,
+                modifier = Modifier.testTag("create_author_fab")
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_add),
+                    contentDescription = stringResource(R.string.fab_create_author)
+                )
+            }
         }
     ) { innerPadding ->
         Box(

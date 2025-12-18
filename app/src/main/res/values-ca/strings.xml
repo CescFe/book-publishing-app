@@ -65,8 +65,13 @@
     <!-- Authors Screen -->
     <string name="authors_title">Autors</string>
     <string name="authors_empty">No hi ha autors disponibles</string>
+    <string name="fab_create_author">Crear nou autor</string>
 
-    <!-- Authors Screen -->
+    <!-- Create Author Screen -->
+    <string name="create_author_title">Crear Autor</string>
+    <string name="action_save">Guardar</string>
+
+    <!-- Author Screen -->
     <string name="author_title">Autor</string>
 
     <!-- Author Delete Confirmation -->

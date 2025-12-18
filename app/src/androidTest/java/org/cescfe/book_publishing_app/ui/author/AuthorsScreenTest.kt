@@ -254,4 +254,20 @@ class AuthorsScreenTest {
             "Expected author ID $authorId, but got $clickedAuthorId"
         }
     }
+
+    // ==================== FLOATING ACTION BUTTON NAVIGATION ====================
+
+    @Test
+    fun authorsScreen_fabIsDisplayed() {
+        composeTestRule.setContent {
+            BookpublishingappTheme {
+                AuthorsScreenContent(
+                    uiState = AuthorsUiState(),
+                    onRetry = {}
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithTag("create_author_fab").assertIsDisplayed()
+    }
 }

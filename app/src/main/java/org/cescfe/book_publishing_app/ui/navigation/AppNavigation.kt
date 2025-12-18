@@ -10,6 +10,7 @@ import org.cescfe.book_publishing_app.data.auth.TokenManager
 import org.cescfe.book_publishing_app.ui.auth.LoginScreen
 import org.cescfe.book_publishing_app.ui.author.AuthorScreen
 import org.cescfe.book_publishing_app.ui.author.AuthorsScreen
+import org.cescfe.book_publishing_app.ui.author.CreateAuthorScreen
 import org.cescfe.book_publishing_app.ui.book.BooksScreen
 import org.cescfe.book_publishing_app.ui.collection.CollectionsScreen
 import org.cescfe.book_publishing_app.ui.shared.navigation.BottomNavItem
@@ -22,8 +23,9 @@ object Routes {
     const val COLLECTIONS = "collections"
     const val AUTHORS = "authors"
     const val AUTHOR = "author"
+    const val CREATE_AUTHOR = "create_author"
 
-    fun authorDetails(authorId: String) = "author/$authorId"
+    fun author(authorId: String) = "author/$authorId"
 }
 
 @Composable
@@ -106,7 +108,10 @@ fun AppNavigation(navController: NavHostController) {
                     }
                 },
                 onAuthorClick = { authorId ->
-                    navController.navigate(Routes.authorDetails(authorId))
+                    navController.navigate(Routes.author(authorId))
+                },
+                onCreateAuthorClick = {
+                    navController.navigate(Routes.CREATE_AUTHOR)
                 }
             )
         }
@@ -135,6 +140,11 @@ fun AppNavigation(navController: NavHostController) {
                         popUpTo(BottomNavItem.Authors.route) { inclusive = true }
                     }
                 }
+            )
+        }
+        composable(Routes.CREATE_AUTHOR) {
+            CreateAuthorScreen(
+                onNavigateUp = { navController.navigateUp() }
             )
         }
     }

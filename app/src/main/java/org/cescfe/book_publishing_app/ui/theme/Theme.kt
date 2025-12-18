@@ -14,13 +14,15 @@ import androidx.compose.ui.platform.LocalContext
 private val DarkDenesBrand = darkColorScheme(
     primary = Blue80,
     secondary = BlueGrey80,
-    tertiary = GreenDiccRima
+    tertiary = GreenDiccRima,
+    primaryContainer = BlueGrey40
 )
 
 private val LightDenesBrand = lightColorScheme(
     primary = Blue40,
     secondary = BlueGrey40,
-    tertiary = GreenDiccRima
+    tertiary = GreenDiccRima,
+    primaryContainer = BlueGrey80
 )
 
 @Composable
