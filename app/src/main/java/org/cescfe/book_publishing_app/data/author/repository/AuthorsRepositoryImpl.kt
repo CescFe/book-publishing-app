@@ -8,6 +8,7 @@ import org.cescfe.book_publishing_app.domain.author.model.AuthorSummary
 import org.cescfe.book_publishing_app.domain.author.model.CreateAuthorRequest
 import org.cescfe.book_publishing_app.domain.author.repository.AuthorsRepository
 import org.cescfe.book_publishing_app.domain.shared.DomainResult
+import org.cescfe.book_publishing_app.data.author.remote.dto.toDTO
 
 class AuthorsRepositoryImpl(private val authorsApi: AuthorsApi) : AuthorsRepository {
     override suspend fun getAuthors(): DomainResult<List<AuthorSummary>> = try {
@@ -26,14 +27,17 @@ class AuthorsRepositoryImpl(private val authorsApi: AuthorsApi) : AuthorsReposit
         RepositoryErrorHandler.handleException(e)
     }
 
+    override suspend fun createAuthor(request: CreateAuthorRequest): DomainResult<Author> = try {
+        val authorDto = authorsApi.createAuthor(request.toDTO())
+        DomainResult.Success(authorDto.toDomain())
+    } catch (e: Exception) {
+        RepositoryErrorHandler.handleException(e)
+    }
+
     override suspend fun deleteAuthorById(authorId: String): DomainResult<Unit> = try {
         authorsApi.deleteAuthorById(authorId)
         DomainResult.Success(Unit)
     } catch (e: Exception) {
         RepositoryErrorHandler.handleException(e)
-    }
-
-    override suspend fun createAuthor(request: CreateAuthorRequest): DomainResult<Author> {
-        TODO("Not yet implemented")
     }
 }
