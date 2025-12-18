@@ -74,13 +74,17 @@
     <!-- Author Screen -->
     <string name="author_title">Autor</string>
 
-    <!-- Author Delete Confirmation -->
-    <string name="author_delete_confirmation_title">Esborrar Author</string>
-    <string name="author_delete_confirmation_message">Esborrar aquest autor? L\'acció no es pot desfer.</string>
-
     <!-- Confirmation Dialog -->
     <string name="dialog_dismiss">Descartar</string>
     <string name="dialog_confirm">Confirmar</string>
+
+    <!-- Create Author Confirmation Dialog-->
+    <string name="create_author_confirmation_title">Crear Autor</string>
+    <string name="create_author_confirmation_message">Vols crear aquest autor?</string>
+
+    <!-- Author Delete Confirmation -->
+    <string name="author_delete_confirmation_title">Esborrar Author</string>
+    <string name="author_delete_confirmation_message">Esborrar aquest autor? L\'acció no es pot desfer.</string>
 
     <!-- Error Messages -->
     <string name="error_timeout">Temps de sol·licitud esgotat. Per favor torne a provar.</string>
