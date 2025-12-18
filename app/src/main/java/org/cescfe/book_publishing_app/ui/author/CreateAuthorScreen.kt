@@ -137,7 +137,7 @@ internal fun CreateAuthorScreenContent(
                         pseudonymError = uiState.pseudonymError?.let { stringResource(it) },
                         biographyError = uiState.biographyError?.let { stringResource(it) },
                         emailError = uiState.emailError?.let { stringResource(it) },
-                        websiteError = uiState.websiteError?.let { stringResource(it) },
+                        websiteError = uiState.websiteError?.let { stringResource(it) }
                     )
                 }
             }
