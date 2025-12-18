@@ -70,14 +70,21 @@
     <!-- Create Author Screen -->
     <string name="create_author_title">Crear Autor</string>
     <string name="action_save">Guardar</string>
-    <string name="error_full_name_required">El nom complet és obligatori</string>
 
-    <!-- Create Author Form -->
+    <!-- Author Form -->
     <string name="author_full_name_label">Nom complet *</string>
     <string name="author_pseudonym_label">Pseudònim</string>
     <string name="author_biography_label">Biografia</string>
     <string name="author_email_label">Correu electrònic</string>
     <string name="author_website_label">Pàgina web</string>
+
+    <!-- Author Form Validation -->
+    <string name="error_full_name_required">El nom complet és obligatori</string>
+    <string name="error_full_name_too_long">El nom complet és massa llarg (255 màx.)</string>
+    <string name="error_pseudonym_too_long">El pseudònim és massa llarg (255 màx.)</string>
+    <string name="error_biography_too_long">La biografia és massa llarga (2.000 màx.)</string>
+    <string name="error_email_invalid">El format del correu electrònic es invàlid (exemple@domini.com)</string>
+    <string name="error_website_invalid_protocol">El protocol web es invàlid (use http:// or https://)</string>
 
     <!-- Author Screen -->
     <string name="author_title">Autor</string>

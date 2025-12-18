@@ -33,10 +33,13 @@ fun AuthorFormFields(
     website: String,
     onWebsiteChange: (String) -> Unit,
     fullNameError: String? = null,
-    enabled: Boolean = true
+    enabled: Boolean = true,
+    pseudonymError: String?,
+    biographyError: String?,
+    emailError: String?,
+    websiteError: String?
 ) {
     Column(modifier = modifier) {
-        // Full Name (required)
         OutlinedTextField(
             value = fullName,
             onValueChange = onFullNameChange,
@@ -60,7 +63,6 @@ fun AuthorFormFields(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        // Pseudonym (optional)
         OutlinedTextField(
             value = pseudonym,
             onValueChange = onPseudonymChange,
@@ -73,12 +75,17 @@ fun AuthorFormFields(
                 keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Next
             ),
-            enabled = enabled
+            enabled = enabled,
+            isError = pseudonymError != null,
+            supportingText = if (pseudonymError != null) {
+                { Text(text = pseudonymError, color = MaterialTheme.colorScheme.error) }
+            } else {
+                null
+            }
         )
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        // Biography (optional, multiline)
         OutlinedTextField(
             value = biography,
             onValueChange = onBiographyChange,
@@ -91,12 +98,17 @@ fun AuthorFormFields(
                 keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Next
             ),
-            enabled = enabled
+            enabled = enabled,
+            isError = biographyError != null,
+            supportingText = if (biographyError != null) {
+                { Text(text = biographyError, color = MaterialTheme.colorScheme.error) }
+            } else {
+                null
+            }
         )
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        // Email (optional)
         OutlinedTextField(
             value = email,
             onValueChange = onEmailChange,
@@ -109,12 +121,17 @@ fun AuthorFormFields(
                 keyboardType = KeyboardType.Email,
                 imeAction = ImeAction.Next
             ),
-            enabled = enabled
+            enabled = enabled,
+            isError = emailError != null,
+            supportingText = if (emailError != null) {
+                { Text(text = emailError, color = MaterialTheme.colorScheme.error) }
+            } else {
+                null
+            }
         )
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        // Website (optional)
         OutlinedTextField(
             value = website,
             onValueChange = onWebsiteChange,
@@ -127,7 +144,13 @@ fun AuthorFormFields(
                 keyboardType = KeyboardType.Uri,
                 imeAction = ImeAction.Done
             ),
-            enabled = enabled
+            enabled = enabled,
+            isError = websiteError != null,
+            supportingText = if (websiteError != null) {
+                { Text(text = websiteError, color = MaterialTheme.colorScheme.error) }
+            } else {
+                null
+            }
         )
     }
 }
@@ -148,7 +171,11 @@ private fun AuthorFormFieldsEmptyPreview() {
             email = "",
             onEmailChange = {},
             website = "",
-            onWebsiteChange = {}
+            onWebsiteChange = {},
+            pseudonymError = null,
+            biographyError = null,
+            emailError = null,
+            websiteError = null
         )
     }
 }
@@ -167,7 +194,11 @@ private fun AuthorFormFieldsWithDataPreview() {
             email = "tolkien@example.com",
             onEmailChange = {},
             website = "https://tolkien.com",
-            onWebsiteChange = {}
+            onWebsiteChange = {},
+            pseudonymError = null,
+            biographyError = null,
+            emailError = null,
+            websiteError = null
         )
     }
 }
@@ -187,7 +218,11 @@ private fun AuthorFormFieldsWithErrorPreview() {
             onEmailChange = {},
             website = "",
             onWebsiteChange = {},
-            fullNameError = "Full name is required"
+            fullNameError = "Full name is required",
+            pseudonymError = "Pseudonym is too long",
+            biographyError = "Biography is too short",
+            emailError = "Invalid email format",
+            websiteError = "Invalid website URL"
         )
     }
 }

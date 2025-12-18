@@ -69,14 +69,21 @@
     <!-- Create Author Screen -->
     <string name="create_author_title">Create Author</string>
     <string name="action_save">Save</string>
-    <string name="error_full_name_required">Full name is required</string>
 
-    <!-- Create Author Form -->
+    <!-- Author Form -->
     <string name="author_full_name_label">Full Name *</string>
     <string name="author_pseudonym_label">Pseudonym</string>
     <string name="author_biography_label">Biography</string>
     <string name="author_email_label">Email</string>
     <string name="author_website_label">Website</string>
+
+    <!-- Author Form Validation -->
+    <string name="error_full_name_required">Full name is required</string>
+    <string name="error_full_name_too_long">Full name is too long (255 max.)</string>
+    <string name="error_pseudonym_too_long">Pseudonym is too long (255 max.)</string>
+    <string name="error_biography_too_long">Biography is too long (2,000 max.)</string>
+    <string name="error_email_invalid">Email format is invalid (example@domain.com)</string>
+    <string name="error_website_invalid_protocol">Website protocol is invalid (use http:// or https://)</string>
 
     <!-- Author Screen -->
     <string name="author_title">Author</string>
