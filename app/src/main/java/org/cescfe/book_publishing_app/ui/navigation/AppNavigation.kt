@@ -22,8 +22,9 @@ object Routes {
     const val COLLECTIONS = "collections"
     const val AUTHORS = "authors"
     const val AUTHOR = "author"
+    const val CREATE_AUTHOR = "create_author"
 
-    fun authorDetails(authorId: String) = "author/$authorId"
+    fun author(authorId: String) = "author/$authorId"
 }
 
 @Composable
@@ -106,7 +107,10 @@ fun AppNavigation(navController: NavHostController) {
                     }
                 },
                 onAuthorClick = { authorId ->
-                    navController.navigate(Routes.authorDetails(authorId))
+                    navController.navigate(Routes.author(authorId))
+                },
+                onCreateAuthorClick = {
+                    navController.navigate(Routes.CREATE_AUTHOR)
                 }
             )
         }
@@ -135,6 +139,11 @@ fun AppNavigation(navController: NavHostController) {
                         popUpTo(BottomNavItem.Authors.route) { inclusive = true }
                     }
                 }
+            )
+        }
+        composable(Routes.CREATE_AUTHOR) {
+            CreateAuthorScreen(
+                onNavigateUp = { navController.navigateUp() }
             )
         }
     }
