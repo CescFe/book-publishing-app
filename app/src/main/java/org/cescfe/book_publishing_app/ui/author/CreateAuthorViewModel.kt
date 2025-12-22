@@ -96,7 +96,25 @@ class CreateAuthorViewModel(
         )
     }
 
+    fun validateAllFields() {
+        val currentState = _uiState.value
+        val fullNameError = AuthorValidation.validateFullName(currentState.fullName).errorResIdOrNull()
+        val pseudonymError = AuthorValidation.validatePseudonym(currentState.pseudonym).errorResIdOrNull()
+        val biographyError = AuthorValidation.validateBiography(currentState.biography).errorResIdOrNull()
+        val emailError = AuthorValidation.validateEmail(currentState.email).errorResIdOrNull()
+        val websiteError = AuthorValidation.validateWebsite(currentState.website).errorResIdOrNull()
+
+        _uiState.value = currentState.copy(
+            fullNameError = fullNameError,
+            pseudonymError = pseudonymError,
+            biographyError = biographyError,
+            emailError = emailError,
+            websiteError = websiteError
+        )
+    }
+
     fun createAuthor() {
+        validateAllFields()
         if (!_uiState.value.isFormValid) return
 
         val currentState = _uiState.value

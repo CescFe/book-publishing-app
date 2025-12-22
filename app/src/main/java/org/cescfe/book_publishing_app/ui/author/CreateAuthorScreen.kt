@@ -62,6 +62,7 @@ fun CreateAuthorScreen(
         onBiographyChange = viewModel::onBiographyChange,
         onEmailChange = viewModel::onEmailChange,
         onWebsiteChange = viewModel::onWebsiteChange,
+        onValidateAndShowDialog = { viewModel.validateAllFields() },
         onCreateAuthor = viewModel::createAuthor
     )
 }
@@ -76,9 +77,22 @@ internal fun CreateAuthorScreenContent(
     onBiographyChange: (String) -> Unit,
     onEmailChange: (String) -> Unit,
     onWebsiteChange: (String) -> Unit,
+    onValidateAndShowDialog: () -> Unit,
     onCreateAuthor: () -> Unit
 ) {
     var showConfirmDialog by remember { mutableStateOf(false) }
+    var shouldValidate by remember { mutableStateOf(false) }
+
+    LaunchedEffect(shouldValidate) {
+        if (shouldValidate) {
+            onValidateAndShowDialog()
+            shouldValidate = false
+            kotlinx.coroutines.delay(0)
+            if (uiState.isFormValid) {
+                showConfirmDialog = true
+            }
+        }
+    }
 
     Scaffold(
         modifier = Modifier.testTag("create_author_screen"),
@@ -102,9 +116,9 @@ internal fun CreateAuthorScreenContent(
         bottomBar = {
             CreateBottomBar(
                 onSaveClick = {
-                    showConfirmDialog = true
+                    onValidateAndShowDialog()
                 },
-                enabled = !uiState.isLoading && uiState.isFormValid
+                enabled = !uiState.isLoading
             )
         }
     ) { innerPadding ->
@@ -170,6 +184,7 @@ private fun CreateAuthorScreenEmptyPreview() {
             onBiographyChange = {},
             onEmailChange = {},
             onWebsiteChange = {},
+            onValidateAndShowDialog = {},
             onCreateAuthor = {}
         )
     }
@@ -193,6 +208,7 @@ private fun CreateAuthorScreenWithDataPreview() {
             onBiographyChange = {},
             onEmailChange = {},
             onWebsiteChange = {},
+            onValidateAndShowDialog = {},
             onCreateAuthor = {}
         )
     }
@@ -210,6 +226,7 @@ private fun CreateAuthorScreenLoadingPreview() {
             onBiographyChange = {},
             onEmailChange = {},
             onWebsiteChange = {},
+            onValidateAndShowDialog = {},
             onCreateAuthor = {}
         )
     }
@@ -227,6 +244,7 @@ private fun CreateAuthorScreenErrorPreview() {
             onBiographyChange = {},
             onEmailChange = {},
             onWebsiteChange = {},
+            onValidateAndShowDialog = {},
             onCreateAuthor = {}
         )
     }
