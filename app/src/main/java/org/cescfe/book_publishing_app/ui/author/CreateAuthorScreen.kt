@@ -15,9 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
@@ -62,7 +59,9 @@ fun CreateAuthorScreen(
         onBiographyChange = viewModel::onBiographyChange,
         onEmailChange = viewModel::onEmailChange,
         onWebsiteChange = viewModel::onWebsiteChange,
-        onCreateAuthor = viewModel::createAuthor
+        onSaveClicked = viewModel::onSaveClicked,
+        onDismissDialog = viewModel::dismissConfirmDialog,
+        onConfirmCreateAuthor = viewModel::createAuthor
     )
 }
 
@@ -76,10 +75,10 @@ internal fun CreateAuthorScreenContent(
     onBiographyChange: (String) -> Unit,
     onEmailChange: (String) -> Unit,
     onWebsiteChange: (String) -> Unit,
-    onCreateAuthor: () -> Unit
+    onSaveClicked: () -> Unit,
+    onDismissDialog: () -> Unit,
+    onConfirmCreateAuthor: () -> Unit
 ) {
-    var showConfirmDialog by remember { mutableStateOf(false) }
-
     Scaffold(
         modifier = Modifier.testTag("create_author_screen"),
         topBar = {
@@ -101,10 +100,8 @@ internal fun CreateAuthorScreenContent(
         },
         bottomBar = {
             CreateBottomBar(
-                onSaveClick = {
-                    showConfirmDialog = true
-                },
-                enabled = !uiState.isLoading && uiState.isFormValid
+                onSaveClick = onSaveClicked,
+                enabled = !uiState.isLoading
             )
         }
     ) { innerPadding ->
@@ -147,12 +144,9 @@ internal fun CreateAuthorScreenContent(
     ConfirmationDialog(
         title = stringResource(R.string.create_author_confirmation_title),
         message = stringResource(R.string.create_author_confirmation_message),
-        onDismiss = { showConfirmDialog = false },
-        onConfirm = {
-            showConfirmDialog = false
-            onCreateAuthor()
-        },
-        isVisible = showConfirmDialog
+        isVisible = uiState.showConfirmDialog,
+        onDismiss = onDismissDialog,
+        onConfirm = onConfirmCreateAuthor
     )
 }
 
@@ -170,7 +164,9 @@ private fun CreateAuthorScreenEmptyPreview() {
             onBiographyChange = {},
             onEmailChange = {},
             onWebsiteChange = {},
-            onCreateAuthor = {}
+            onSaveClicked = {},
+            onDismissDialog = {},
+            onConfirmCreateAuthor = {}
         )
     }
 }
@@ -193,7 +189,9 @@ private fun CreateAuthorScreenWithDataPreview() {
             onBiographyChange = {},
             onEmailChange = {},
             onWebsiteChange = {},
-            onCreateAuthor = {}
+            onSaveClicked = {},
+            onDismissDialog = {},
+            onConfirmCreateAuthor = {}
         )
     }
 }
@@ -210,7 +208,9 @@ private fun CreateAuthorScreenLoadingPreview() {
             onBiographyChange = {},
             onEmailChange = {},
             onWebsiteChange = {},
-            onCreateAuthor = {}
+            onSaveClicked = {},
+            onDismissDialog = {},
+            onConfirmCreateAuthor = {}
         )
     }
 }
@@ -227,7 +227,9 @@ private fun CreateAuthorScreenErrorPreview() {
             onBiographyChange = {},
             onEmailChange = {},
             onWebsiteChange = {},
-            onCreateAuthor = {}
+            onSaveClicked = {},
+            onDismissDialog = {},
+            onConfirmCreateAuthor = {}
         )
     }
 }
