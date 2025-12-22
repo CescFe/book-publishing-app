@@ -81,18 +81,6 @@ internal fun CreateAuthorScreenContent(
     onCreateAuthor: () -> Unit
 ) {
     var showConfirmDialog by remember { mutableStateOf(false) }
-    var shouldValidate by remember { mutableStateOf(false) }
-
-    LaunchedEffect(shouldValidate) {
-        if (shouldValidate) {
-            onValidateAndShowDialog()
-            shouldValidate = false
-            kotlinx.coroutines.delay(0)
-            if (uiState.isFormValid) {
-                showConfirmDialog = true
-            }
-        }
-    }
 
     Scaffold(
         modifier = Modifier.testTag("create_author_screen"),
@@ -117,6 +105,9 @@ internal fun CreateAuthorScreenContent(
             CreateBottomBar(
                 onSaveClick = {
                     onValidateAndShowDialog()
+                    if (uiState.isFormValid) {
+                        showConfirmDialog = true
+                    }
                 },
                 enabled = !uiState.isLoading
             )
