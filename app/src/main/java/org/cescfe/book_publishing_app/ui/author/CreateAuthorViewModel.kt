@@ -36,11 +36,11 @@ data class CreateAuthorUiState(
 ) {
     val isFormValid: Boolean
         get() = fullName.isNotBlank() &&
-                fullNameError == null &&
-                pseudonymError == null &&
-                biographyError == null &&
-                emailError == null &&
-                websiteError == null
+            fullNameError == null &&
+            pseudonymError == null &&
+            biographyError == null &&
+            emailError == null &&
+            websiteError == null
 }
 
 class CreateAuthorViewModel(
@@ -161,11 +161,10 @@ class CreateAuthorViewModel(
             }
     }
 
-    private fun ValidationResult.errorResIdOrNull(): Int? =
-        when (this) {
-            is ValidationResult.Valid -> null
-            is ValidationResult.Error -> messageResId
-        }
+    private fun ValidationResult.errorResIdOrNull(): Int? = when (this) {
+        is ValidationResult.Valid -> null
+        is ValidationResult.Error -> messageResId
+    }
 
     private inline fun updateField(
         value: String,
