@@ -140,7 +140,9 @@ class BooksScreenTest {
             }
         }
 
-        composeTestRule.onNodeWithContentDescription("Collections").performClick()
+        composeTestRule
+            .onNodeWithContentDescription("Collections")
+            .performClick()
 
         assert(navigatedItem == BottomNavItem.Collections) {
             "Should navigate to Collections, but got $navigatedItem"
