@@ -35,6 +35,10 @@ class BooksViewModel(
         loadBooks()
     }
 
+    fun onSessionExpiredHandled() {
+        _uiState.value = _uiState.value.copy(sessionExpired = false)
+    }
+
     fun loadBooks() {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(

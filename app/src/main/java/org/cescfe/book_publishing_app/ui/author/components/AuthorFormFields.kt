@@ -55,7 +55,13 @@ fun AuthorFormFields(
             enabled = enabled,
             isError = fullNameError != null,
             supportingText = if (fullNameError != null) {
-                { Text(text = fullNameError, color = MaterialTheme.colorScheme.error) }
+                {
+                    Text(
+                        text = fullNameError,
+                        color = MaterialTheme.colorScheme.error,
+                        modifier = Modifier.testTag("full_name_error")
+                    )
+                }
             } else {
                 null
             }

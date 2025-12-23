@@ -43,6 +43,7 @@ fun BooksScreen(
     LaunchedEffect(uiState.sessionExpired) {
         if (uiState.sessionExpired) {
             onSessionExpired()
+            viewModel.onSessionExpiredHandled()
         }
     }
 
