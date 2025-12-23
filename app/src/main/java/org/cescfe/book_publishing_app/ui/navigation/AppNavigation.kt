@@ -11,6 +11,7 @@ import org.cescfe.book_publishing_app.ui.auth.LoginScreen
 import org.cescfe.book_publishing_app.ui.author.AuthorScreen
 import org.cescfe.book_publishing_app.ui.author.AuthorsScreen
 import org.cescfe.book_publishing_app.ui.author.CreateAuthorScreen
+import org.cescfe.book_publishing_app.ui.author.EditAuthorScreen
 import org.cescfe.book_publishing_app.ui.book.BooksScreen
 import org.cescfe.book_publishing_app.ui.collection.CollectionsScreen
 import org.cescfe.book_publishing_app.ui.shared.navigation.BottomNavItem
@@ -24,8 +25,10 @@ object Routes {
     const val AUTHORS = "authors"
     const val AUTHOR = "author"
     const val CREATE_AUTHOR = "create_author"
+    const val EDIT_AUTHOR = "edit_author"
 
     fun author(authorId: String) = "author/$authorId"
+    fun editAuthor(authorId: String) = "edit_author/$authorId"
 }
 
 @Composable
@@ -145,6 +148,9 @@ fun AppNavigation(navController: NavHostController) {
                     navController.navigate(BottomNavItem.Authors.route) {
                         popUpTo(BottomNavItem.Authors.route) { inclusive = true }
                     }
+                },
+                onEditClick = {
+                    navController.navigate(Routes.editAuthor(authorId))
                 }
             )
         }
@@ -163,6 +169,26 @@ fun AppNavigation(navController: NavHostController) {
                     }
                     navController.getBackStackEntry(Routes.AUTHORS)
                         .savedStateHandle["refresh"] = true
+                }
+            )
+        }
+        composable(
+            route = "${Routes.EDIT_AUTHOR}/{authorId}",
+            arguments = listOf(
+                navArgument("authorId") {
+                    type = NavType.StringType
+                }
+            )
+        ) { backStackEntry ->
+            val authorId = backStackEntry.arguments?.getString("authorId") ?: ""
+            EditAuthorScreen(
+                authorId = authorId,
+                onNavigateUp = { navController.navigateUp() },
+                onSessionExpired = {
+                    TokenManager.clearToken()
+                    navController.navigate(Routes.LOGIN) {
+                        popUpTo(Routes.BOOKS) { inclusive = true }
+                    }
                 }
             )
         }

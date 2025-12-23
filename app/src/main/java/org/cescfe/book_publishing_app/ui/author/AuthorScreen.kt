@@ -40,7 +40,8 @@ fun AuthorScreen(
     viewModel: AuthorViewModel = viewModel(),
     onSessionExpired: () -> Unit,
     onNavigateUp: () -> Unit,
-    onDeleteSuccess: () -> Unit
+    onDeleteSuccess: () -> Unit,
+    onEditClick: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -64,7 +65,8 @@ fun AuthorScreen(
         uiState = uiState,
         onRetry = viewModel::retry,
         onNavigateUp = onNavigateUp,
-        onDeleteAuthor = viewModel::deleteAuthor
+        onDeleteAuthor = viewModel::deleteAuthor,
+        onEditClick = onEditClick
     )
 }
 
@@ -74,7 +76,8 @@ internal fun AuthorScreenContent(
     uiState: AuthorUiState,
     onRetry: () -> Unit,
     onNavigateUp: () -> Unit,
-    onDeleteAuthor: () -> Unit = {}
+    onDeleteAuthor: () -> Unit = {},
+    onEditClick: () -> Unit = {}
 ) {
     var showDeleteDialog by remember { mutableStateOf(false) }
 
@@ -98,9 +101,7 @@ internal fun AuthorScreenContent(
         },
         bottomBar = {
             DetailActionsBottomBar(
-                onEditClick = {
-                    // TODO: Placeholder for future implementation
-                },
+                onEditClick = onEditClick,
                 onDeleteClick = {
                     showDeleteDialog = true
                 }

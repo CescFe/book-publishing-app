@@ -71,6 +71,12 @@
     <string name="create_author_title">Crear Autor</string>
     <string name="action_save">Guardar</string>
 
+    <!-- Author Screen -->
+    <string name="author_title">Autor</string>
+
+    <!-- Edit Author Screen -->
+    <string name="edit_author_title">Editar Autor</string>
+
     <!-- Author Form -->
     <string name="author_full_name_label">Nombre completo *</string>
     <string name="author_pseudonym_label">Pseudónimo</string>
@@ -85,9 +91,6 @@
     <string name="error_biography_too_long">La biografía es demasiado larga (2.000 máx.)</string>
     <string name="error_email_invalid">El formato del correo electrónico es inválido (ejemplo@dominio.com)</string>
     <string name="error_website_invalid_protocol">El protocolo web es inválido (use http:// or https://)</string>
-
-    <!-- Author Screen -->
-    <string name="author_title">Autor</string>
 
     <!-- Confirmation Dialog -->
     <string name="dialog_dismiss">Descartar</string>
