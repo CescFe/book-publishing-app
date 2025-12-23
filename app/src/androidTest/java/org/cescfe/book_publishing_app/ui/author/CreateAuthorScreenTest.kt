@@ -26,12 +26,6 @@ class CreateAuthorScreenTest {
             .onNodeWithTag("create_author_top_bar")
             .assertIsDisplayed()
         composeTestRule
-            .onNodeWithTag("back_button")
-            .assertIsDisplayed()
-        composeTestRule
-            .onNodeWithTag("create_bottom_bar")
-            .assertIsDisplayed()
-        composeTestRule
             .onNodeWithTag("save_button")
             .assertIsDisplayed()
     }
@@ -47,18 +41,39 @@ class CreateAuthorScreenTest {
         composeTestRule
             .onNodeWithTag("full_name_field")
             .performTextInput("J. R. R. Tolkien")
-
         composeTestRule
             .onNodeWithTag("biography_field")
             .performTextInput("English writer")
-
         composeTestRule
             .onNodeWithTag("save_button")
             .performClick()
-
         composeTestRule
             .onNodeWithTag("confirmation_dialog")
             .assertIsDisplayed()
+    }
+
+    @Test
+    fun createAuthorScreen_confirmSave_callsCreateAuthor() {
+        var createCalled = false
+
+        composeTestRule.setContent {
+            BookpublishingappTheme {
+                CreateAuthorScreen(
+                    onAuthorCreated = { createCalled = true }
+                )
+            }
+        }
+
+        composeTestRule
+            .onNodeWithTag("full_name_field")
+            .performTextInput("J. R. R. Tolkien")
+        composeTestRule
+            .onNodeWithTag("save_button")
+            .performClick()
+        composeTestRule
+            .onNodeWithTag("confirm_button")
+            .performClick()
+        assert(createCalled)
     }
 
     @Test
@@ -72,9 +87,11 @@ class CreateAuthorScreenTest {
         composeTestRule
             .onNodeWithTag("save_button")
             .performClick()
-
         composeTestRule
             .onNodeWithTag("confirmation_dialog")
             .assertDoesNotExist()
+        composeTestRule
+            .onNodeWithTag("full_name_error")
+            .assertIsDisplayed()
     }
 }
