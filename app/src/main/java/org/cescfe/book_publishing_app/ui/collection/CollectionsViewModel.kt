@@ -35,6 +35,10 @@ class CollectionsViewModel(
         loadCollections()
     }
 
+    fun onSessionExpiredHandled() {
+        _uiState.value = _uiState.value.copy(sessionExpired = false)
+    }
+
     private fun loadCollections() {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(
