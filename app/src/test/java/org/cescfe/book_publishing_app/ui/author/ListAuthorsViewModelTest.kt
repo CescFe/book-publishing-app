@@ -128,6 +128,20 @@ class ListAuthorsViewModelTest {
         assertNull(state.errorResId)
     }
 
+    @Test
+    fun `sessionExpired is reset after being handled`() = runTest {
+        mockRepository.authorsResult = DomainResult.Error(DomainErrorType.UNAUTHORIZED)
+
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+
+        assertTrue(viewModel.uiState.value.sessionExpired)
+
+        viewModel.onSessionExpiredHandled()
+
+        assertFalse(viewModel.uiState.value.sessionExpired)
+    }
+
     // ==================== RETRY ====================
 
     @Test

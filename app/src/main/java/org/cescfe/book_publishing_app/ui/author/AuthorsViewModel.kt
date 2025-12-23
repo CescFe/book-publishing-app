@@ -35,6 +35,10 @@ class AuthorsViewModel(
         loadAuthors()
     }
 
+    fun onSessionExpiredHandled() {
+        _uiState.value = _uiState.value.copy(sessionExpired = false)
+    }
+
     private fun loadAuthors() {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(
