@@ -73,7 +73,6 @@ class AuthorViewModel(
     }
 
     fun onDeleteConfirmed() {
-        _uiState.value = _uiState.value.copy(showDeleteDialog = false)
         deleteAuthor()
     }
 
@@ -82,7 +81,8 @@ class AuthorViewModel(
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(
                 isDeleting = true,
-                errorResId = null
+                errorResId = null,
+                showDeleteDialog = false
             )
 
             when (val result = authorsRepository.deleteAuthorById(authorId)) {
