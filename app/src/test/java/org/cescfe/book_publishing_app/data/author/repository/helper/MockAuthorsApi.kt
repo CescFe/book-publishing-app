@@ -4,6 +4,7 @@ import org.cescfe.book_publishing_app.data.author.remote.api.AuthorsApi
 import org.cescfe.book_publishing_app.data.author.remote.dto.AuthorDTO
 import org.cescfe.book_publishing_app.data.author.remote.dto.AuthorsResponse
 import org.cescfe.book_publishing_app.data.author.remote.dto.CreateAuthorRequestDTO
+import org.cescfe.book_publishing_app.data.author.remote.dto.UpdateAuthorRequestDTO
 import retrofit2.HttpException
 
 class MockAuthorsApi : AuthorsApi {
@@ -15,6 +16,11 @@ class MockAuthorsApi : AuthorsApi {
     var authorHttpException: HttpException? = null
     var authorException: Throwable? = null
     var createAuthorRequest: CreateAuthorRequestDTO? = null
+
+    var updateAuthorRequest: UpdateAuthorRequestDTO? = null
+    var updateAuthorId: String? = null
+    var updateAuthorHttpException: HttpException? = null
+    var updateAuthorException: Throwable? = null
 
     var deleteSuccess: Boolean = false
     var deleteHttpException: HttpException? = null
@@ -42,6 +48,20 @@ class MockAuthorsApi : AuthorsApi {
             authorException != null -> throw authorException!!
             authorResponse != null -> authorResponse!!
             else -> throw RuntimeException("Mock not configured for createAuthor")
+        }
+    }
+
+    override suspend fun updateAuthor(
+        authorId: String,
+        request: UpdateAuthorRequestDTO
+    ): AuthorDTO {
+        updateAuthorId = authorId
+        updateAuthorRequest = request
+        return when {
+            updateAuthorHttpException != null -> throw updateAuthorHttpException!!
+            updateAuthorException != null -> throw updateAuthorException!!
+            authorResponse != null -> authorResponse!!
+            else -> throw RuntimeException("Mock not configured for updateAuthor")
         }
     }
 
