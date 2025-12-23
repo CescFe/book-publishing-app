@@ -18,6 +18,24 @@ class AuthorsScreenTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
+    // ==================== SMOKE TEST ====================
+
+    @Test
+    fun authorsScreen_rendersWithoutCrash() {
+        composeTestRule.setContent {
+            BookpublishingappTheme {
+                AuthorsScreenContent(
+                    uiState = AuthorsUiState(),
+                    onRetry = {}
+                )
+            }
+        }
+
+        composeTestRule
+            .onNodeWithTag("authors_screen")
+            .assertIsDisplayed()
+    }
+
     // ==================== LOADING STATE ====================
 
     @Test
