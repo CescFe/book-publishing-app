@@ -192,7 +192,7 @@ fun AppNavigation(navController: NavHostController) {
                 },
                 onAuthorUpdated = { updatedAuthorId ->
                     navController.navigate(Routes.author(updatedAuthorId)) {
-                        popUpTo(Routes.AUTHOR) { inclusive = false }
+                        popUpTo(Routes.AUTHORS) { inclusive = false }
                     }
                     navController.getBackStackEntry(Routes.AUTHORS)
                         .savedStateHandle["refresh"] = true
