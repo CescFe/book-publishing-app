@@ -189,6 +189,13 @@ fun AppNavigation(navController: NavHostController) {
                     navController.navigate(Routes.LOGIN) {
                         popUpTo(Routes.BOOKS) { inclusive = true }
                     }
+                },
+                onAuthorUpdated = { updatedAuthorId ->
+                    navController.navigate(Routes.author(updatedAuthorId)) {
+                        popUpTo(Routes.AUTHOR) { inclusive = false }
+                    }
+                    navController.getBackStackEntry(Routes.AUTHORS)
+                        .savedStateHandle["refresh"] = true
                 }
             )
         }
