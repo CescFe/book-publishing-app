@@ -21,7 +21,8 @@ data class AuthorUiState(
     @get:StringRes val errorResId: Int? = null,
     val sessionExpired: Boolean = false,
     val isDeleting: Boolean = false,
-    val deleteSuccess: Boolean = false
+    val deleteSuccess: Boolean = false,
+    val showDeleteDialog: Boolean = false
 )
 
 class AuthorViewModel(
@@ -32,6 +33,10 @@ class AuthorViewModel(
 
     private val _uiState = MutableStateFlow(AuthorUiState())
     val uiState: StateFlow<AuthorUiState> = _uiState.asStateFlow()
+
+    fun onSessionExpiredHandled() {
+        _uiState.value = _uiState.value.copy(sessionExpired = false)
+    }
 
     private var lastAuthorId: String? = null
 
@@ -57,6 +62,19 @@ class AuthorViewModel(
                 }
             }
         }
+    }
+
+    fun onDeleteClicked() {
+        _uiState.value = _uiState.value.copy(showDeleteDialog = true)
+    }
+
+    fun onDeleteDialogDismissed() {
+        _uiState.value = _uiState.value.copy(showDeleteDialog = false)
+    }
+
+    fun onDeleteConfirmed() {
+        _uiState.value = _uiState.value.copy(showDeleteDialog = false)
+        deleteAuthor()
     }
 
     fun deleteAuthor() {

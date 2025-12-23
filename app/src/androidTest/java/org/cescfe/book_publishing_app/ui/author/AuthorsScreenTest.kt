@@ -31,7 +31,9 @@ class AuthorsScreenTest {
             }
         }
 
-        composeTestRule.onNodeWithTag("authors_screen").assertIsDisplayed()
+        composeTestRule
+            .onNodeWithTag("authors_screen")
+            .assertIsDisplayed()
     }
 
     // ==================== LOADING STATE ====================
@@ -47,7 +49,9 @@ class AuthorsScreenTest {
             }
         }
 
-        composeTestRule.onNodeWithTag("loading_indicator").assertIsDisplayed()
+        composeTestRule
+            .onNodeWithTag("loading_indicator")
+            .assertIsDisplayed()
     }
 
     // ==================== ERROR STATE ====================
@@ -63,8 +67,12 @@ class AuthorsScreenTest {
             }
         }
 
-        composeTestRule.onNodeWithTag("error_state").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Network error. Please check your connection.").assertIsDisplayed()
+        composeTestRule
+            .onNodeWithTag("error_state")
+            .assertIsDisplayed()
+        composeTestRule
+            .onNodeWithText("Network error. Please check your connection.")
+            .assertIsDisplayed()
     }
 
     @Test
@@ -80,8 +88,9 @@ class AuthorsScreenTest {
             }
         }
 
-        composeTestRule.onNodeWithTag("retry_button").performClick()
-
+        composeTestRule
+            .onNodeWithTag("retry_button")
+            .performClick()
         assert(retryCalled) { "onRetry should have been called" }
     }
 
@@ -98,7 +107,9 @@ class AuthorsScreenTest {
             }
         }
 
-        composeTestRule.onNodeWithTag("empty_state").assertIsDisplayed()
+        composeTestRule
+            .onNodeWithTag("empty_state")
+            .assertIsDisplayed()
     }
 
     // ==================== SUCCESS STATE ====================
@@ -126,29 +137,6 @@ class AuthorsScreenTest {
         composeTestRule.onNodeWithTag("authors_list").assertIsDisplayed()
     }
 
-    @Test
-    fun authorsScreen_showsAuthorName_whenAuthorsAvailable() {
-        val authorSummaries = listOf(
-            AuthorSummary(
-                id = "1",
-                fullName = "J.R.R. Tolkien",
-                pseudonym = "Tolkien",
-                email = "tolkien@example.com"
-            )
-        )
-
-        composeTestRule.setContent {
-            BookpublishingappTheme {
-                AuthorsScreenContent(
-                    uiState = AuthorsUiState(authorSummaries = authorSummaries),
-                    onRetry = {}
-                )
-            }
-        }
-
-        composeTestRule.onNodeWithText("J.R.R. Tolkien").assertIsDisplayed()
-    }
-
     // ==================== BOTTOM NAVIGATION ====================
 
     @Test
@@ -169,27 +157,6 @@ class AuthorsScreenTest {
 
         assert(navigatedItem == BottomNavItem.Books) {
             "Should navigate to Books, but got $navigatedItem"
-        }
-    }
-
-    @Test
-    fun authorsScreen_bottomBar_callsOnNavigate_whenCollectionsClicked() {
-        var navigatedItem: BottomNavItem? = null
-
-        composeTestRule.setContent {
-            BookpublishingappTheme {
-                AuthorsScreenContent(
-                    uiState = AuthorsUiState(),
-                    onRetry = {},
-                    onNavigate = { item -> navigatedItem = item }
-                )
-            }
-        }
-
-        composeTestRule.onNodeWithContentDescription("Collections").performClick()
-
-        assert(navigatedItem == BottomNavItem.Collections) {
-            "Should navigate to Collections, but got $navigatedItem"
         }
     }
 

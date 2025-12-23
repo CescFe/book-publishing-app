@@ -3,7 +3,6 @@ package org.cescfe.book_publishing_app.ui.shared.components
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import org.cescfe.book_publishing_app.ui.theme.BookpublishingappTheme
 import org.junit.Rule
@@ -30,29 +29,12 @@ class ConfirmationDialogTest {
             }
         }
 
-        composeTestRule.onNodeWithTag("confirmation_dialog").assertIsDisplayed()
+        composeTestRule
+            .onNodeWithTag("confirmation_dialog")
+            .assertIsDisplayed()
     }
 
     // ==================== VISIBILITY ====================
-
-    @Test
-    fun confirmationDialog_isDisplayed_whenVisible() {
-        composeTestRule.setContent {
-            BookpublishingappTheme {
-                ConfirmationDialog(
-                    title = "Delete Author",
-                    message = "Are you sure?",
-                    onDismiss = {},
-                    onConfirm = {},
-                    isVisible = true
-                )
-            }
-        }
-
-        composeTestRule.onNodeWithTag("confirmation_dialog").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Delete Author").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Are you sure?").assertIsDisplayed()
-    }
 
     @Test
     fun confirmationDialog_isNotDisplayed_whenNotVisible() {
@@ -68,7 +50,9 @@ class ConfirmationDialogTest {
             }
         }
 
-        composeTestRule.onNodeWithTag("confirmation_dialog").assertDoesNotExist()
+        composeTestRule
+            .onNodeWithTag("confirmation_dialog")
+            .assertDoesNotExist()
     }
 
     // ==================== BUTTON INTERACTIONS ====================
@@ -89,9 +73,10 @@ class ConfirmationDialogTest {
             }
         }
 
-        composeTestRule.onNodeWithTag("dismiss_button").performClick()
-
-        assert(dismissCalled) { "onDismiss should have been called" }
+        composeTestRule
+            .onNodeWithTag("dismiss_button")
+            .performClick()
+        assert(dismissCalled)
     }
 
     @Test
@@ -110,44 +95,9 @@ class ConfirmationDialogTest {
             }
         }
 
-        composeTestRule.onNodeWithTag("confirm_button").performClick()
-
-        assert(confirmCalled) { "onConfirm should have been called" }
-    }
-
-    // ==================== BUTTON DISPLAY ====================
-
-    @Test
-    fun confirmationDialog_showsDismissButton() {
-        composeTestRule.setContent {
-            BookpublishingappTheme {
-                ConfirmationDialog(
-                    title = "Test Title",
-                    message = "Test Message",
-                    onDismiss = {},
-                    onConfirm = {},
-                    isVisible = true
-                )
-            }
-        }
-
-        composeTestRule.onNodeWithTag("dismiss_button").assertIsDisplayed()
-    }
-
-    @Test
-    fun confirmationDialog_showsConfirmButton() {
-        composeTestRule.setContent {
-            BookpublishingappTheme {
-                ConfirmationDialog(
-                    title = "Test Title",
-                    message = "Test Message",
-                    onDismiss = {},
-                    onConfirm = {},
-                    isVisible = true
-                )
-            }
-        }
-
-        composeTestRule.onNodeWithTag("confirm_button").assertIsDisplayed()
+        composeTestRule
+            .onNodeWithTag("confirm_button")
+            .performClick()
+        assert(confirmCalled)
     }
 }

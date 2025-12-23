@@ -48,6 +48,7 @@ fun CreateAuthorScreen(
     LaunchedEffect(uiState.sessionExpired) {
         if (uiState.sessionExpired) {
             onSessionExpired()
+            viewModel.onSessionExpiredHandled()
         }
     }
 

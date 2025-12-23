@@ -15,9 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
@@ -40,7 +37,8 @@ fun AuthorScreen(
     viewModel: AuthorViewModel = viewModel(),
     onSessionExpired: () -> Unit,
     onNavigateUp: () -> Unit,
-    onDeleteSuccess: () -> Unit
+    onDeleteSuccess: () -> Unit,
+    onEditClick: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -51,6 +49,7 @@ fun AuthorScreen(
     LaunchedEffect(uiState.sessionExpired) {
         if (uiState.sessionExpired) {
             onSessionExpired()
+            viewModel.onSessionExpiredHandled()
         }
     }
 
@@ -64,7 +63,10 @@ fun AuthorScreen(
         uiState = uiState,
         onRetry = viewModel::retry,
         onNavigateUp = onNavigateUp,
-        onDeleteAuthor = viewModel::deleteAuthor
+        onEditClick = onEditClick,
+        onDeleteClick = viewModel::onDeleteClicked,
+        onDeleteDialogDismissed = viewModel::onDeleteDialogDismissed,
+        onDeleteConfirmed = viewModel::onDeleteConfirmed
     )
 }
 
@@ -74,10 +76,11 @@ internal fun AuthorScreenContent(
     uiState: AuthorUiState,
     onRetry: () -> Unit,
     onNavigateUp: () -> Unit,
-    onDeleteAuthor: () -> Unit = {}
+    onEditClick: () -> Unit,
+    onDeleteClick: () -> Unit,
+    onDeleteDialogDismissed: () -> Unit,
+    onDeleteConfirmed: () -> Unit
 ) {
-    var showDeleteDialog by remember { mutableStateOf(false) }
-
     Scaffold(
         modifier = Modifier.testTag("author_screen"),
         topBar = {
@@ -98,12 +101,9 @@ internal fun AuthorScreenContent(
         },
         bottomBar = {
             DetailActionsBottomBar(
-                onEditClick = {
-                    // TODO: Placeholder for future implementation
-                },
-                onDeleteClick = {
-                    showDeleteDialog = true
-                }
+                onEditClick = onEditClick,
+                onDeleteClick = onDeleteClick
+
             )
         }
     ) { innerPadding ->
@@ -138,12 +138,9 @@ internal fun AuthorScreenContent(
     ConfirmationDialog(
         title = stringResource(R.string.author_delete_confirmation_title),
         message = stringResource(R.string.author_delete_confirmation_message),
-        onDismiss = { showDeleteDialog = false },
-        onConfirm = {
-            showDeleteDialog = false
-            onDeleteAuthor()
-        },
-        isVisible = showDeleteDialog
+        onDismiss = onDeleteDialogDismissed,
+        onConfirm = onDeleteConfirmed,
+        isVisible = uiState.showDeleteDialog
     )
 }
 
@@ -156,7 +153,11 @@ private fun AuthorScreenLoadingPreview() {
         AuthorScreenContent(
             uiState = AuthorUiState(isLoading = true),
             onRetry = {},
-            onNavigateUp = {}
+            onNavigateUp = {},
+            onEditClick = {},
+            onDeleteClick = {},
+            onDeleteDialogDismissed = {},
+            onDeleteConfirmed = {}
         )
     }
 }
@@ -168,7 +169,11 @@ private fun AuthorScreenErrorPreview() {
         AuthorScreenContent(
             uiState = AuthorUiState(errorResId = R.string.error_network),
             onRetry = {},
-            onNavigateUp = {}
+            onNavigateUp = {},
+            onEditClick = {},
+            onDeleteClick = {},
+            onDeleteDialogDismissed = {},
+            onDeleteConfirmed = {}
         )
     }
 }
@@ -190,7 +195,11 @@ private fun AuthorScreenSuccessPreview() {
                 )
             ),
             onRetry = {},
-            onNavigateUp = {}
+            onNavigateUp = {},
+            onEditClick = {},
+            onDeleteClick = {},
+            onDeleteDialogDismissed = {},
+            onDeleteConfirmed = {}
         )
     }
 }

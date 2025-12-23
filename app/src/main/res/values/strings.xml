@@ -70,6 +70,12 @@
     <string name="create_author_title">Create Author</string>
     <string name="action_save">Save</string>
 
+    <!-- Author Screen -->
+    <string name="author_title">Author</string>
+
+    <!-- Edit Author Screen -->
+    <string name="edit_author_title">Edit Author</string>
+
     <!-- Author Form -->
     <string name="author_full_name_label">Full Name *</string>
     <string name="author_pseudonym_label">Pseudonym</string>
@@ -84,9 +90,6 @@
     <string name="error_biography_too_long">Biography is too long (2,000 max.)</string>
     <string name="error_email_invalid">Email format is invalid (example@domain.com)</string>
     <string name="error_website_invalid_protocol">Website protocol is invalid (use http:// or https://)</string>
-
-    <!-- Author Screen -->
-    <string name="author_title">Author</string>
 
     <!-- Confirmation Dialog -->
     <string name="dialog_dismiss">Dismiss</string>
