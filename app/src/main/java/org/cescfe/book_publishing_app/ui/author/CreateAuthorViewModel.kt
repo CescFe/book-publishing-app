@@ -52,6 +52,10 @@ class CreateAuthorViewModel(
     private val _uiState = MutableStateFlow(CreateAuthorUiState())
     val uiState: StateFlow<CreateAuthorUiState> = _uiState.asStateFlow()
 
+    fun onSessionExpiredHandled() {
+        _uiState.value = _uiState.value.copy(sessionExpired = false)
+    }
+
     fun onFullNameChange(fullName: String) {
         updateField(
             value = fullName,

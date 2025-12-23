@@ -34,6 +34,10 @@ class AuthorViewModel(
     private val _uiState = MutableStateFlow(AuthorUiState())
     val uiState: StateFlow<AuthorUiState> = _uiState.asStateFlow()
 
+    fun onSessionExpiredHandled() {
+        _uiState.value = _uiState.value.copy(sessionExpired = false)
+    }
+
     private var lastAuthorId: String? = null
 
     fun loadAuthor(authorId: String) {
