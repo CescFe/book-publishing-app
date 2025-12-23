@@ -113,14 +113,17 @@ class CreateAuthorViewModel(
     }
 
     fun createAuthor() {
-        dismissConfirmDialog()
         validateAllFields()
         if (!_uiState.value.isFormValid) return
 
         val currentState = _uiState.value
 
         viewModelScope.launch {
-            _uiState.value = currentState.copy(isLoading = true, errorResId = null)
+            _uiState.value = currentState.copy(
+                isLoading = true,
+                errorResId = null,
+                showConfirmDialog = false
+            )
 
             val request = CreateAuthorRequest(
                 fullName = currentState.fullName.trim(),
