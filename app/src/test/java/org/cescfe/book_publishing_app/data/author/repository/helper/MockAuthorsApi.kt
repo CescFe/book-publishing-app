@@ -51,10 +51,7 @@ class MockAuthorsApi : AuthorsApi {
         }
     }
 
-    override suspend fun updateAuthor(
-        authorId: String,
-        request: UpdateAuthorRequestDTO
-    ): AuthorDTO {
+    override suspend fun updateAuthor(authorId: String, request: UpdateAuthorRequestDTO): AuthorDTO {
         updateAuthorId = authorId
         updateAuthorRequest = request
         return when {

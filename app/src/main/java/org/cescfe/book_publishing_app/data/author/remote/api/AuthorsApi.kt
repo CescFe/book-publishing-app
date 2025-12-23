@@ -22,10 +22,7 @@ interface AuthorsApi {
     suspend fun createAuthor(@Body request: CreateAuthorRequestDTO): AuthorDTO
 
     @PUT("api/v1/authors/{id}")
-    suspend fun updateAuthor(
-        @Path("id") authorId: String,
-        @Body request: UpdateAuthorRequestDTO
-    ): AuthorDTO
+    suspend fun updateAuthor(@Path("id") authorId: String, @Body request: UpdateAuthorRequestDTO): AuthorDTO
 
     @DELETE("api/v1/authors/{id}")
     suspend fun deleteAuthorById(@Path("id") authorId: String)

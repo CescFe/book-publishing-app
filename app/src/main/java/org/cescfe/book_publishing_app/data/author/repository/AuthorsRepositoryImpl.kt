@@ -35,10 +35,7 @@ class AuthorsRepositoryImpl(private val authorsApi: AuthorsApi) : AuthorsReposit
         RepositoryErrorHandler.handleException(e)
     }
 
-    override suspend fun updateAuthor(
-        authorId: String,
-        request: UpdateAuthorRequest
-    ): DomainResult<Author> = try {
+    override suspend fun updateAuthor(authorId: String, request: UpdateAuthorRequest): DomainResult<Author> = try {
         val authorDto = authorsApi.updateAuthor(authorId, request.toDTO())
         DomainResult.Success(authorDto.toDomain())
     } catch (e: Exception) {
