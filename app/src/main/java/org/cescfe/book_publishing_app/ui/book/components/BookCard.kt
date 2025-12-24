@@ -44,7 +44,6 @@ fun BookCard(book: Book, modifier: Modifier = Modifier) {
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            // Title (prominent)
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -69,28 +68,24 @@ fun BookCard(book: Book, modifier: Modifier = Modifier) {
                 )
             }
 
-            // Author
             BookInfoRow(
                 label = stringResource(R.string.book_card_author_label),
                 value = book.authorName,
                 testTag = "book_card_author"
             )
 
-            // Collection
             BookInfoRow(
                 label = stringResource(R.string.book_card_collection_label),
                 value = book.collectionName,
                 testTag = "book_card_collection"
             )
 
-            // ISBN
             BookInfoRow(
                 label = stringResource(R.string.book_card_isbn_label),
                 value = book.isbn,
                 testTag = "book_card_isbn"
             )
 
-            // Publication Date
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(4.dp)
@@ -109,7 +104,6 @@ fun BookCard(book: Book, modifier: Modifier = Modifier) {
                 )
             }
 
-            // Page Count
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(4.dp)
@@ -132,7 +126,6 @@ fun BookCard(book: Book, modifier: Modifier = Modifier) {
                 )
             }
 
-            // Reading Level
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(4.dp)
@@ -151,14 +144,12 @@ fun BookCard(book: Book, modifier: Modifier = Modifier) {
                 )
             }
 
-            // Primary Language
             BookInfoRow(
                 label = stringResource(R.string.book_card_primary_language_label),
                 value = book.primaryLanguage?.let { formatLanguage(it) },
                 testTag = "book_card_primary_language"
             )
 
-            // Secondary Languages (siempre se muestra)
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(4.dp)
@@ -177,14 +168,12 @@ fun BookCard(book: Book, modifier: Modifier = Modifier) {
                 )
             }
 
-            // Primary Genre
             BookInfoRow(
                 label = stringResource(R.string.book_card_primary_genre_label),
                 value = book.primaryGenre?.displayName,
                 testTag = "book_card_primary_genre"
             )
 
-            // Secondary Genres (siempre se muestra)
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(4.dp)
@@ -203,7 +192,6 @@ fun BookCard(book: Book, modifier: Modifier = Modifier) {
                 )
             }
 
-            // Base Price
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(4.dp)
@@ -222,7 +210,6 @@ fun BookCard(book: Book, modifier: Modifier = Modifier) {
                 )
             }
 
-            // Final Price with VAT
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(4.dp)
@@ -242,7 +229,6 @@ fun BookCard(book: Book, modifier: Modifier = Modifier) {
                 )
             }
 
-            // Description (siempre se muestra)
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(4.dp)
@@ -263,7 +249,6 @@ fun BookCard(book: Book, modifier: Modifier = Modifier) {
                 )
             }
 
-            // Status
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(4.dp)
