@@ -8,6 +8,7 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.cescfe.book_publishing_app.R
+import org.cescfe.book_publishing_app.domain.book.model.Book
 import org.cescfe.book_publishing_app.domain.book.model.BookSummary
 import org.cescfe.book_publishing_app.domain.book.repository.BooksRepository
 import org.cescfe.book_publishing_app.domain.shared.DomainErrorType
@@ -194,4 +195,7 @@ class MockBooksRepository : BooksRepository {
     var result: DomainResult<List<BookSummary>> = DomainResult.Success(emptyList())
 
     override suspend fun getBooks(): DomainResult<List<BookSummary>> = result
+    override suspend fun getBookById(bookId: String): DomainResult<Book> {
+        TODO("Not yet implemented")
+    }
 }
