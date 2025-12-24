@@ -63,6 +63,7 @@
     <string name="book_card_final_price_label">Final Price (with VAT)</string>
     <string name="book_card_description_label">Description</string>
     <string name="book_card_status_label">Status</string>
+    <string name="not_informed">Not informed</string>
 
     <!-- Author Card -->
     <string name="author_card_icon_description">Author icon</string>

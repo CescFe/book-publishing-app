@@ -1,6 +1,5 @@
 package org.cescfe.book_publishing_app.ui.book.components
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -74,7 +73,6 @@ fun BookCard(book: Book, modifier: Modifier = Modifier) {
             BookInfoRow(
                 label = stringResource(R.string.book_card_author_label),
                 value = book.authorName,
-                emptyValueRes = R.string.book_card_no_author,
                 testTag = "book_card_author"
             )
 
@@ -82,7 +80,6 @@ fun BookCard(book: Book, modifier: Modifier = Modifier) {
             BookInfoRow(
                 label = stringResource(R.string.book_card_collection_label),
                 value = book.collectionName,
-                emptyValueRes = R.string.book_card_no_collection,
                 testTag = "book_card_collection"
             )
 
@@ -90,7 +87,6 @@ fun BookCard(book: Book, modifier: Modifier = Modifier) {
             BookInfoRow(
                 label = stringResource(R.string.book_card_isbn_label),
                 value = book.isbn,
-                emptyValueRes = R.string.book_card_no_isbn,
                 testTag = "book_card_isbn"
             )
 
@@ -106,7 +102,7 @@ fun BookCard(book: Book, modifier: Modifier = Modifier) {
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Text(
-                    text = formatPublicationDate(book.publicationDate),
+                    text = formatPublicationDate(book.publicationDate) ?: stringResource(R.string.not_informed),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.testTag("book_card_publication_date")
@@ -128,7 +124,7 @@ fun BookCard(book: Book, modifier: Modifier = Modifier) {
                     text = if (book.pageCount != null) {
                         stringResource(R.string.book_card_page_count, book.pageCount)
                     } else {
-                        stringResource(R.string.book_card_no_page_count)
+                        stringResource(R.string.not_informed)
                     },
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface,
@@ -148,7 +144,7 @@ fun BookCard(book: Book, modifier: Modifier = Modifier) {
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Text(
-                    text = formatReadingLevel(book.readingLevel),
+                    text = formatReadingLevel(book.readingLevel) ?: stringResource(R.string.not_informed),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.testTag("book_card_reading_level")
@@ -159,58 +155,52 @@ fun BookCard(book: Book, modifier: Modifier = Modifier) {
             BookInfoRow(
                 label = stringResource(R.string.book_card_primary_language_label),
                 value = book.primaryLanguage?.let { formatLanguage(it) },
-                emptyValueRes = R.string.book_card_no_language,
                 testTag = "book_card_primary_language"
             )
 
-            // Secondary Languages
-            if (book.secondaryLanguages.isNotEmpty()) {
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    Text(
-                        text = stringResource(R.string.book_card_secondary_languages_label),
-                        style = MaterialTheme.typography.labelMedium,
-                        fontWeight = FontWeight.Medium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    Text(
-                        text = formatLanguages(book.secondaryLanguages),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        modifier = Modifier.testTag("book_card_secondary_languages")
-                    )
-                }
+            // Secondary Languages (siempre se muestra)
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.book_card_secondary_languages_label),
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.Medium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Text(
+                    text = formatLanguages(book.secondaryLanguages) ?: stringResource(R.string.not_informed),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.testTag("book_card_secondary_languages")
+                )
             }
 
             // Primary Genre
             BookInfoRow(
                 label = stringResource(R.string.book_card_primary_genre_label),
                 value = book.primaryGenre?.displayName,
-                emptyValueRes = R.string.book_card_no_genre,
                 testTag = "book_card_primary_genre"
             )
 
-            // Secondary Genres
-            if (book.secondaryGenres.isNotEmpty()) {
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    Text(
-                        text = stringResource(R.string.book_card_secondary_genres_label),
-                        style = MaterialTheme.typography.labelMedium,
-                        fontWeight = FontWeight.Medium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    Text(
-                        text = formatGenres(book.secondaryGenres),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        modifier = Modifier.testTag("book_card_secondary_genres")
-                    )
-                }
+            // Secondary Genres (siempre se muestra)
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.book_card_secondary_genres_label),
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.Medium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Text(
+                    text = formatGenres(book.secondaryGenres) ?: stringResource(R.string.not_informed),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.testTag("book_card_secondary_genres")
+                )
             }
 
             // Base Price
@@ -252,27 +242,25 @@ fun BookCard(book: Book, modifier: Modifier = Modifier) {
                 )
             }
 
-            // Description
-            if (!book.description.isNullOrBlank()) {
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    Text(
-                        text = stringResource(R.string.book_card_description_label),
-                        style = MaterialTheme.typography.labelMedium,
-                        fontWeight = FontWeight.Medium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    Text(
-                        text = book.description,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        modifier = Modifier.testTag("book_card_description"),
-                        maxLines = 10,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
+            // Description (siempre se muestra)
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.book_card_description_label),
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.Medium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Text(
+                    text = book.description?.takeIf { it.isNotBlank() } ?: stringResource(R.string.not_informed),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.testTag("book_card_description"),
+                    maxLines = 10,
+                    overflow = TextOverflow.Ellipsis
+                )
             }
 
             // Status
@@ -301,7 +289,6 @@ fun BookCard(book: Book, modifier: Modifier = Modifier) {
 private fun BookInfoRow(
     label: String,
     value: String?,
-    @StringRes emptyValueRes: Int,
     modifier: Modifier = Modifier,
     testTag: String? = null
 ) {
@@ -316,11 +303,7 @@ private fun BookInfoRow(
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Text(
-            text = if (value.isNullOrBlank()) {
-                stringResource(emptyValueRes)
-            } else {
-                value
-            },
+            text = value?.takeIf { it.isNotBlank() } ?: stringResource(R.string.not_informed),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurface,
             modifier = testTag?.let { Modifier.testTag(it) } ?: Modifier,
@@ -335,9 +318,9 @@ private fun formatPrice(price: Double): String {
     return numberFormat.format(price)
 }
 
-private fun formatPublicationDate(dateString: String?): String {
+private fun formatPublicationDate(dateString: String?): String? {
     if (dateString.isNullOrBlank()) {
-        return ""
+        return null
     }
     return try {
         val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
@@ -349,12 +332,12 @@ private fun formatPublicationDate(dateString: String?): String {
     }
 }
 
-private fun formatReadingLevel(readingLevel: ReadingLevel?): String {
+private fun formatReadingLevel(readingLevel: ReadingLevel?): String? {
     return when (readingLevel) {
         ReadingLevel.CHILDREN -> "Children"
         ReadingLevel.YOUNG_ADULT -> "Young Adult"
         ReadingLevel.ADULT -> "Adult"
-        null -> ""
+        null -> null
     }
 }
 
@@ -367,18 +350,18 @@ private fun formatLanguage(language: Language): String {
     }
 }
 
-private fun formatLanguages(languages: List<Language?>): String {
-    return languages
+private fun formatLanguages(languages: List<Language?>): String? {
+    val formatted = languages
         .filterNotNull()
         .joinToString(", ") { formatLanguage(it) }
-        .ifEmpty { "" }
+    return formatted.takeIf { it.isNotEmpty() }
 }
 
-private fun formatGenres(genres: List<Genre?>): String {
-    return genres
+private fun formatGenres(genres: List<Genre?>): String? {
+    val formatted = genres
         .filterNotNull()
         .joinToString(", ") { it.displayName }
-        .ifEmpty { "" }
+    return formatted.takeIf { it.isNotEmpty() }
 }
 
 private fun formatStatus(status: Status): String {

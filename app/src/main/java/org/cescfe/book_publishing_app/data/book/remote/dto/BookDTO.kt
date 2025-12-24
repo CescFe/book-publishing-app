@@ -36,7 +36,7 @@ data class BookDTO(
     @SerialName("page_count")
     val pageCount: Int? = null,
     val description: String? = null,
-    val status: Status
+    val status: Status? = null
 )
 
 fun BookDTO.toDomain(): Book = Book(
@@ -56,5 +56,5 @@ fun BookDTO.toDomain(): Book = Book(
     publicationDate = publicationDate,
     pageCount = pageCount,
     description = description,
-    status = status
+    status = status ?: Status.DRAFT
 )

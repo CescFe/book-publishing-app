@@ -64,6 +64,7 @@
     <string name="book_card_final_price_label">PVP (amb IVA)</string>
     <string name="book_card_description_label">Sinopsi</string>
     <string name="book_card_status_label">Estat</string>
+    <string name="not_informed">No informat</string>
 
     <!-- Author Card -->
     <string name="author_card_icon_description">Icona d\'autor</string>
