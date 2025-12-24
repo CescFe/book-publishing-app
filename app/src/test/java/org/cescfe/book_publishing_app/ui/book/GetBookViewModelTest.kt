@@ -21,7 +21,7 @@ import org.junit.Before
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class BooksViewModelTest {
+class GetBookViewModelTest {
 
     private lateinit var mockRepository: MockBooksRepository
 
@@ -36,64 +36,53 @@ class BooksViewModelTest {
         Dispatchers.resetMain()
     }
 
-    private fun createViewModel(): BooksViewModel = BooksViewModel(mockRepository)
+    private fun createViewModel(): BookViewModel = BookViewModel(mockRepository)
 
     // ==================== SUCCESS CASES ====================
 
     @Test
-    fun `loadBooks with success should update books list`() = runTest {
-        val books = listOf(
-            TestBookFactory.createBookSummary(id = "1", title = "Book One"),
-            TestBookFactory.createBookSummary(id = "2", title = "Book Two")
+    fun `loadBook with success should update book`() = runTest {
+        val book = TestBookFactory.createBook(
+            id = "book-123",
+            title = "Test Book"
         )
-        mockRepository.result = DomainResult.Success(books)
+        mockRepository.bookResult = DomainResult.Success(book)
 
         val viewModel = createViewModel()
+        viewModel.loadBook("book-123")
         advanceUntilIdle()
 
         val state = viewModel.uiState.value
         assertFalse(state.isLoading)
         assertNull(state.errorResId)
         assertFalse(state.sessionExpired)
-        assertEquals(2, state.bookSummaries.size)
-        assertEquals("Book One", state.bookSummaries[0].title)
-        assertEquals("Book Two", state.bookSummaries[1].title)
-    }
-
-    @Test
-    fun `loadBooks with empty list should return empty books`() = runTest {
-        mockRepository.result = DomainResult.Success(emptyList())
-
-        val viewModel = createViewModel()
-        advanceUntilIdle()
-
-        val state = viewModel.uiState.value
-        assertFalse(state.isLoading)
-        assertNull(state.errorResId)
-        assertTrue(state.bookSummaries.isEmpty())
+        assertEquals(book.id, state.book!!.id)
+        assertEquals(book.title, state.book.title)
     }
 
     // ==================== ERROR CASES ====================
 
     @Test
-    fun `loadBooks with network error should update error state`() = runTest {
-        mockRepository.result = DomainResult.Error(DomainErrorType.NETWORK_ERROR)
+    fun `loadBook with network error should update error state`() = runTest {
+        mockRepository.bookResult = DomainResult.Error(DomainErrorType.NETWORK_ERROR)
 
         val viewModel = createViewModel()
+        viewModel.loadBook("book-123")
         advanceUntilIdle()
 
         val state = viewModel.uiState.value
         assertFalse(state.isLoading)
         assertFalse(state.sessionExpired)
-        assertTrue(state.bookSummaries.isEmpty())
+        assertNull(state.book)
         assertEquals(R.string.error_network, state.errorResId)
     }
 
     @Test
-    fun `loadBooks with server error should update error state`() = runTest {
-        mockRepository.result = DomainResult.Error(DomainErrorType.SERVER_ERROR)
+    fun `loadBook with server error should update error state`() = runTest {
+        mockRepository.bookResult = DomainResult.Error(DomainErrorType.SERVER_ERROR)
 
         val viewModel = createViewModel()
+        viewModel.loadBook("book-123")
         advanceUntilIdle()
 
         val state = viewModel.uiState.value
@@ -101,25 +90,14 @@ class BooksViewModelTest {
         assertEquals(R.string.error_server, state.errorResId)
     }
 
-    @Test
-    fun `loadBooks with timeout should update error state`() = runTest {
-        mockRepository.result = DomainResult.Error(DomainErrorType.TIMEOUT)
-
-        val viewModel = createViewModel()
-        advanceUntilIdle()
-
-        val state = viewModel.uiState.value
-        assertFalse(state.isLoading)
-        assertEquals(R.string.error_timeout, state.errorResId)
-    }
-
     // ==================== SESSION EXPIRED ====================
 
     @Test
-    fun `loadBooks with unauthorized should set sessionExpired true`() = runTest {
-        mockRepository.result = DomainResult.Error(DomainErrorType.UNAUTHORIZED)
+    fun `loadBook with unauthorized should set sessionExpired true`() = runTest {
+        mockRepository.bookResult = DomainResult.Error(DomainErrorType.UNAUTHORIZED)
 
         val viewModel = createViewModel()
+        viewModel.loadBook("book-123")
         advanceUntilIdle()
 
         val state = viewModel.uiState.value
@@ -131,19 +109,23 @@ class BooksViewModelTest {
     // ==================== RETRY ====================
 
     @Test
-    fun `retry should reload books`() = runTest {
+    fun `retry should reload book`() = runTest {
         // First try: error
-        mockRepository.result = DomainResult.Error(DomainErrorType.NETWORK_ERROR)
+        mockRepository.bookResult = DomainResult.Error(DomainErrorType.NETWORK_ERROR)
 
         val viewModel = createViewModel()
+        viewModel.loadBook("book-123")
         advanceUntilIdle()
 
         val errorState = viewModel.uiState.value
         assertEquals(R.string.error_network, errorState.errorResId)
 
         // Second try: success
-        val books = listOf(TestBookFactory.createBookSummary(id = "1", title = "Book One"))
-        mockRepository.result = DomainResult.Success(books)
+        val book = TestBookFactory.createBook(
+            id = "book-123",
+            title = "Test Book"
+        )
+        mockRepository.bookResult = DomainResult.Success(book)
 
         viewModel.retry()
         advanceUntilIdle()
@@ -151,21 +133,32 @@ class BooksViewModelTest {
         val successState = viewModel.uiState.value
         assertFalse(successState.isLoading)
         assertNull(successState.errorResId)
-        assertEquals(1, successState.bookSummaries.size)
+        assertEquals(book.id, successState.book?.id)
     }
 
     @Test
     fun `retry should clear previous error`() = runTest {
-        mockRepository.result = DomainResult.Error(DomainErrorType.NETWORK_ERROR)
+        mockRepository.bookResult = DomainResult.Error(DomainErrorType.NETWORK_ERROR)
 
         val viewModel = createViewModel()
+        viewModel.loadBook("book-123")
         advanceUntilIdle()
         assertTrue(viewModel.uiState.value.errorResId != null)
 
-        mockRepository.result = DomainResult.Success(emptyList())
+        val book = TestBookFactory.createBook(id = "book-123", title = "Test Book")
+        mockRepository.bookResult = DomainResult.Success(book)
         viewModel.retry()
         advanceUntilIdle()
 
         assertNull(viewModel.uiState.value.errorResId)
+    }
+
+    @Test
+    fun `retry without loaded book should not crash`() = runTest {
+        val viewModel = createViewModel()
+        viewModel.retry()
+        advanceUntilIdle()
+
+        assertNull(viewModel.uiState.value.book)
     }
 }
