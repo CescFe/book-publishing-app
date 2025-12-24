@@ -324,9 +324,25 @@ private fun formatPublicationDate(dateString: String?): String? {
     }
     return try {
         val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val outputFormat = SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault())
-        val date = inputFormat.parse(dateString)
-        date?.let { outputFormat.format(it) } ?: dateString
+        val date = inputFormat.parse(dateString) ?: return dateString
+
+        val locale = Locale.getDefault()
+        val language = locale.language
+
+        if (language == "es" || language == "ca") {
+            val dayFormat = SimpleDateFormat("d", locale)
+            val monthFormat = SimpleDateFormat("MMMM", locale)
+            val yearFormat = SimpleDateFormat("yyyy", locale)
+
+            val day = dayFormat.format(date)
+            val month = monthFormat.format(date)
+            val year = yearFormat.format(date)
+
+            "$day de $month de $year"
+        } else {
+            val outputFormat = SimpleDateFormat("MMMM dd, yyyy", locale)
+            outputFormat.format(date)
+        }
     } catch (_: Exception) {
         dateString
     }
