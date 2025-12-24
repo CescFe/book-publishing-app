@@ -3,10 +3,10 @@ package org.cescfe.book_publishing_app.data.book.repository
 import java.io.IOException
 import java.net.SocketTimeoutException
 import kotlinx.coroutines.test.runTest
-import org.cescfe.book_publishing_app.data.book.remote.api.BooksApi
 import org.cescfe.book_publishing_app.data.book.remote.dto.AuthorRefDTO
 import org.cescfe.book_publishing_app.data.book.remote.dto.BookDTO
 import org.cescfe.book_publishing_app.data.book.remote.dto.CollectionRefDTO
+import org.cescfe.book_publishing_app.data.book.repository.helper.MockBooksApi
 import org.cescfe.book_publishing_app.data.shared.repository.helper.TestHttpExceptionFactory
 import org.cescfe.book_publishing_app.domain.book.model.enums.Status
 import org.cescfe.book_publishing_app.domain.shared.DomainErrorType
@@ -19,36 +19,19 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
-import retrofit2.HttpException
 
 class GetBookRepositoryImplTest {
 
-    private lateinit var mockBooksApi: MockBooksApiForGetById
+    private lateinit var mockBooksApi: MockBooksApi
     private lateinit var repository: BooksRepositoryImpl
 
     @Before
     fun setup() {
-        mockBooksApi = MockBooksApiForGetById()
+        mockBooksApi = MockBooksApi()
         repository = BooksRepositoryImpl(mockBooksApi)
     }
 
     // ==================== SUCCESS CASES ====================
-
-    @Test
-    fun `getBookById with valid response should return Success with book`() = runTest {
-        val bookDto = createBookDTO(
-            id = "1b871121-881e-44cf-b7b8-a2e9954ce6d6",
-            title = "Harry Potter and the Deathly Hallows"
-        )
-        mockBooksApi.bookResponse = bookDto
-
-        val result = repository.getBookById("1b871121-881e-44cf-b7b8-a2e9954ce6d6")
-
-        assertTrue(result is DomainResult.Success)
-        val success = result as DomainResult.Success
-        assertEquals(bookDto.id, success.data.id)
-        assertEquals(bookDto.title, success.data.title)
-    }
 
     @Test
     fun `getBookById should transform DTO to domain model correctly`() = runTest {
@@ -251,29 +234,4 @@ class GetBookRepositoryImplTest {
         description = description,
         status = status
     )
-}
-
-// ==================== MOCK ====================
-
-class MockBooksApiForGetById : BooksApi {
-    var successResponse: org.cescfe.book_publishing_app.data.book.remote.dto.BooksResponse? = null
-    var httpException: HttpException? = null
-    var exception: Throwable? = null
-    var bookResponse: BookDTO? = null
-    var bookHttpException: HttpException? = null
-    var bookException: Throwable? = null
-
-    override suspend fun getBooks(): org.cescfe.book_publishing_app.data.book.remote.dto.BooksResponse = when {
-        httpException != null -> throw httpException!!
-        exception != null -> throw exception!!
-        successResponse != null -> successResponse!!
-        else -> throw RuntimeException("Mock not configured")
-    }
-
-    override suspend fun getBookById(id: String): BookDTO = when {
-        bookHttpException != null -> throw bookHttpException!!
-        bookException != null -> throw bookException!!
-        bookResponse != null -> bookResponse!!
-        else -> throw RuntimeException("Mock not configured for getBookById")
-    }
 }
