@@ -271,12 +271,7 @@ fun BookCard(book: Book, modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun BookInfoRow(
-    label: String,
-    value: String?,
-    modifier: Modifier = Modifier,
-    testTag: String? = null
-) {
+private fun BookInfoRow(label: String, value: String?, modifier: Modifier = Modifier, testTag: String? = null) {
     Column(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(4.dp)

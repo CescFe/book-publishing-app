@@ -2,12 +2,12 @@ package org.cescfe.book_publishing_app.domain.shared
 
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import org.cescfe.book_publishing_app.R
 import org.cescfe.book_publishing_app.domain.book.model.enums.Status
 import org.cescfe.book_publishing_app.domain.shared.enums.Genre
 import org.cescfe.book_publishing_app.domain.shared.enums.Language
 import org.cescfe.book_publishing_app.domain.shared.enums.ReadingLevel
-import androidx.compose.ui.res.stringResource
 
 @StringRes
 fun Genre.toResId(): Int = when (this) {
@@ -87,21 +87,13 @@ fun Status.toResId(): Int = when (this) {
 }
 
 @Composable
-fun Genre.toLocalizedString(): String {
-    return stringResource(toResId())
-}
+fun Genre.toLocalizedString(): String = stringResource(toResId())
 
 @Composable
-fun ReadingLevel.toLocalizedString(): String {
-    return stringResource(toResId())
-}
+fun ReadingLevel.toLocalizedString(): String = stringResource(toResId())
 
 @Composable
-fun Language.toLocalizedString(): String {
-    return stringResource(toResId())
-}
+fun Language.toLocalizedString(): String = stringResource(toResId())
 
 @Composable
-fun Status.toLocalizedString(): String {
-    return stringResource(toResId())
-}
+fun Status.toLocalizedString(): String = stringResource(toResId())

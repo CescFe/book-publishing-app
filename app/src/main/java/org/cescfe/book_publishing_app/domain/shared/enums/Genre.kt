@@ -50,5 +50,5 @@ enum class Genre {
     TRADITIONS,
     TRAVEL,
     TRUE_CRIME,
-    YOUNG_ADULT;
+    YOUNG_ADULT
 }
