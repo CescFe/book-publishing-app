@@ -53,12 +53,10 @@ enum class Genre(val displayName: String) {
     YOUNG_ADULT("Young Adult");
 
     companion object {
-        fun fromString(value: String): Genre? {
-            return try {
-                valueOf(value.uppercase().replace(" ", "_"))
-            } catch (_: IllegalArgumentException) {
-                null
-            }
+        fun fromString(value: String): Genre? = try {
+            valueOf(value.uppercase().replace(" ", "_"))
+        } catch (_: IllegalArgumentException) {
+            null
         }
     }
 }

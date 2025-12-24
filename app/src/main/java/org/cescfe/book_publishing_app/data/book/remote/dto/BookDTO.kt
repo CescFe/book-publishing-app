@@ -39,24 +39,22 @@ data class BookDTO(
     val status: Status
 )
 
-fun BookDTO.toDomain(): Book {
-    return Book(
-        id = id,
-        title = title,
-        basePrice = basePrice,
-        authorName = author.name,
-        collectionName = collection.name,
-        readingLevel = readingLevel?.let { ReadingLevel.valueOf(it) },
-        primaryLanguage = primaryLanguage?.let { Language.valueOf(it) },
-        secondaryLanguages = secondaryLanguages.map { Language.valueOf(it) },
-        primaryGenre = primaryGenre?.let { Genre.valueOf(it) },
-        secondaryGenres = secondaryGenres.map { Genre.valueOf(it) },
-        vatRate = vatRate,
-        finalPrice = finalPrice,
-        isbn = isbn,
-        publicationDate = publicationDate,
-        pageCount = pageCount,
-        description = description,
-        status = Status.valueOf(status.toString())
-    )
-}
+fun BookDTO.toDomain(): Book = Book(
+    id = id,
+    title = title,
+    basePrice = basePrice,
+    authorName = author.name,
+    collectionName = collection.name,
+    readingLevel = readingLevel?.let { ReadingLevel.valueOf(it) },
+    primaryLanguage = primaryLanguage?.let { Language.valueOf(it) },
+    secondaryLanguages = secondaryLanguages.map { Language.valueOf(it) },
+    primaryGenre = primaryGenre?.let { Genre.valueOf(it) },
+    secondaryGenres = secondaryGenres.map { Genre.valueOf(it) },
+    vatRate = vatRate,
+    finalPrice = finalPrice,
+    isbn = isbn,
+    publicationDate = publicationDate,
+    pageCount = pageCount,
+    description = description,
+    status = Status.valueOf(status.toString())
+)

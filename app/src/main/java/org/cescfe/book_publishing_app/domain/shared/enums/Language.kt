@@ -4,5 +4,5 @@ enum class Language {
     CATALAN,
     VALENCIAN,
     SPANISH,
-    ENGLISH,
+    ENGLISH
 }
