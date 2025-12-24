@@ -5,6 +5,7 @@ import java.net.SocketTimeoutException
 import kotlinx.coroutines.test.runTest
 import org.cescfe.book_publishing_app.data.book.remote.api.BooksApi
 import org.cescfe.book_publishing_app.data.book.remote.dto.AuthorRefDTO
+import org.cescfe.book_publishing_app.data.book.remote.dto.BookDTO
 import org.cescfe.book_publishing_app.data.book.remote.dto.BookSummaryDTO
 import org.cescfe.book_publishing_app.data.book.remote.dto.BooksResponse
 import org.cescfe.book_publishing_app.data.book.remote.dto.CollectionRefDTO
@@ -230,5 +231,9 @@ class MockBooksApi : BooksApi {
         exception != null -> throw exception!!
         successResponse != null -> successResponse!!
         else -> throw RuntimeException("Mock not configured")
+    }
+
+    override suspend fun getBookById(id: String): BookDTO {
+        TODO("Not yet implemented")
     }
 }
