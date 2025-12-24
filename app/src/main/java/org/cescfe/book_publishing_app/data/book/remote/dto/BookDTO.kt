@@ -56,5 +56,5 @@ fun BookDTO.toDomain(): Book = Book(
     publicationDate = publicationDate,
     pageCount = pageCount,
     description = description,
-    status = Status.valueOf(status.toString())
+    status = status
 )

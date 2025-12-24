@@ -225,6 +225,9 @@ class MockBooksApi : BooksApi {
     var successResponse: BooksResponse? = null
     var httpException: HttpException? = null
     var exception: Throwable? = null
+    var bookResponse: BookDTO? = null
+    var bookHttpException: HttpException? = null
+    var bookException: Throwable? = null
 
     override suspend fun getBooks(): BooksResponse = when {
         httpException != null -> throw httpException!!
@@ -233,7 +236,10 @@ class MockBooksApi : BooksApi {
         else -> throw RuntimeException("Mock not configured")
     }
 
-    override suspend fun getBookById(id: String): BookDTO {
-        TODO("Not yet implemented")
+    override suspend fun getBookById(id: String): BookDTO = when {
+        bookHttpException != null -> throw bookHttpException!!
+        bookException != null -> throw bookException!!
+        bookResponse != null -> bookResponse!!
+        else -> throw RuntimeException("Mock not configured for getBookById")
     }
 }
