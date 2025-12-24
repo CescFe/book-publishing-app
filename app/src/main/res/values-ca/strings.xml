@@ -17,7 +17,7 @@
     <string name="nav_authors">Autors</string>
 
     <!-- Detail Actions Bottom Bar -->
-    <string name="action_edit">Editar</string>
+    <string name="action_update">Modificar</string>
     <string name="action_delete">Esborrar</string>
 
     <!-- Actions Top Bar -->
@@ -74,8 +74,8 @@
     <!-- Author Screen -->
     <string name="author_title">Autor</string>
 
-    <!-- Edit Author Screen -->
-    <string name="edit_author_title">Editar Autor</string>
+    <!-- Update Author Screen -->
+    <string name="update_author_title">Modificar Autor</string>
 
     <!-- Author Form -->
     <string name="author_full_name_label">Nom complet *</string>
@@ -100,9 +100,9 @@
     <string name="create_author_confirmation_title">Crear Autor</string>
     <string name="create_author_confirmation_message">Vols crear aquest autor?</string>
 
-    <!-- Edit Author Confirmation Dialog-->
-    <string name="edit_author_confirmation_title">Editar Autor</string>
-    <string name="edit_author_confirmation_message">Vols actualitzar aquest autor?</string>
+    <!-- Update Author Confirmation Dialog-->
+    <string name="update_author_confirmation_title">Modificar Autor</string>
+    <string name="update_author_confirmation_message">Vols actualitzar aquest autor?</string>
 
     <!-- Author Delete Confirmation -->
     <string name="author_delete_confirmation_title">Esborrar Author</string>
