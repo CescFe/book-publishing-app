@@ -31,9 +31,9 @@ import org.cescfe.book_publishing_app.ui.theme.BookpublishingappTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditAuthorScreen(
+fun UpdateAuthorScreen(
     authorId: String,
-    viewModel: EditAuthorViewModel = viewModel(),
+    viewModel: UpdateAuthorViewModel = viewModel(),
     onNavigateUp: () -> Unit = {},
     onSessionExpired: () -> Unit = {},
     onAuthorUpdated: (String) -> Unit = {}
@@ -57,7 +57,7 @@ fun EditAuthorScreen(
         }
     }
 
-    EditAuthorScreenContent(
+    UpdateAuthorScreenContent(
         uiState = uiState,
         onNavigateUp = onNavigateUp,
         onFullNameChange = viewModel::onFullNameChange,
@@ -73,8 +73,8 @@ fun EditAuthorScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun EditAuthorScreenContent(
-    uiState: EditAuthorUiState,
+internal fun UpdateAuthorScreenContent(
+    uiState: UpdateAuthorUiState,
     onNavigateUp: () -> Unit,
     onFullNameChange: (String) -> Unit,
     onPseudonymChange: (String) -> Unit,
@@ -86,10 +86,10 @@ internal fun EditAuthorScreenContent(
     onConfirmUpdateAuthor: () -> Unit
 ) {
     Scaffold(
-        modifier = Modifier.testTag("edit_author_screen"),
+        modifier = Modifier.testTag("update_author_screen"),
         topBar = {
             TopAppBar(
-                title = { Text(text = stringResource(R.string.edit_author_title)) },
+                title = { Text(text = stringResource(R.string.update_author_title)) },
                 navigationIcon = {
                     IconButton(
                         onClick = onNavigateUp,
@@ -101,7 +101,7 @@ internal fun EditAuthorScreenContent(
                         )
                     }
                 },
-                modifier = Modifier.testTag("edit_author_top_bar")
+                modifier = Modifier.testTag("update_author_top_bar")
             )
         },
         bottomBar = {
@@ -153,8 +153,8 @@ internal fun EditAuthorScreenContent(
     }
 
     ConfirmationDialog(
-        title = stringResource(R.string.edit_author_confirmation_title),
-        message = stringResource(R.string.edit_author_confirmation_message),
+        title = stringResource(R.string.update_author_confirmation_title),
+        message = stringResource(R.string.update_author_confirmation_message),
         isVisible = uiState.showConfirmDialog,
         onDismiss = onDismissDialog,
         onConfirm = onConfirmUpdateAuthor
@@ -165,10 +165,10 @@ internal fun EditAuthorScreenContent(
 
 @Preview(showBackground = true)
 @Composable
-private fun EditAuthorScreenEmptyPreview() {
+private fun UpdateAuthorScreenEmptyPreview() {
     BookpublishingappTheme {
-        EditAuthorScreenContent(
-            uiState = EditAuthorUiState(),
+        UpdateAuthorScreenContent(
+            uiState = UpdateAuthorUiState(),
             onNavigateUp = {},
             onFullNameChange = {},
             onPseudonymChange = {},
@@ -184,10 +184,10 @@ private fun EditAuthorScreenEmptyPreview() {
 
 @Preview(showBackground = true)
 @Composable
-private fun EditAuthorScreenWithDataPreview() {
+private fun UpdateAuthorScreenWithDataPreview() {
     BookpublishingappTheme {
-        EditAuthorScreenContent(
-            uiState = EditAuthorUiState(
+        UpdateAuthorScreenContent(
+            uiState = UpdateAuthorUiState(
                 fullName = "J.R.R. Tolkien",
                 pseudonym = "Tolkien",
                 biography = "English writer",
@@ -209,10 +209,10 @@ private fun EditAuthorScreenWithDataPreview() {
 
 @Preview(showBackground = true)
 @Composable
-private fun EditAuthorScreenLoadingPreview() {
+private fun UpdateAuthorScreenLoadingPreview() {
     BookpublishingappTheme {
-        EditAuthorScreenContent(
-            uiState = EditAuthorUiState(isLoading = true),
+        UpdateAuthorScreenContent(
+            uiState = UpdateAuthorUiState(isLoading = true),
             onNavigateUp = {},
             onFullNameChange = {},
             onPseudonymChange = {},

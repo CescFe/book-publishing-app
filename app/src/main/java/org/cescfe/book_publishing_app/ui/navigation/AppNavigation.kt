@@ -11,7 +11,7 @@ import org.cescfe.book_publishing_app.ui.auth.LoginScreen
 import org.cescfe.book_publishing_app.ui.author.AuthorScreen
 import org.cescfe.book_publishing_app.ui.author.AuthorsScreen
 import org.cescfe.book_publishing_app.ui.author.CreateAuthorScreen
-import org.cescfe.book_publishing_app.ui.author.EditAuthorScreen
+import org.cescfe.book_publishing_app.ui.author.UpdateAuthorScreen
 import org.cescfe.book_publishing_app.ui.book.BooksScreen
 import org.cescfe.book_publishing_app.ui.collection.CollectionsScreen
 import org.cescfe.book_publishing_app.ui.shared.navigation.BottomNavItem
@@ -181,7 +181,7 @@ fun AppNavigation(navController: NavHostController) {
             )
         ) { backStackEntry ->
             val authorId = backStackEntry.arguments?.getString("authorId") ?: ""
-            EditAuthorScreen(
+            UpdateAuthorScreen(
                 authorId = authorId,
                 onNavigateUp = { navController.navigateUp() },
                 onSessionExpired = {

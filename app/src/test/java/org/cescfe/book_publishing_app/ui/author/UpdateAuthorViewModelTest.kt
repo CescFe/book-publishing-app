@@ -21,7 +21,7 @@ import org.junit.Before
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class EditAuthorViewModelTest {
+class UpdateAuthorViewModelTest {
 
     private lateinit var mockRepository: MockAuthorsRepository
 
@@ -36,7 +36,7 @@ class EditAuthorViewModelTest {
         Dispatchers.resetMain()
     }
 
-    private fun createViewModel(): EditAuthorViewModel = EditAuthorViewModel(mockRepository)
+    private fun createViewModel(): UpdateAuthorViewModel = UpdateAuthorViewModel(mockRepository)
 
     // ==================== LOAD AUTHOR CASES ====================
 

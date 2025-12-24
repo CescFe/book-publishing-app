@@ -8,17 +8,17 @@ import org.cescfe.book_publishing_app.ui.theme.BookpublishingappTheme
 import org.junit.Rule
 import org.junit.Test
 
-class EditAuthorScreenTest {
+class UpdateAuthorScreenTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
 
     @Test
-    fun editAuthorScreen_displaysTopBarAndBottomBar() {
+    fun updateAuthorScreen_displaysTopBarAndBottomBar() {
         composeTestRule.setContent {
             BookpublishingappTheme {
-                EditAuthorScreenContent(
-                    uiState = EditAuthorUiState(),
+                UpdateAuthorScreenContent(
+                    uiState = UpdateAuthorUiState(),
                     onNavigateUp = {},
                     onFullNameChange = {},
                     onPseudonymChange = {},
@@ -33,7 +33,7 @@ class EditAuthorScreenTest {
         }
 
         composeTestRule
-            .onNodeWithTag("edit_author_top_bar")
+            .onNodeWithTag("update_author_top_bar")
             .assertIsDisplayed()
         composeTestRule
             .onNodeWithTag("save_button")
@@ -41,11 +41,11 @@ class EditAuthorScreenTest {
     }
 
     @Test
-    fun editAuthorScreen_validForm_saveClick_showsConfirmationDialog() {
+    fun updateAuthorScreen_validForm_saveClick_showsConfirmationDialog() {
         composeTestRule.setContent {
             BookpublishingappTheme {
-                EditAuthorScreenContent(
-                    uiState = EditAuthorUiState(
+                UpdateAuthorScreenContent(
+                    uiState = UpdateAuthorUiState(
                         fullName = "J. R. R. Tolkien",
                         biography = "English writer",
                         showConfirmDialog = true
@@ -69,13 +69,13 @@ class EditAuthorScreenTest {
     }
 
     @Test
-    fun editAuthorScreen_confirmSave_callsOnConfirmUpdateAuthor() {
+    fun updateAuthorScreen_confirmSave_callsOnConfirmUpdateAuthor() {
         var confirmCalled = false
 
         composeTestRule.setContent {
             BookpublishingappTheme {
-                EditAuthorScreenContent(
-                    uiState = EditAuthorUiState(
+                UpdateAuthorScreenContent(
+                    uiState = UpdateAuthorUiState(
                         fullName = "J. R. R. Tolkien",
                         showConfirmDialog = true
                     ),
@@ -101,11 +101,11 @@ class EditAuthorScreenTest {
     }
 
     @Test
-    fun editAuthorScreen_displaysPrefilledFormFields() {
+    fun updateAuthorScreen_displaysPrefilledFormFields() {
         composeTestRule.setContent {
             BookpublishingappTheme {
-                EditAuthorScreenContent(
-                    uiState = EditAuthorUiState(
+                UpdateAuthorScreenContent(
+                    uiState = UpdateAuthorUiState(
                         fullName = "J.R.R. Tolkien",
                         pseudonym = "Tolkien",
                         biography = "English writer and philologist",
@@ -143,11 +143,11 @@ class EditAuthorScreenTest {
     }
 
     @Test
-    fun editAuthorScreen_showsLoadingState_whenLoading() {
+    fun updateAuthorScreen_showsLoadingState_whenLoading() {
         composeTestRule.setContent {
             BookpublishingappTheme {
-                EditAuthorScreenContent(
-                    uiState = EditAuthorUiState(isLoading = true),
+                UpdateAuthorScreenContent(
+                    uiState = UpdateAuthorUiState(isLoading = true),
                     onNavigateUp = {},
                     onFullNameChange = {},
                     onPseudonymChange = {},
@@ -167,13 +167,13 @@ class EditAuthorScreenTest {
     }
 
     @Test
-    fun editAuthorScreen_dismissDialog_callsOnDismissDialog() {
+    fun updateAuthorScreen_dismissDialog_callsOnDismissDialog() {
         var dismissCalled = false
 
         composeTestRule.setContent {
             BookpublishingappTheme {
-                EditAuthorScreenContent(
-                    uiState = EditAuthorUiState(
+                UpdateAuthorScreenContent(
+                    uiState = UpdateAuthorUiState(
                         fullName = "J. R. R. Tolkien",
                         showConfirmDialog = true
                     ),

@@ -17,7 +17,7 @@ import org.cescfe.book_publishing_app.domain.shared.DomainErrorType
 import org.cescfe.book_publishing_app.domain.shared.DomainResult
 import org.cescfe.book_publishing_app.ui.shared.toStringResId
 
-data class EditAuthorUiState(
+data class UpdateAuthorUiState(
     val fullName: String = "",
     val pseudonym: String = "",
     val biography: String = "",
@@ -43,14 +43,14 @@ data class EditAuthorUiState(
             websiteError == null
 }
 
-class EditAuthorViewModel(
+class UpdateAuthorViewModel(
     private val authorsRepository: AuthorsRepository = AuthorsRepositoryImpl(
         RetrofitClient.authorsApi
     )
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(EditAuthorUiState())
-    val uiState: StateFlow<EditAuthorUiState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(UpdateAuthorUiState())
+    val uiState: StateFlow<UpdateAuthorUiState> = _uiState.asStateFlow()
 
     private var currentAuthorId: String? = null
 
@@ -208,7 +208,7 @@ class EditAuthorViewModel(
     private inline fun updateField(
         value: String,
         validator: (String) -> ValidationResult,
-        crossinline reducer: (EditAuthorUiState, Int?) -> EditAuthorUiState
+        crossinline reducer: (UpdateAuthorUiState, Int?) -> UpdateAuthorUiState
     ) {
         val error = validator(value).errorResIdOrNull()
         _uiState.value = reducer(_uiState.value, error).copy(errorResId = null)

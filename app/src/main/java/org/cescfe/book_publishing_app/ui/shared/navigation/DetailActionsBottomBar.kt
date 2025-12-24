@@ -27,7 +27,7 @@ fun DetailActionsBottomBar(
             icon = {
                 Icon(
                     painter = painterResource(R.drawable.ic_edit),
-                    contentDescription = stringResource(R.string.action_edit),
+                    contentDescription = stringResource(R.string.action_update),
                     modifier = Modifier.testTag("edit_action_button")
                 )
             }
