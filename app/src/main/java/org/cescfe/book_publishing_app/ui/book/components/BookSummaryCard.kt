@@ -1,5 +1,6 @@
 package org.cescfe.book_publishing_app.ui.book.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,9 +27,11 @@ import org.cescfe.book_publishing_app.R
 import org.cescfe.book_publishing_app.domain.book.model.BookSummary
 
 @Composable
-fun BookSummaryCard(bookSummary: BookSummary, modifier: Modifier = Modifier) {
+fun BookSummaryCard(bookSummary: BookSummary, modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
     Card(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Row(
