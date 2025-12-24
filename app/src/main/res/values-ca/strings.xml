@@ -142,4 +142,74 @@
     <string name="error_server">Error del servidor. Per favor prove més tard.</string>
     <string name="error_unknown">S\'ha produït un error inesperat</string>
     <string name="author_card_website_open_error">No s\'ha pogut obrir l\'enllaç</string>
+
+    <!-- Enum Localizations -->
+    <!-- Genre -->
+    <string name="enum_genre_adventure">Aventura</string>
+    <string name="enum_genre_art_design">Art i Disseny</string>
+    <string name="enum_genre_autobiography">Autobiografia</string>
+    <string name="enum_genre_biography">Biografia</string>
+    <string name="enum_genre_business">Negocis</string>
+    <string name="enum_genre_christianity">Cristianisme</string>
+    <string name="enum_genre_children">Infantil</string>
+    <string name="enum_genre_comics">Còmics</string>
+    <string name="enum_genre_cooking">Cuina</string>
+    <string name="enum_genre_culture">Cultura</string>
+    <string name="enum_genre_dictionaries">Diccionaris</string>
+    <string name="enum_genre_diverse_topics">Temes Diversos</string>
+    <string name="enum_genre_drama">Drama</string>
+    <string name="enum_genre_education">Educació</string>
+    <string name="enum_genre_essay">Assaig</string>
+    <string name="enum_genre_ethics">Ètica</string>
+    <string name="enum_genre_fantasy">Fantasia</string>
+    <string name="enum_genre_fiction">Ficció</string>
+    <string name="enum_genre_general_interest">Interès General</string>
+    <string name="enum_genre_grammar">Gramàtica</string>
+    <string name="enum_genre_graphic_novels">Novel·les Gràfiques</string>
+    <string name="enum_genre_health_fitness">Salut i Fitness</string>
+    <string name="enum_genre_historical_fiction">Ficció Històrica</string>
+    <string name="enum_genre_history">Història</string>
+    <string name="enum_genre_horror">Terror</string>
+    <string name="enum_genre_lexicography">Lexicografia</string>
+    <string name="enum_genre_memoir">Memòries</string>
+    <string name="enum_genre_mystery">Misteri</string>
+    <string name="enum_genre_non_fiction">No Ficció</string>
+    <string name="enum_genre_others">Altres</string>
+    <string name="enum_genre_philology">Filologia</string>
+    <string name="enum_genre_philosophy">Filosofia</string>
+    <string name="enum_genre_poetry">Poesia</string>
+    <string name="enum_genre_politics_social_sciences">Política i Ciències Socials</string>
+    <string name="enum_genre_reading_promotion">Foment de la Lectura</string>
+    <string name="enum_genre_religion">Religió</string>
+    <string name="enum_genre_romance">Romanç</string>
+    <string name="enum_genre_science_fiction">Ciència Ficció</string>
+    <string name="enum_genre_science_nature">Ciència i Natura</string>
+    <string name="enum_genre_self_help">Autoajuda</string>
+    <string name="enum_genre_spirituality">Espiritualitat</string>
+    <string name="enum_genre_sports">Esports</string>
+    <string name="enum_genre_teaching">Ensenyament</string>
+    <string name="enum_genre_theater">Teatre</string>
+    <string name="enum_genre_thriller">Thriller</string>
+    <string name="enum_genre_toponymy">Toponímia</string>
+    <string name="enum_genre_traditions">Tradicions</string>
+    <string name="enum_genre_travel">Viatges</string>
+    <string name="enum_genre_true_crime">Crim Real</string>
+    <string name="enum_genre_young_adult">Juvenil</string>
+
+    <!-- Reading Level -->
+    <string name="enum_reading_level_children">Infantil</string>
+    <string name="enum_reading_level_young_adult">Juvenil</string>
+    <string name="enum_reading_level_adult">Adult</string>
+
+    <!-- Language -->
+    <string name="enum_language_catalan">Català</string>
+    <string name="enum_language_valencian">Valencià</string>
+    <string name="enum_language_spanish">Espanyol</string>
+    <string name="enum_language_english">Anglès</string>
+
+    <!-- Status -->
+    <string name="enum_status_draft">Esborrany</string>
+    <string name="enum_status_published">Publicat</string>
+    <string name="enum_status_out_of_print">Esgotat</string>
+    <string name="enum_status_discontinued">Descatalogat</string>
 </resources>

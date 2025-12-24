@@ -141,4 +141,74 @@
     <string name="error_server">Server error. Please try again later.</string>
     <string name="error_unknown">An unexpected error occurred</string>
     <string name="author_card_website_open_error">Unable to open website</string>
+
+    <!-- Enum Localizations -->
+    <!-- Genre -->
+    <string name="enum_genre_adventure">Adventure</string>
+    <string name="enum_genre_art_design">Art and Design</string>
+    <string name="enum_genre_autobiography">Autobiography</string>
+    <string name="enum_genre_biography">Biography</string>
+    <string name="enum_genre_business">Business</string>
+    <string name="enum_genre_christianity">Christianity</string>
+    <string name="enum_genre_children">Children</string>
+    <string name="enum_genre_comics">Comics</string>
+    <string name="enum_genre_cooking">Cooking</string>
+    <string name="enum_genre_culture">Culture</string>
+    <string name="enum_genre_dictionaries">Dictionaries</string>
+    <string name="enum_genre_diverse_topics">Diverse Topics</string>
+    <string name="enum_genre_drama">Drama</string>
+    <string name="enum_genre_education">Education</string>
+    <string name="enum_genre_essay">Essay</string>
+    <string name="enum_genre_ethics">Ethics</string>
+    <string name="enum_genre_fantasy">Fantasy</string>
+    <string name="enum_genre_fiction">Fiction</string>
+    <string name="enum_genre_general_interest">General Interest</string>
+    <string name="enum_genre_grammar">Grammar</string>
+    <string name="enum_genre_graphic_novels">Graphic Novels</string>
+    <string name="enum_genre_health_fitness">Health and Fitness</string>
+    <string name="enum_genre_historical_fiction">Historical Fiction</string>
+    <string name="enum_genre_history">History</string>
+    <string name="enum_genre_horror">Horror</string>
+    <string name="enum_genre_lexicography">Lexicography</string>
+    <string name="enum_genre_memoir">Memoir</string>
+    <string name="enum_genre_mystery">Mystery</string>
+    <string name="enum_genre_non_fiction">Non-Fiction</string>
+    <string name="enum_genre_others">Others</string>
+    <string name="enum_genre_philology">Philology</string>
+    <string name="enum_genre_philosophy">Philosophy</string>
+    <string name="enum_genre_poetry">Poetry</string>
+    <string name="enum_genre_politics_social_sciences">Politics and Social Sciences</string>
+    <string name="enum_genre_reading_promotion">Reading Promotion</string>
+    <string name="enum_genre_religion">Religion</string>
+    <string name="enum_genre_romance">Romance</string>
+    <string name="enum_genre_science_fiction">Science Fiction</string>
+    <string name="enum_genre_science_nature">Science and Nature</string>
+    <string name="enum_genre_self_help">Self Help</string>
+    <string name="enum_genre_spirituality">Spirituality</string>
+    <string name="enum_genre_sports">Sports</string>
+    <string name="enum_genre_teaching">Teaching</string>
+    <string name="enum_genre_theater">Theater</string>
+    <string name="enum_genre_thriller">Thriller</string>
+    <string name="enum_genre_toponymy">Toponymy</string>
+    <string name="enum_genre_traditions">Traditions</string>
+    <string name="enum_genre_travel">Travel</string>
+    <string name="enum_genre_true_crime">True Crime</string>
+    <string name="enum_genre_young_adult">Young Adult</string>
+
+    <!-- Reading Level -->
+    <string name="enum_reading_level_children">Children</string>
+    <string name="enum_reading_level_young_adult">Young Adult</string>
+    <string name="enum_reading_level_adult">Adult</string>
+
+    <!-- Language -->
+    <string name="enum_language_catalan">Catalan</string>
+    <string name="enum_language_valencian">Valencian</string>
+    <string name="enum_language_spanish">Spanish</string>
+    <string name="enum_language_english">English</string>
+
+    <!-- Status -->
+    <string name="enum_status_draft">Draft</string>
+    <string name="enum_status_published">Published</string>
+    <string name="enum_status_out_of_print">Out of Print</string>
+    <string name="enum_status_discontinued">Discontinued</string>
 </resources>

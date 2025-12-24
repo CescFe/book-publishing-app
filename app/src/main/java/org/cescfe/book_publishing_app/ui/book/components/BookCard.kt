@@ -25,10 +25,10 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 import org.cescfe.book_publishing_app.R
 import org.cescfe.book_publishing_app.domain.book.model.Book
-import org.cescfe.book_publishing_app.domain.book.model.enums.Status
 import org.cescfe.book_publishing_app.domain.shared.enums.Genre
 import org.cescfe.book_publishing_app.domain.shared.enums.Language
-import org.cescfe.book_publishing_app.domain.shared.enums.ReadingLevel
+import org.cescfe.book_publishing_app.domain.shared.toLocalizedString
+import org.cescfe.book_publishing_app.domain.shared.toResId
 
 @Composable
 fun BookCard(book: Book, modifier: Modifier = Modifier) {
@@ -137,7 +137,7 @@ fun BookCard(book: Book, modifier: Modifier = Modifier) {
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Text(
-                    text = formatReadingLevel(book.readingLevel) ?: stringResource(R.string.not_informed),
+                    text = book.readingLevel?.toLocalizedString() ?: stringResource(R.string.not_informed),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.testTag("book_card_reading_level")
@@ -146,7 +146,7 @@ fun BookCard(book: Book, modifier: Modifier = Modifier) {
 
             BookInfoRow(
                 label = stringResource(R.string.book_card_primary_language_label),
-                value = book.primaryLanguage?.let { formatLanguage(it) },
+                value = book.primaryLanguage?.toLocalizedString(),
                 testTag = "book_card_primary_language"
             )
 
@@ -170,7 +170,7 @@ fun BookCard(book: Book, modifier: Modifier = Modifier) {
 
             BookInfoRow(
                 label = stringResource(R.string.book_card_primary_genre_label),
-                value = book.primaryGenre?.displayName,
+                value = book.primaryGenre?.toLocalizedString(),
                 testTag = "book_card_primary_genre"
             )
 
@@ -260,7 +260,7 @@ fun BookCard(book: Book, modifier: Modifier = Modifier) {
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Text(
-                    text = formatStatus(book.status),
+                    text = book.status.toLocalizedString(),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.testTag("book_card_status")
@@ -333,43 +333,20 @@ private fun formatPublicationDate(dateString: String?): String? {
     }
 }
 
-private fun formatReadingLevel(readingLevel: ReadingLevel?): String? {
-    return when (readingLevel) {
-        ReadingLevel.CHILDREN -> "Children"
-        ReadingLevel.YOUNG_ADULT -> "Young Adult"
-        ReadingLevel.ADULT -> "Adult"
-        null -> null
-    }
-}
-
-private fun formatLanguage(language: Language): String {
-    return when (language) {
-        Language.CATALAN -> "Catalan"
-        Language.VALENCIAN -> "Valencian"
-        Language.SPANISH -> "Spanish"
-        Language.ENGLISH -> "English"
-    }
-}
-
+@Composable
 private fun formatLanguages(languages: List<Language?>): String? {
-    val formatted = languages
+    val localizedStrings = languages
         .filterNotNull()
-        .joinToString(", ") { formatLanguage(it) }
+        .map { stringResource(it.toResId()) }
+    val formatted = localizedStrings.joinToString(", ")
     return formatted.takeIf { it.isNotEmpty() }
 }
 
+@Composable
 private fun formatGenres(genres: List<Genre?>): String? {
-    val formatted = genres
+    val localizedStrings = genres
         .filterNotNull()
-        .joinToString(", ") { it.displayName }
+        .map { stringResource(it.toResId()) }
+    val formatted = localizedStrings.joinToString(", ")
     return formatted.takeIf { it.isNotEmpty() }
-}
-
-private fun formatStatus(status: Status): String {
-    return when (status) {
-        Status.DRAFT -> "Draft"
-        Status.PUBLISHED -> "Published"
-        Status.OUT_OF_PRINT -> "Out of Print"
-        Status.DISCONTINUED -> "Discontinued"
-    }
 }
