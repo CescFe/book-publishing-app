@@ -12,6 +12,7 @@ import org.cescfe.book_publishing_app.ui.author.AuthorScreen
 import org.cescfe.book_publishing_app.ui.author.AuthorsScreen
 import org.cescfe.book_publishing_app.ui.author.CreateAuthorScreen
 import org.cescfe.book_publishing_app.ui.author.UpdateAuthorScreen
+import org.cescfe.book_publishing_app.ui.book.BookScreen
 import org.cescfe.book_publishing_app.ui.book.BooksScreen
 import org.cescfe.book_publishing_app.ui.collection.CollectionsScreen
 import org.cescfe.book_publishing_app.ui.shared.navigation.BottomNavItem
@@ -21,14 +22,16 @@ object Routes {
     const val SPLASH = "splash"
     const val LOGIN = "login"
     const val BOOKS = "books"
+    const val BOOK = "book"
     const val COLLECTIONS = "collections"
     const val AUTHORS = "authors"
     const val AUTHOR = "author"
     const val CREATE_AUTHOR = "create_author"
-    const val EDIT_AUTHOR = "edit_author"
+    const val UPDATE_AUTHOR = "update_author"
 
     fun author(authorId: String) = "author/$authorId"
-    fun editAuthor(authorId: String) = "edit_author/$authorId"
+    fun updateAuthor(authorId: String) = "update_author/$authorId"
+    fun book(bookId: String) = "book/$bookId"
 }
 
 @Composable
@@ -71,6 +74,37 @@ fun AppNavigation(navController: NavHostController) {
                             restoreState = true
                         }
                     }
+                },
+                onBookClick = { bookId ->
+                    navController.navigate(Routes.book(bookId))
+                }
+            )
+        }
+        composable(
+            route = "${Routes.BOOK}/{bookId}",
+            arguments = listOf(
+                navArgument("bookId") {
+                    type = NavType.StringType
+                }
+            )
+        ) { backStackEntry ->
+            val bookId = backStackEntry.arguments?.getString("bookId") ?: ""
+            BookScreen(
+                bookId = bookId,
+                onSessionExpired = {
+                    TokenManager.clearToken()
+                    navController.navigate(Routes.LOGIN) {
+                        popUpTo(Routes.BOOKS) { inclusive = true }
+                    }
+                },
+                onNavigateUp = {
+                    navController.navigateUp()
+                },
+                onEditClick = {
+                    // TODO: Placeholder for future implementation
+                },
+                onDeleteClick = {
+                    // TODO: Placeholder for future implementation
                 }
             )
         }
@@ -150,7 +184,7 @@ fun AppNavigation(navController: NavHostController) {
                     }
                 },
                 onEditClick = {
-                    navController.navigate(Routes.editAuthor(authorId))
+                    navController.navigate(Routes.updateAuthor(authorId))
                 }
             )
         }
@@ -173,7 +207,7 @@ fun AppNavigation(navController: NavHostController) {
             )
         }
         composable(
-            route = "${Routes.EDIT_AUTHOR}/{authorId}",
+            route = "${Routes.UPDATE_AUTHOR}/{authorId}",
             arguments = listOf(
                 navArgument("authorId") {
                     type = NavType.StringType

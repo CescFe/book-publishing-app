@@ -36,7 +36,8 @@ import org.cescfe.book_publishing_app.ui.theme.BookpublishingappTheme
 fun BooksScreen(
     viewModel: BooksViewModel = viewModel(),
     onSessionExpired: () -> Unit,
-    onNavigate: (BottomNavItem) -> Unit = {}
+    onNavigate: (BottomNavItem) -> Unit = {},
+    onBookClick: (String) -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -50,13 +51,19 @@ fun BooksScreen(
     BooksScreenContent(
         uiState = uiState,
         onRetry = viewModel::retry,
-        onNavigate = onNavigate
+        onNavigate = onNavigate,
+        onBookClick = onBookClick
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun BooksScreenContent(uiState: BooksUiState, onRetry: () -> Unit, onNavigate: (BottomNavItem) -> Unit = {}) {
+internal fun BooksScreenContent(
+    uiState: BooksUiState,
+    onRetry: () -> Unit,
+    onNavigate: (BottomNavItem) -> Unit = {},
+    onBookClick: (String) -> Unit = {}
+) {
     Scaffold(
         modifier = Modifier.testTag("books_screen"),
         topBar = {
@@ -93,7 +100,10 @@ internal fun BooksScreenContent(uiState: BooksUiState, onRetry: () -> Unit, onNa
                     )
                 }
                 else -> {
-                    BooksList(bookSummaries = uiState.bookSummaries)
+                    BooksList(
+                        bookSummaries = uiState.bookSummaries,
+                        onBookClick = onBookClick
+                    )
                 }
             }
         }
@@ -101,7 +111,7 @@ internal fun BooksScreenContent(uiState: BooksUiState, onRetry: () -> Unit, onNa
 }
 
 @Composable
-private fun BooksList(bookSummaries: List<BookSummary>) {
+private fun BooksList(bookSummaries: List<BookSummary>, onBookClick: (String) -> Unit = {}) {
     LazyColumn(
         modifier = Modifier.testTag("books_list"),
         contentPadding = PaddingValues(16.dp),
@@ -111,7 +121,10 @@ private fun BooksList(bookSummaries: List<BookSummary>) {
             items = bookSummaries,
             key = { book -> book.id }
         ) { book ->
-            BookSummaryCard(bookSummary = book)
+            BookSummaryCard(
+                bookSummary = book,
+                onClick = { onBookClick(book.id) }
+            )
         }
     }
 }

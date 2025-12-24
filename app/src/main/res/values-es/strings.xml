@@ -55,15 +55,18 @@
     <string name="retry">Reintentar</string>
 
     <!-- Books Screen -->
-    <string name="books_title">Libros</string>
+    <string name="books_title">Listado de libros</string>
     <string name="books_empty">No hay libros disponibles</string>
 
+    <!-- Book Screen -->
+    <string name="book_title">Detalle de libro</string>
+
     <!-- Collections Screen -->
-    <string name="collections_title">Colecciones</string>
+    <string name="collections_title">Listado de Colecciones</string>
     <string name="collections_empty">No hay colecciones disponibles</string>
 
     <!-- Authors Screen -->
-    <string name="authors_title">Autores</string>
+    <string name="authors_title">Listado de Autores</string>
     <string name="authors_empty">No hay autores disponibles</string>
     <string name="fab_create_author">Crear nuevo autor</string>
 
@@ -72,7 +75,7 @@
     <string name="action_save">Guardar</string>
 
     <!-- Author Screen -->
-    <string name="author_title">Autor</string>
+    <string name="author_title">Detalle de Autor</string>
 
     <!-- Update Author Screen -->
     <string name="update_author_title">Modificar Autor</string>

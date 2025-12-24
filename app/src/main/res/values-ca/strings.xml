@@ -55,15 +55,18 @@
     <string name="retry">Reintentar</string>
 
     <!-- Books Screen -->
-    <string name="books_title">Llibres</string>
+    <string name="books_title">Llistat de llibres</string>
     <string name="books_empty">No hi ha llibres disponibles</string>
 
+    <!-- Book Screen -->
+    <string name="book_title">Detall de Llibre</string>
+
     <!-- Collections Screen -->
-    <string name="collections_title">Col·leccions</string>
+    <string name="collections_title">Llistat de Col·leccions</string>
     <string name="collections_empty">No hi ha col·leccions disponibles</string>
 
     <!-- Authors Screen -->
-    <string name="authors_title">Autors</string>
+    <string name="authors_title">Llistat d\'Autors</string>
     <string name="authors_empty">No hi ha autors disponibles</string>
     <string name="fab_create_author">Crear nou autor</string>
 
@@ -72,7 +75,7 @@
     <string name="action_save">Guardar</string>
 
     <!-- Author Screen -->
-    <string name="author_title">Autor</string>
+    <string name="author_title">Detall d\'Autor</string>
 
     <!-- Update Author Screen -->
     <string name="update_author_title">Modificar Autor</string>

@@ -54,15 +54,18 @@
     <string name="retry">Retry</string>
 
     <!-- Books Screen -->
-    <string name="books_title">Books</string>
+    <string name="books_title">Books List</string>
     <string name="books_empty">No books available</string>
 
+    <!-- Book Screen -->
+    <string name="book_title">Book Detail</string>
+
     <!-- Collections Screen -->
-    <string name="collections_title">Collections</string>
+    <string name="collections_title">Collections List</string>
     <string name="collections_empty">No collections available</string>
 
     <!-- Authors Screen -->
-    <string name="authors_title">Authors</string>
+    <string name="authors_title">Authors List</string>
     <string name="authors_empty">No authors available</string>
     <string name="fab_create_author">Create new author</string>
 
@@ -71,7 +74,7 @@
     <string name="action_save">Save</string>
 
     <!-- Author Screen -->
-    <string name="author_title">Author</string>
+    <string name="author_title">Author Detail</string>
 
     <!-- Update Author Screen -->
     <string name="update_author_title">Update Author</string>
