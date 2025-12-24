@@ -23,12 +23,12 @@
     <!-- Actions Top Bar -->
     <string name="navigate_back">Retrocedir</string>
 
-    <!-- Book Card -->
+    <!-- Book Summary Card -->
     <string name="book_card_collection">Col·lecció: %1$s</string>
     <string name="book_card_isbn">ISBN: %1$s</string>
     <string name="book_card_no_isbn">Sense ISBN</string>
 
-    <!-- Collection Card -->
+    <!-- Collection Summary Card -->
     <string name="collection_card_reading_level">Nivell de lectura: %1$s</string>
     <string name="collection_card_no_reading_level">Sense nivell de lectura</string>
     <string name="collection_card_language">Idioma: %1$s</string>
@@ -41,6 +41,30 @@
     <string name="author_card_no_pseudonym">Sense pseudònim</string>
     <string name="author_card_email">Correu electrònic: %1$s</string>
     <string name="author_card_no_email">Sense correu electrònic</string>
+
+    <!-- Book Card -->
+    <string name="book_card_icon_description">Icona delllibre</string>
+    <string name="book_card_author_label">Autor</string>
+    <string name="book_card_no_author">Autor no indicat</string>
+    <string name="book_card_collection_label">Col·lecció</string>
+    <string name="book_card_no_collection">Col·lecció no indicada</string>
+    <string name="book_card_isbn_label">ISBN</string>
+    <string name="book_card_publication_date_label">Data de publicació</string>
+    <string name="book_card_page_count_label">Nº pàgines</string>
+    <string name="book_card_page_count">%1$d pàgs.</string>
+    <string name="book_card_no_page_count">Nº págs. no indicadas</string>
+    <string name="book_card_reading_level_label">Nivell de lectura</string>
+    <string name="book_card_primary_language_label">Idioma</string>
+    <string name="book_card_no_language">Idioma no indicat</string>
+    <string name="book_card_secondary_languages_label">Altres idiomes</string>
+    <string name="book_card_primary_genre_label">Gènere</string>
+    <string name="book_card_no_genre">Gènere no indicat</string>
+    <string name="book_card_secondary_genres_label">Subgèneres</string>
+    <string name="book_card_base_price_label">PVP (sense IVA)</string>
+    <string name="book_card_final_price_label">PVP (amb IVA)</string>
+    <string name="book_card_description_label">Sinopsi</string>
+    <string name="book_card_status_label">Estat</string>
+    <string name="not_informed">No informat</string>
 
     <!-- Author Card -->
     <string name="author_card_icon_description">Icona d\'autor</string>
@@ -118,4 +142,74 @@
     <string name="error_server">Error del servidor. Per favor prove més tard.</string>
     <string name="error_unknown">S\'ha produït un error inesperat</string>
     <string name="author_card_website_open_error">No s\'ha pogut obrir l\'enllaç</string>
+
+    <!-- Enum Localizations -->
+    <!-- Genre -->
+    <string name="enum_genre_adventure">Aventura</string>
+    <string name="enum_genre_art_design">Art i Disseny</string>
+    <string name="enum_genre_autobiography">Autobiografia</string>
+    <string name="enum_genre_biography">Biografia</string>
+    <string name="enum_genre_business">Negocis</string>
+    <string name="enum_genre_christianity">Cristianisme</string>
+    <string name="enum_genre_children">Infantil</string>
+    <string name="enum_genre_comics">Còmics</string>
+    <string name="enum_genre_cooking">Cuina</string>
+    <string name="enum_genre_culture">Cultura</string>
+    <string name="enum_genre_dictionaries">Diccionaris</string>
+    <string name="enum_genre_diverse_topics">Temes Diversos</string>
+    <string name="enum_genre_drama">Drama</string>
+    <string name="enum_genre_education">Educació</string>
+    <string name="enum_genre_essay">Assaig</string>
+    <string name="enum_genre_ethics">Ètica</string>
+    <string name="enum_genre_fantasy">Fantasia</string>
+    <string name="enum_genre_fiction">Ficció</string>
+    <string name="enum_genre_general_interest">Interès General</string>
+    <string name="enum_genre_grammar">Gramàtica</string>
+    <string name="enum_genre_graphic_novels">Novel·les Gràfiques</string>
+    <string name="enum_genre_health_fitness">Salut i Fitness</string>
+    <string name="enum_genre_historical_fiction">Ficció Històrica</string>
+    <string name="enum_genre_history">Història</string>
+    <string name="enum_genre_horror">Terror</string>
+    <string name="enum_genre_lexicography">Lexicografia</string>
+    <string name="enum_genre_memoir">Memòries</string>
+    <string name="enum_genre_mystery">Misteri</string>
+    <string name="enum_genre_non_fiction">No Ficció</string>
+    <string name="enum_genre_others">Altres</string>
+    <string name="enum_genre_philology">Filologia</string>
+    <string name="enum_genre_philosophy">Filosofia</string>
+    <string name="enum_genre_poetry">Poesia</string>
+    <string name="enum_genre_politics_social_sciences">Política i Ciències Socials</string>
+    <string name="enum_genre_reading_promotion">Foment de la Lectura</string>
+    <string name="enum_genre_religion">Religió</string>
+    <string name="enum_genre_romance">Romanç</string>
+    <string name="enum_genre_science_fiction">Ciència Ficció</string>
+    <string name="enum_genre_science_nature">Ciència i Natura</string>
+    <string name="enum_genre_self_help">Autoajuda</string>
+    <string name="enum_genre_spirituality">Espiritualitat</string>
+    <string name="enum_genre_sports">Esports</string>
+    <string name="enum_genre_teaching">Ensenyament</string>
+    <string name="enum_genre_theater">Teatre</string>
+    <string name="enum_genre_thriller">Thriller</string>
+    <string name="enum_genre_toponymy">Toponímia</string>
+    <string name="enum_genre_traditions">Tradicions</string>
+    <string name="enum_genre_travel">Viatges</string>
+    <string name="enum_genre_true_crime">Crim Real</string>
+    <string name="enum_genre_young_adult">Juvenil</string>
+
+    <!-- Reading Level -->
+    <string name="enum_reading_level_children">Infantil</string>
+    <string name="enum_reading_level_young_adult">Juvenil</string>
+    <string name="enum_reading_level_adult">Adult</string>
+
+    <!-- Language -->
+    <string name="enum_language_catalan">Català</string>
+    <string name="enum_language_valencian">Valencià</string>
+    <string name="enum_language_spanish">Espanyol</string>
+    <string name="enum_language_english">Anglès</string>
+
+    <!-- Status -->
+    <string name="enum_status_draft">Esborrany</string>
+    <string name="enum_status_published">Publicat</string>
+    <string name="enum_status_out_of_print">Esgotat</string>
+    <string name="enum_status_discontinued">Descatalogat</string>
 </resources>
