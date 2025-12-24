@@ -1,0 +1,391 @@
+package org.cescfe.book_publishing_app.ui.book.components
+
+import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import java.text.NumberFormat
+import java.text.SimpleDateFormat
+import java.util.Locale
+import org.cescfe.book_publishing_app.R
+import org.cescfe.book_publishing_app.domain.book.model.Book
+import org.cescfe.book_publishing_app.domain.book.model.enums.Status
+import org.cescfe.book_publishing_app.domain.shared.enums.Genre
+import org.cescfe.book_publishing_app.domain.shared.enums.Language
+import org.cescfe.book_publishing_app.domain.shared.enums.ReadingLevel
+
+@Composable
+fun BookCard(book: Book, modifier: Modifier = Modifier) {
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .testTag("book_card_${book.id}"),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            // Title (prominent)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.book_2),
+                    contentDescription = stringResource(R.string.book_card_icon_description),
+                    modifier = Modifier.size(48.dp),
+                    tint = MaterialTheme.colorScheme.primary
+                )
+
+                Text(
+                    text = book.title,
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .weight(1f)
+                        .testTag("book_card_title"),
+                    maxLines = 3,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+
+            // Author
+            BookInfoRow(
+                label = stringResource(R.string.book_card_author_label),
+                value = book.authorName,
+                emptyValueRes = R.string.book_card_no_author,
+                testTag = "book_card_author"
+            )
+
+            // Collection
+            BookInfoRow(
+                label = stringResource(R.string.book_card_collection_label),
+                value = book.collectionName,
+                emptyValueRes = R.string.book_card_no_collection,
+                testTag = "book_card_collection"
+            )
+
+            // ISBN
+            BookInfoRow(
+                label = stringResource(R.string.book_card_isbn_label),
+                value = book.isbn,
+                emptyValueRes = R.string.book_card_no_isbn,
+                testTag = "book_card_isbn"
+            )
+
+            // Publication Date
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.book_card_publication_date_label),
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.Medium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Text(
+                    text = formatPublicationDate(book.publicationDate),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.testTag("book_card_publication_date")
+                )
+            }
+
+            // Page Count
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.book_card_page_count_label),
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.Medium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Text(
+                    text = if (book.pageCount != null) {
+                        stringResource(R.string.book_card_page_count, book.pageCount)
+                    } else {
+                        stringResource(R.string.book_card_no_page_count)
+                    },
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.testTag("book_card_page_count")
+                )
+            }
+
+            // Reading Level
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.book_card_reading_level_label),
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.Medium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Text(
+                    text = formatReadingLevel(book.readingLevel),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.testTag("book_card_reading_level")
+                )
+            }
+
+            // Primary Language
+            BookInfoRow(
+                label = stringResource(R.string.book_card_primary_language_label),
+                value = book.primaryLanguage?.let { formatLanguage(it) },
+                emptyValueRes = R.string.book_card_no_language,
+                testTag = "book_card_primary_language"
+            )
+
+            // Secondary Languages
+            if (book.secondaryLanguages.isNotEmpty()) {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.book_card_secondary_languages_label),
+                        style = MaterialTheme.typography.labelMedium,
+                        fontWeight = FontWeight.Medium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Text(
+                        text = formatLanguages(book.secondaryLanguages),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier.testTag("book_card_secondary_languages")
+                    )
+                }
+            }
+
+            // Primary Genre
+            BookInfoRow(
+                label = stringResource(R.string.book_card_primary_genre_label),
+                value = book.primaryGenre?.displayName,
+                emptyValueRes = R.string.book_card_no_genre,
+                testTag = "book_card_primary_genre"
+            )
+
+            // Secondary Genres
+            if (book.secondaryGenres.isNotEmpty()) {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.book_card_secondary_genres_label),
+                        style = MaterialTheme.typography.labelMedium,
+                        fontWeight = FontWeight.Medium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Text(
+                        text = formatGenres(book.secondaryGenres),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier.testTag("book_card_secondary_genres")
+                    )
+                }
+            }
+
+            // Base Price
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.book_card_base_price_label),
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.Medium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Text(
+                    text = formatPrice(book.basePrice),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.testTag("book_card_base_price")
+                )
+            }
+
+            // Final Price with VAT
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.book_card_final_price_label),
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.Medium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Text(
+                    text = formatPrice(book.finalPrice),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.testTag("book_card_final_price")
+                )
+            }
+
+            // Description
+            if (!book.description.isNullOrBlank()) {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.book_card_description_label),
+                        style = MaterialTheme.typography.labelMedium,
+                        fontWeight = FontWeight.Medium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Text(
+                        text = book.description,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier.testTag("book_card_description"),
+                        maxLines = 10,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+            }
+
+            // Status
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.book_card_status_label),
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.Medium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Text(
+                    text = formatStatus(book.status),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.testTag("book_card_status")
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun BookInfoRow(
+    label: String,
+    value: String?,
+    @StringRes emptyValueRes: Int,
+    modifier: Modifier = Modifier,
+    testTag: String? = null
+) {
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        Text(
+            text = label,
+            style = MaterialTheme.typography.labelMedium,
+            fontWeight = FontWeight.Medium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        Text(
+            text = if (value.isNullOrBlank()) {
+                stringResource(emptyValueRes)
+            } else {
+                value
+            },
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurface,
+            modifier = testTag?.let { Modifier.testTag(it) } ?: Modifier,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis
+        )
+    }
+}
+
+private fun formatPrice(price: Double): String {
+    val numberFormat = NumberFormat.getCurrencyInstance(Locale.forLanguageTag("es-ES"))
+    return numberFormat.format(price)
+}
+
+private fun formatPublicationDate(dateString: String?): String {
+    if (dateString.isNullOrBlank()) {
+        return ""
+    }
+    return try {
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val outputFormat = SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault())
+        val date = inputFormat.parse(dateString)
+        date?.let { outputFormat.format(it) } ?: dateString
+    } catch (_: Exception) {
+        dateString
+    }
+}
+
+private fun formatReadingLevel(readingLevel: ReadingLevel?): String {
+    return when (readingLevel) {
+        ReadingLevel.CHILDREN -> "Children"
+        ReadingLevel.YOUNG_ADULT -> "Young Adult"
+        ReadingLevel.ADULT -> "Adult"
+        null -> ""
+    }
+}
+
+private fun formatLanguage(language: Language): String {
+    return when (language) {
+        Language.CATALAN -> "Catalan"
+        Language.VALENCIAN -> "Valencian"
+        Language.SPANISH -> "Spanish"
+        Language.ENGLISH -> "English"
+    }
+}
+
+private fun formatLanguages(languages: List<Language?>): String {
+    return languages
+        .filterNotNull()
+        .joinToString(", ") { formatLanguage(it) }
+        .ifEmpty { "" }
+}
+
+private fun formatGenres(genres: List<Genre?>): String {
+    return genres
+        .filterNotNull()
+        .joinToString(", ") { it.displayName }
+        .ifEmpty { "" }
+}
+
+private fun formatStatus(status: Status): String {
+    return when (status) {
+        Status.DRAFT -> "Draft"
+        Status.PUBLISHED -> "Published"
+        Status.OUT_OF_PRINT -> "Out of Print"
+        Status.DISCONTINUED -> "Discontinued"
+    }
+}

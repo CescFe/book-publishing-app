@@ -23,12 +23,12 @@
     <!-- Actions Top Bar -->
     <string name="navigate_back">Retroceder</string>
 
-    <!-- Book Card -->
+    <!-- Book Summary Card -->
     <string name="book_card_collection">Colección: %1$s</string>
     <string name="book_card_isbn">ISBN: %1$s</string>
     <string name="book_card_no_isbn">Sin ISBN</string>
 
-    <!-- Collection Card -->
+    <!-- Collection Summary Card -->
     <string name="collection_card_reading_level">Nivel de lectura: %1$s</string>
     <string name="collection_card_no_reading_level">Sin nivel de lectura</string>
     <string name="collection_card_language">Idioma: %1$s</string>
@@ -41,6 +41,29 @@
     <string name="author_card_no_pseudonym">Sin pseudónimo</string>
     <string name="author_card_email">Correo electrónico: %1$s</string>
     <string name="author_card_no_email">Sin correo electrónico</string>
+
+    <!-- Book Card -->
+    <string name="book_card_icon_description">Icono de libro</string>
+    <string name="book_card_author_label">Autor</string>
+    <string name="book_card_no_author">Autor no indicado</string>
+    <string name="book_card_collection_label">Colección</string>
+    <string name="book_card_no_collection">Colección no indicada</string>
+    <string name="book_card_isbn_label">ISBN</string>
+    <string name="book_card_publication_date_label">Fecha de publicación</string>
+    <string name="book_card_page_count_label">Nº páginas</string>
+    <string name="book_card_page_count">%1$d págs.</string>
+    <string name="book_card_no_page_count">Nº págs. no indicado</string>
+    <string name="book_card_reading_level_label">Nivel de lectura</string>
+    <string name="book_card_primary_language_label">Idioma</string>
+    <string name="book_card_no_language">Idioma no indicado</string>
+    <string name="book_card_secondary_languages_label">Otros idiomas</string>
+    <string name="book_card_primary_genre_label">Género</string>
+    <string name="book_card_no_genre">Género no indicado</string>
+    <string name="book_card_secondary_genres_label">Subgéneros</string>
+    <string name="book_card_base_price_label">PVP (sin IVA)</string>
+    <string name="book_card_final_price_label">PVP (con IVA)</string>
+    <string name="book_card_description_label">Sinopsis</string>
+    <string name="book_card_status_label">Estado</string>
 
     <!-- Author Card -->
     <string name="author_card_icon_description">Icono de autor</string>

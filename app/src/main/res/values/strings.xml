@@ -22,12 +22,12 @@
     <!-- Actions Top Bar -->
     <string name="navigate_back">Back</string>
 
-    <!-- Book Card -->
+    <!-- Book Summary Card -->
     <string name="book_card_collection">Collection: %1$s</string>
     <string name="book_card_isbn">ISBN: %1$s</string>
     <string name="book_card_no_isbn">No ISBN</string>
 
-    <!-- Collection Card -->
+    <!-- Collection Summary Card -->
     <string name="collection_card_reading_level">Reading Level: %1$s</string>
     <string name="collection_card_no_reading_level">No reading level</string>
     <string name="collection_card_language">Language: %1$s</string>
@@ -40,6 +40,29 @@
     <string name="author_card_no_pseudonym">No pseudonym</string>
     <string name="author_card_email">Email: %1$s</string>
     <string name="author_card_no_email">No email</string>
+
+    <!-- Book Card -->
+    <string name="book_card_icon_description">Book icon</string>
+    <string name="book_card_author_label">Author</string>
+    <string name="book_card_no_author">No Author</string>
+    <string name="book_card_collection_label">Collection</string>
+    <string name="book_card_no_collection">No Collection</string>
+    <string name="book_card_isbn_label">ISBN</string>
+    <string name="book_card_publication_date_label">Publication Date</string>
+    <string name="book_card_page_count_label">Page Count</string>
+    <string name="book_card_page_count">%1$d pages</string>
+    <string name="book_card_no_page_count">No page count</string>
+    <string name="book_card_reading_level_label">Reading Level</string>
+    <string name="book_card_primary_language_label">Primary Language</string>
+    <string name="book_card_no_language">No language specified</string>
+    <string name="book_card_secondary_languages_label">Secondary Languages</string>
+    <string name="book_card_primary_genre_label">Primary Genre</string>
+    <string name="book_card_no_genre">No genre</string>
+    <string name="book_card_secondary_genres_label">Secondary Genres</string>
+    <string name="book_card_base_price_label">Base Price</string>
+    <string name="book_card_final_price_label">Final Price (with VAT)</string>
+    <string name="book_card_description_label">Description</string>
+    <string name="book_card_status_label">Status</string>
 
     <!-- Author Card -->
     <string name="author_card_icon_description">Author icon</string>
