@@ -35,17 +35,24 @@ class GetBookRepositoryImplTest {
 
     @Test
     fun `getBookById should transform DTO to domain model correctly`() = runTest {
-        val bookDto = createBookDTO(
+        val bookDto = BookDTO(
             id = "1b871121-881e-44cf-b7b8-a2e9954ce6d6",
             title = "Harry Potter and the Deathly Hallows",
-            authorName = "Joanne Rowling",
-            collectionName = "Young Wizards",
+            basePrice = 29.99,
+            author = AuthorRefDTO(
+                id = "83e8e00b-31f9-4ab6-9c07-4b0689aaddf2",
+                name = "Joanne Rowling"
+            ),
+            collection = CollectionRefDTO(
+                id = "a7ca1a05-57e5-45f0-8bb1-0300f20942ec",
+                name = "Young Wizards"
+            ),
             readingLevel = "YOUNG_ADULT",
             primaryLanguage = "ENGLISH",
             secondaryLanguages = listOf("SPANISH", "CATALAN"),
             primaryGenre = "FANTASY",
             secondaryGenres = listOf("ADVENTURE", "MYSTERY"),
-            basePrice = 29.99,
+            vatRate = 0.04,
             finalPrice = 31.19,
             isbn = "9780747591054",
             publicationDate = "2007-07-21",
@@ -84,18 +91,30 @@ class GetBookRepositoryImplTest {
 
     @Test
     fun `getBookById with nullable fields should handle correctly`() = runTest {
-        val bookDto = createBookDTO(
-            id = "1",
-            title = "Test Book",
+        val bookDto = BookDTO(
+            id = "1b871121-881e-44cf-b7b8-a2e9954ce6d6",
+            title = "Harry Potter and the Deathly Hallows",
+            basePrice = 29.99,
+            author = AuthorRefDTO(
+                id = "83e8e00b-31f9-4ab6-9c07-4b0689aaddf2",
+                name = "Joanne Rowling"
+            ),
+            collection = CollectionRefDTO(
+                id = "a7ca1a05-57e5-45f0-8bb1-0300f20942ec",
+                name = "Young Wizards"
+            ),
             readingLevel = null,
             primaryLanguage = null,
             secondaryLanguages = emptyList(),
             primaryGenre = null,
             secondaryGenres = emptyList(),
+            vatRate = 0.04,
+            finalPrice = 31.19,
             isbn = null,
             publicationDate = null,
             pageCount = null,
-            description = null
+            description = null,
+            status = Status.DRAFT
         )
         mockBooksApi.bookResponse = bookDto
 
@@ -192,46 +211,4 @@ class GetBookRepositoryImplTest {
         val error = result as DomainResult.Error
         assertEquals(DomainErrorType.UNKNOWN, error.type)
     }
-
-    // ==================== HELPERS ====================
-
-    private fun createBookDTO(
-        id: String = "default-id",
-        title: String = "Default Title",
-        authorId: String = "default-author",
-        authorName: String = "Default Author",
-        collectionId: String = "default-collection",
-        collectionName: String = "Default Collection",
-        readingLevel: String? = "ADULT",
-        primaryLanguage: String? = "ENGLISH",
-        secondaryLanguages: List<String> = emptyList(),
-        primaryGenre: String? = "FANTASY",
-        secondaryGenres: List<String> = emptyList(),
-        basePrice: Double = 10.0,
-        vatRate: Double = 0.04,
-        finalPrice: Double = 10.04,
-        isbn: String? = "1234567890",
-        publicationDate: String? = "2024-01-01",
-        pageCount: Int? = 100,
-        description: String? = "Default description",
-        status: Status = Status.DRAFT
-    ) = BookDTO(
-        id = id,
-        title = title,
-        basePrice = basePrice,
-        author = AuthorRefDTO(id = authorId, name = authorName),
-        collection = CollectionRefDTO(id = collectionId, name = collectionName),
-        readingLevel = readingLevel,
-        primaryLanguage = primaryLanguage,
-        secondaryLanguages = secondaryLanguages,
-        primaryGenre = primaryGenre,
-        secondaryGenres = secondaryGenres,
-        vatRate = vatRate,
-        finalPrice = finalPrice,
-        isbn = isbn,
-        publicationDate = publicationDate,
-        pageCount = pageCount,
-        description = description,
-        status = status
-    )
 }

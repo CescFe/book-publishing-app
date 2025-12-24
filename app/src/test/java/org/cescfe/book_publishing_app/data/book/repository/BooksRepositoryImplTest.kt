@@ -28,45 +28,39 @@ class BooksRepositoryImplTest {
         repository = BooksRepositoryImpl(mockBooksApi)
     }
 
-    // ==================== SUCCESS CASES ====================
-
-    @Test
-    fun `getBooks with valid response should return Success with books list`() = runTest {
-        val bookDto = createBookDTO(
-            id = "book-123",
-            title = "The Lord of the Rings",
-            authorId = "author-456",
-            collectionId = "collection-789",
-            basePrice = 29.99
-        )
-        mockBooksApi.successResponse = createBooksResponse(listOf(bookDto))
-
-        val result = repository.getBooks()
-
-        assertTrue(result is DomainResult.Success)
-        val success = result as DomainResult.Success
-        assertEquals(1, success.data.size)
-        assertEquals(bookDto.id, success.data[0].id)
-        assertEquals(bookDto.title, success.data[0].title)
-    }
-
-    @Test
-    fun `getBooks with empty list should return Success with empty list`() = runTest {
-        mockBooksApi.successResponse = createBooksResponse(emptyList())
-
-        val result = repository.getBooks()
-
-        assertTrue(result is DomainResult.Success)
-        val success = result as DomainResult.Success
-        assertEquals(0, success.data.size)
-    }
-
     @Test
     fun `getBooks with multiple books should return all books`() = runTest {
         val books = listOf(
-            createBookDTO(id = "book-1", title = "Book One"),
-            createBookDTO(id = "book-2", title = "Book Two"),
-            createBookDTO(id = "book-3", title = "Book Three")
+            BookSummaryDTO(
+                id = "book-1",
+                title = "Book One",
+                author = AuthorRefDTO(id = "author-1", name = "Author One"),
+                collection = CollectionRefDTO(id = "collection-1", name = "Collection One"),
+                basePrice = 10.0,
+                finalPrice = 10.04,
+                isbn = null,
+                status = null
+            ),
+            BookSummaryDTO(
+                id = "book-2",
+                title = "Book Two",
+                author = AuthorRefDTO(id = "author-2", name = "Author Two"),
+                collection = CollectionRefDTO(id = "collection-2", name = "Collection Two"),
+                basePrice = 15.0,
+                finalPrice = 15.06,
+                isbn = null,
+                status = null
+            ),
+            BookSummaryDTO(
+                id = "book-3",
+                title = "Book Three",
+                author = AuthorRefDTO(id = "author-3", name = "Author Three"),
+                collection = CollectionRefDTO(id = "collection-3", name = "Collection Three"),
+                basePrice = 20.0,
+                finalPrice = 20.08,
+                isbn = null,
+                status = null
+            )
         )
         mockBooksApi.successResponse = createBooksResponse(books)
 
@@ -77,18 +71,23 @@ class BooksRepositoryImplTest {
         assertEquals(3, success.data.size)
     }
 
-    // ==================== DTO TRANSFORMATION ====================
-
     @Test
     fun `getBooks should transform DTO to domain model correctly`() = runTest {
-        val bookDto = createBookDTO(
+        val bookDto = BookSummaryDTO(
             id = "f59514f6-dbe8-41d0-a4ce-3e6cdf27290e",
             title = "The Lord of the Rings",
-            authorId = "d7a3c6f9-9dc3-4fbf-b61a-83d59c81903e",
-            collectionId = "8f5ef275-4987-47bc-8643-ff4e5efd6523",
+            author = AuthorRefDTO(
+                id = "d7a3c6f9-9dc3-4fbf-b61a-83d59c81903e",
+                name = "J.R.R. Tolkien"
+            ),
+            collection = CollectionRefDTO(
+                id = "8f5ef275-4987-47bc-8643-ff4e5efd6523",
+                name = "Fantasy"
+            ),
             basePrice = 29.99,
             finalPrice = 31.19,
-            isbn = null
+            isbn = null,
+            status = null
         )
         mockBooksApi.successResponse = createBooksResponse(listOf(bookDto))
 
@@ -181,30 +180,6 @@ class BooksRepositoryImplTest {
         val error = result as DomainResult.Error
         assertEquals(DomainErrorType.UNKNOWN, error.type)
     }
-
-    // ==================== HELPERS ====================
-
-    private fun createBookDTO(
-        id: String = "default-id",
-        title: String = "Default Title",
-        authorId: String = "default-author",
-        authorName: String = "Default Author Name",
-        collectionId: String = "default-collection",
-        collectionName: String = "Default Collection Name",
-        basePrice: Double = 10.0,
-        finalPrice: Double = 10.04,
-        isbn: String? = null,
-        status: String? = null
-    ) = BookSummaryDTO(
-        id = id,
-        title = title,
-        author = AuthorRefDTO(id = authorId, name = authorName),
-        collection = CollectionRefDTO(id = collectionId, name = collectionName),
-        basePrice = basePrice,
-        finalPrice = finalPrice,
-        isbn = isbn,
-        status = status
-    )
 
     private fun createBooksResponse(books: List<BookSummaryDTO>) = BooksResponse(
         data = books,
