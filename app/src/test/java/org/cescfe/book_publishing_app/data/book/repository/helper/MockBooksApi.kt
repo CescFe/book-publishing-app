@@ -3,6 +3,7 @@ package org.cescfe.book_publishing_app.data.book.repository.helper
 import org.cescfe.book_publishing_app.data.book.remote.api.BooksApi
 import org.cescfe.book_publishing_app.data.book.remote.dto.BookDTO
 import org.cescfe.book_publishing_app.data.book.remote.dto.BooksResponse
+import org.cescfe.book_publishing_app.data.book.remote.dto.CreateBookRequestDTO
 import retrofit2.HttpException
 
 class MockBooksApi : BooksApi {
@@ -26,5 +27,9 @@ class MockBooksApi : BooksApi {
         bookException != null -> throw bookException!!
         bookResponse != null -> bookResponse!!
         else -> throw RuntimeException("Mock not configured for getBookById")
+    }
+
+    override suspend fun createBook(request: CreateBookRequestDTO): BookDTO {
+        TODO("Not yet implemented")
     }
 }
