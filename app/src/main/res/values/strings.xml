@@ -107,6 +107,32 @@
     <!-- Update Author Screen -->
     <string name="update_author_title">Update Author</string>
 
+    <!-- Book Form Validation -->
+    <string name="error_title_required">Title is required</string>
+    <string name="error_title_too_long">Title is too long (200 max.)</string>
+    <string name="error_author_id_required">Author is required</string>
+    <string name="error_author_id_invalid_format">Author ID must be a valid UUID</string>
+    <string name="error_collection_id_required">Collection is required</string>
+    <string name="error_collection_id_invalid_format">Collection ID must be a valid UUID</string>
+    <string name="error_base_price_required">Base price is required</string>
+    <string name="error_base_price_invalid">Base price must be a valid number</string>
+    <string name="error_base_price_negative">Base price cannot be negative</string>
+    <string name="error_base_price_invalid_precision">Base price can have at most 2 decimal places</string>
+    <string name="error_vat_rate_invalid">VAT rate must be a valid number</string>
+    <string name="error_vat_rate_negative">VAT rate cannot be negative</string>
+    <string name="error_vat_rate_too_high">VAT rate cannot exceed 1 (100%)</string>
+    <string name="error_vat_rate_invalid_precision">VAT rate can have at most 2 decimal places</string>
+    <string name="error_isbn_invalid">ISBN format is invalid (must start with 978 or 979 followed by 10 digits)</string>
+    <string name="error_publication_date_invalid_format">Publication date format is invalid (YYYY-MM-DD)</string>
+    <string name="error_page_count_invalid">Page count must be a positive number</string>
+    <string name="error_description_too_long">Description is too long (2,000 max.)</string>
+    <string name="error_secondary_languages_too_many">Secondary languages cannot exceed 3</string>
+    <string name="error_secondary_languages_duplicated">Secondary languages cannot contain duplicates</string>
+    <string name="error_secondary_language_same_as_primary">Secondary languages cannot contain the primary language</string>
+    <string name="error_secondary_genres_too_many">Secondary genres cannot exceed 3</string>
+    <string name="error_secondary_genres_duplicated">Secondary genres cannot contain duplicates</string>
+    <string name="error_secondary_genre_same_as_primary">Secondary genres cannot contain the primary genre</string>
+
     <!-- Author Form -->
     <string name="author_full_name_label">Full Name *</string>
     <string name="author_pseudonym_label">Pseudonym</string>
