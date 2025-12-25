@@ -3,7 +3,6 @@ package org.cescfe.book_publishing_app.domain.book.validation
 import androidx.annotation.StringRes
 import java.text.SimpleDateFormat
 import java.util.Locale
-import java.util.UUID
 import org.cescfe.book_publishing_app.R
 import org.cescfe.book_publishing_app.domain.shared.enums.Genre
 import org.cescfe.book_publishing_app.domain.shared.enums.Language
@@ -11,7 +10,6 @@ import org.cescfe.book_publishing_app.domain.shared.enums.Language
 object BookValidation {
     private val ISBN_REGEX = Regex("^(978|979)\\d{10}$")
     private val DATE_REGEX = Regex("^\\d{4}-\\d{2}-\\d{2}$")
-    private val UUID_REGEX = Regex("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
     private val DATE_FORMAT = SimpleDateFormat("yyyy-MM-dd", Locale.US).apply {
         isLenient = false
     }
@@ -20,32 +18,6 @@ object BookValidation {
         value.isBlank() -> ValidationResult.Error(R.string.error_title_required)
         value.length > 200 -> ValidationResult.Error(R.string.error_title_too_long)
         else -> ValidationResult.Valid
-    }
-
-    fun validateAuthorId(value: String): ValidationResult = when {
-        value.isBlank() -> ValidationResult.Error(R.string.error_author_id_required)
-        !value.matches(UUID_REGEX) -> ValidationResult.Error(R.string.error_author_id_invalid_format)
-        else -> {
-            try {
-                UUID.fromString(value)
-                ValidationResult.Valid
-            } catch (_: IllegalArgumentException) {
-                ValidationResult.Error(R.string.error_author_id_invalid_format)
-            }
-        }
-    }
-
-    fun validateCollectionId(value: String): ValidationResult = when {
-        value.isBlank() -> ValidationResult.Error(R.string.error_collection_id_required)
-        !value.matches(UUID_REGEX) -> ValidationResult.Error(R.string.error_collection_id_invalid_format)
-        else -> {
-            try {
-                UUID.fromString(value)
-                ValidationResult.Valid
-            } catch (_: IllegalArgumentException) {
-                ValidationResult.Error(R.string.error_collection_id_invalid_format)
-            }
-        }
     }
 
     fun validateBasePrice(value: String): ValidationResult = when {

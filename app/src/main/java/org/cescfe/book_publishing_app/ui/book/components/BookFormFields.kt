@@ -26,7 +26,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.cescfe.book_publishing_app.R
+import org.cescfe.book_publishing_app.domain.author.model.AuthorSummary
 import org.cescfe.book_publishing_app.domain.book.model.enums.Status
+import org.cescfe.book_publishing_app.domain.collection.model.CollectionSummary
 import org.cescfe.book_publishing_app.domain.shared.enums.Genre
 import org.cescfe.book_publishing_app.domain.shared.enums.Language
 import org.cescfe.book_publishing_app.domain.shared.enums.ReadingLevel
@@ -38,10 +40,12 @@ fun BookFormFields(
     modifier: Modifier = Modifier,
     title: String,
     onTitleChange: (String) -> Unit,
-    authorId: String,
-    onAuthorIdChange: (String) -> Unit,
-    collectionId: String,
-    onCollectionIdChange: (String) -> Unit,
+    authorName: String,
+    onAuthorNameChange: (String) -> Unit,
+    collectionName: String,
+    onCollectionNameChange: (String) -> Unit,
+    authors: List<AuthorSummary>,
+    collections: List<CollectionSummary>,
     basePrice: String,
     onBasePriceChange: (String) -> Unit,
     readingLevel: ReadingLevel?,
@@ -67,8 +71,8 @@ fun BookFormFields(
     status: Status?,
     onStatusChange: (Status?) -> Unit,
     titleError: String? = null,
-    authorIdError: String? = null,
-    collectionIdError: String? = null,
+    authorNameError: String? = null,
+    collectionNameError: String? = null,
     basePriceError: String? = null,
     vatRateError: String? = null,
     isbnError: String? = null,
@@ -101,40 +105,22 @@ fun BookFormFields(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        OutlinedTextField(
-            value = authorId,
-            onValueChange = onAuthorIdChange,
-            label = { Text(stringResource(R.string.book_author_id_label)) },
-            modifier = Modifier
-                .fillMaxWidth()
-                .testTag("author_id_field"),
-            singleLine = true,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Next
-            ),
-            enabled = enabled,
-            isError = authorIdError != null,
-            supportingText = authorIdError?.let { { Text(it, color = MaterialTheme.colorScheme.error) } }
+        AuthorNameAutocomplete(
+            value = authorName,
+            onValueChange = onAuthorNameChange,
+            authors = authors,
+            error = authorNameError,
+            enabled = enabled
         )
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        OutlinedTextField(
-            value = collectionId,
-            onValueChange = onCollectionIdChange,
-            label = { Text(stringResource(R.string.book_collection_id_label)) },
-            modifier = Modifier
-                .fillMaxWidth()
-                .testTag("collection_id_field"),
-            singleLine = true,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Next
-            ),
-            enabled = enabled,
-            isError = collectionIdError != null,
-            supportingText = collectionIdError?.let { { Text(it, color = MaterialTheme.colorScheme.error) } }
+        CollectionNameAutocomplete(
+            value = collectionName,
+            onValueChange = onCollectionNameChange,
+            collections = collections,
+            error = collectionNameError,
+            enabled = enabled
         )
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -305,6 +291,142 @@ fun BookFormFields(
             onValueChange = onStatusChange,
             enabled = enabled
         )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun AuthorNameAutocomplete(
+    value: String,
+    onValueChange: (String) -> Unit,
+    authors: List<AuthorSummary>,
+    error: String?,
+    enabled: Boolean = true
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    // Filter authors based on input
+    val filteredAuthors = remember(value, authors) {
+        if (value.isBlank()) {
+            authors
+        } else {
+            authors.filter {
+                it.fullName.contains(value, ignoreCase = true)
+            }
+        }
+    }
+
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = it },
+        modifier = Modifier
+            .fillMaxWidth()
+            .testTag("author_name_autocomplete")
+    ) {
+        OutlinedTextField(
+            value = value,
+            onValueChange = { newValue ->
+                onValueChange(newValue)
+                expanded = true
+            },
+            label = { Text(stringResource(R.string.book_author_name_label)) },
+            trailingIcon = {
+                ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryEditable, enabled = enabled),
+            enabled = enabled,
+            isError = error != null,
+            supportingText = error?.let { { Text(it, color = MaterialTheme.colorScheme.error) } },
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Next
+            )
+        )
+        ExposedDropdownMenu(
+            expanded = expanded && filteredAuthors.isNotEmpty(),
+            onDismissRequest = { expanded = false }
+        ) {
+            filteredAuthors.forEach { author ->
+                DropdownMenuItem(
+                    text = { Text(author.fullName) },
+                    onClick = {
+                        onValueChange(author.fullName)
+                        expanded = false
+                    }
+                )
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun CollectionNameAutocomplete(
+    value: String,
+    onValueChange: (String) -> Unit,
+    collections: List<CollectionSummary>,
+    error: String?,
+    enabled: Boolean = true
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    // Filter collections based on input
+    val filteredCollections = remember(value, collections) {
+        if (value.isBlank()) {
+            collections
+        } else {
+            collections.filter {
+                it.name.contains(value, ignoreCase = true)
+            }
+        }
+    }
+
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = it },
+        modifier = Modifier
+            .fillMaxWidth()
+            .testTag("collection_name_autocomplete")
+    ) {
+        OutlinedTextField(
+            value = value,
+            onValueChange = { newValue ->
+                onValueChange(newValue)
+                expanded = true
+            },
+            label = { Text(stringResource(R.string.book_collection_name_label)) },
+            trailingIcon = {
+                ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryEditable, enabled = enabled),
+            enabled = enabled,
+            isError = error != null,
+            supportingText = error?.let { { Text(it, color = MaterialTheme.colorScheme.error) } },
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Next
+            )
+        )
+        ExposedDropdownMenu(
+            expanded = expanded && filteredCollections.isNotEmpty(),
+            onDismissRequest = { expanded = false }
+        ) {
+            filteredCollections.forEach { collection ->
+                DropdownMenuItem(
+                    text = { Text(collection.name) },
+                    onClick = {
+                        onValueChange(collection.name)
+                        expanded = false
+                    }
+                )
+            }
+        }
     }
 }
 
@@ -675,10 +797,12 @@ private fun BookFormFieldsEmptyPreview() {
         BookFormFields(
             title = "",
             onTitleChange = {},
-            authorId = "",
-            onAuthorIdChange = {},
-            collectionId = "",
-            onCollectionIdChange = {},
+            authorName = "",
+            onAuthorNameChange = {},
+            collectionName = "",
+            onCollectionNameChange = {},
+            authors = emptyList(),
+            collections = emptyList(),
             basePrice = "",
             onBasePriceChange = {},
             readingLevel = null,

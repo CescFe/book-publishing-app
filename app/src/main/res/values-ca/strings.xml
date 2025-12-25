@@ -112,6 +112,8 @@
     <string name="book_title_label">Títol *</string>
     <string name="book_author_id_label">ID de l\'Autor *</string>
     <string name="book_collection_id_label">ID de la Col·lecció *</string>
+    <string name="book_author_name_label">Nom de l\'autor</string>
+    <string name="book_collection_name_label">Nom de la col·lecció</string>
     <string name="book_base_price_label">Preu sense IVA *</string>
     <string name="book_reading_level_label">Nivell de Lectura</string>
     <string name="book_primary_language_label">Llengua</string>
