@@ -108,6 +108,30 @@
     <!-- Update Author Screen -->
     <string name="update_author_title">Modificar Autor</string>
 
+    <string name="error_title_required">El título es obligatorio</string>
+    <string name="error_title_too_long">Título demasiado largo (200 máx.)</string>
+    <string name="error_author_id_required">El autor es obligatorio</string>
+    <string name="error_author_id_invalid_format">El ID del autor debe ser un UUID válido</string>
+    <string name="error_collection_id_required">La colección es obligatoria</string>
+    <string name="error_collection_id_invalid_format">El ID de la colección debe ser un UUID válido</string>
+    <string name="error_base_price_required">PVP (sin IVA) es obligatorio</string>
+    <string name="error_base_price_invalid">PVP (sin IVA) debe ser un nº válido</string>
+    <string name="error_base_price_negative">PVP (sin IVA) no puede ser negativo</string>
+    <string name="error_base_price_invalid_precision">PVP (sin IVA) no puede contener más de 2 decimales</string>
+    <string name="error_vat_rate_invalid">Tipos de IVA debe ser un nº válido</string>
+    <string name="error_vat_rate_negative">Tipo de IVA no puede ser negativo</string>
+    <string name="error_vat_rate_too_high">Tipo de IVA no puede ser superior al 100%</string>
+    <string name="error_vat_rate_invalid_precision">Tipo de IVA no puede contener más de 2 decimales</string>
+    <string name="error_isbn_invalid">Formato de ISBN inválido (debe empezar por 978 o 979 seguido de 10 dígitos)</string>
+    <string name="error_publication_date_invalid_format">El Formato de la fecha de publicació no es válido (YYYY-MM-DD)</string>
+    <string name="error_page_count_invalid">El nº de páginas debe ser positivo</string>
+    <string name="error_description_too_long">Sinopsis demasiado larga (2,000 màx.)</string>
+    <string name="error_secondary_languages_too_many">No puede haber más de 3 idiomas extra</string>
+    <string name="error_secondary_languages_duplicated">No puede haber idiomas duplicados</string>
+    <string name="error_secondary_language_same_as_primary">En otros idiomas no se puede incluir el idioma principal</string>
+    <string name="error_secondary_genres_too_many">No puede haber más de 3 géneros secundarios</string>
+    <string name="error_secondary_genres_duplicated">No puede haber géneros duplicados</string>
+    <string name="error_secondary_genre_same_as_primary">En géneros secundarios no se puede incluir el género principal</string>
     <!-- Author Form -->
     <string name="author_full_name_label">Nombre completo *</string>
     <string name="author_pseudonym_label">Pseudónimo</string>

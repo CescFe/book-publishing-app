@@ -108,6 +108,32 @@
     <!-- Update Author Screen -->
     <string name="update_author_title">Modificar Autor</string>
 
+    <!-- Book Form Validation -->
+    <string name="error_title_required">El títol és obligatori</string>
+    <string name="error_title_too_long">Títol massa llarg (200 màx.)</string>
+    <string name="error_author_id_required">L\'autor és obligatori</string>
+    <string name="error_author_id_invalid_format">L\'ID de l\'autor ha de ser un UUID vàlid</string>
+    <string name="error_collection_id_required">La col·lecció és obligatòria</string>
+    <string name="error_collection_id_invalid_format">L\'ID de la col·lecció ha de ser un UUID vàlid</string>
+    <string name="error_base_price_required">PVP (sense IVA) és obligatori</string>
+    <string name="error_base_price_invalid">PVP (sense IVA) ha de ser un nº vàlid</string>
+    <string name="error_base_price_negative">PVP (sense IVA) no pot ser negatiu</string>
+    <string name="error_base_price_invalid_precision">PVP (sense IVA) no pot tindre més de 2 decimals</string>
+    <string name="error_vat_rate_invalid">Tipus d\'IVA ha de ser un nº vàlid</string>
+    <string name="error_vat_rate_negative">Tipus d\'IVA no pot ser negatiu</string>
+    <string name="error_vat_rate_too_high">Tipus d\'IVA no pot ser superior al 100%</string>
+    <string name="error_vat_rate_invalid_precision">Tipus d\'IVA no pot tindre més de 2 decimals</string>
+    <string name="error_isbn_invalid">Format d\'ISBN és invàlid (ha de començar per 978 o 979 seguit de 10 digits)</string>
+    <string name="error_publication_date_invalid_format">El Format de la data de publicació no és vàlid (YYYY-MM-DD)</string>
+    <string name="error_page_count_invalid">El nº de pàgines ha de ser positiu</string>
+    <string name="error_description_too_long">Sinopsi massa llarga (2,000 màx.)</string>
+    <string name="error_secondary_languages_too_many">No pot haver més de 3 idiomes extra</string>
+    <string name="error_secondary_languages_duplicated">No poden haver idiomes duplicats</string>
+    <string name="error_secondary_language_same_as_primary">En altres idiomes no es pot incloure l\'idioma principal</string>
+    <string name="error_secondary_genres_too_many">No pot haver més de 3 gèneres secundaris</string>
+    <string name="error_secondary_genres_duplicated">No poden haver gèneres duplicats</string>
+    <string name="error_secondary_genre_same_as_primary">En gèneres secundaris no es pot incloure el gènere principal</string>
+
     <!-- Author Form -->
     <string name="author_full_name_label">Nom complet *</string>
     <string name="author_pseudonym_label">Pseudònim</string>
