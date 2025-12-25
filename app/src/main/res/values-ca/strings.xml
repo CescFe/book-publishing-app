@@ -81,6 +81,10 @@
     <!-- Books Screen -->
     <string name="books_title">Llistat de llibres</string>
     <string name="books_empty">No hi ha llibres disponibles</string>
+    <string name="fab_create_book">Crear nou llibre</string>
+
+    <!-- Create Book Screen -->
+    <string name="create_book_title">Crear Llibre</string>
 
     <!-- Book Screen -->
     <string name="book_title">Detall de Llibre</string>
@@ -122,6 +126,10 @@
     <!-- Confirmation Dialog -->
     <string name="dialog_dismiss">Descartar</string>
     <string name="dialog_confirm">Confirmar</string>
+
+    <!-- Create Book Confirmation Dialog-->
+    <string name="create_book_confirmation_title">Crear Llibre</string>
+    <string name="create_book_confirmation_message">Vols crear aquest llibre?</string>
 
     <!-- Create Author Confirmation Dialog-->
     <string name="create_author_confirmation_title">Crear Autor</string>
