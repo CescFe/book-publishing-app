@@ -14,6 +14,7 @@ import org.cescfe.book_publishing_app.ui.author.CreateAuthorScreen
 import org.cescfe.book_publishing_app.ui.author.UpdateAuthorScreen
 import org.cescfe.book_publishing_app.ui.book.BookScreen
 import org.cescfe.book_publishing_app.ui.book.BooksScreen
+import org.cescfe.book_publishing_app.ui.book.CreateBookScreen
 import org.cescfe.book_publishing_app.ui.collection.CollectionsScreen
 import org.cescfe.book_publishing_app.ui.shared.navigation.BottomNavItem
 import org.cescfe.book_publishing_app.ui.splash.SplashScreen
@@ -23,6 +24,7 @@ object Routes {
     const val LOGIN = "login"
     const val BOOKS = "books"
     const val BOOK = "book"
+    const val CREATE_BOOK = "create_book"
     const val COLLECTIONS = "collections"
     const val AUTHORS = "authors"
     const val AUTHOR = "author"
@@ -77,6 +79,9 @@ fun AppNavigation(navController: NavHostController) {
                 },
                 onBookClick = { bookId ->
                     navController.navigate(Routes.book(bookId))
+                },
+                onCreateBookClick = {
+                    navController.navigate(Routes.CREATE_BOOK)
                 }
             )
         }
@@ -105,6 +110,20 @@ fun AppNavigation(navController: NavHostController) {
                 },
                 onDeleteClick = {
                     // TODO: Placeholder for future implementation
+                }
+            )
+        }
+        composable(Routes.CREATE_BOOK) {
+            CreateBookScreen(
+                onNavigateUp = { navController.navigateUp() },
+                onSessionExpired = {
+                    TokenManager.clearToken()
+                    navController.navigate(Routes.LOGIN) {
+                        popUpTo(Routes.BOOKS) { inclusive = true }
+                    }
+                },
+                onBookCreated = {
+                    // TODO: Navigation to book detail after creation
                 }
             )
         }
