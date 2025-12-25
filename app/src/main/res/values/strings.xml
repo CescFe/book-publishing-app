@@ -80,6 +80,10 @@
     <!-- Books Screen -->
     <string name="books_title">Books List</string>
     <string name="books_empty">No books available</string>
+    <string name="fab_create_book">Create new book</string>
+
+    <!-- Create Book Screen -->
+    <string name="create_book_title">Create Book</string>
 
     <!-- Book Screen -->
     <string name="book_title">Book Detail</string>
@@ -121,6 +125,10 @@
     <!-- Confirmation Dialog -->
     <string name="dialog_dismiss">Dismiss</string>
     <string name="dialog_confirm">Confirm</string>
+
+    <!-- Create Book Confirmation Dialog-->
+    <string name="create_book_confirmation_title">Create Book</string>
+    <string name="create_book_confirmation_message">Are you sure you want to create this book?</string>
 
     <!-- Create Author Confirmation Dialog-->
     <string name="create_author_confirmation_title">Create Author</string>

@@ -7,7 +7,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -17,6 +20,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,7 +41,8 @@ fun BooksScreen(
     viewModel: BooksViewModel = viewModel(),
     onSessionExpired: () -> Unit,
     onNavigate: (BottomNavItem) -> Unit = {},
-    onBookClick: (String) -> Unit = {}
+    onBookClick: (String) -> Unit = {},
+    onCreateBookClick: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -52,7 +57,8 @@ fun BooksScreen(
         uiState = uiState,
         onRetry = viewModel::retry,
         onNavigate = onNavigate,
-        onBookClick = onBookClick
+        onBookClick = onBookClick,
+        onCreateBookClick = onCreateBookClick
     )
 }
 
@@ -62,7 +68,8 @@ internal fun BooksScreenContent(
     uiState: BooksUiState,
     onRetry: () -> Unit,
     onNavigate: (BottomNavItem) -> Unit = {},
-    onBookClick: (String) -> Unit = {}
+    onBookClick: (String) -> Unit = {},
+    onCreateBookClick: () -> Unit = {}
 ) {
     Scaffold(
         modifier = Modifier.testTag("books_screen"),
@@ -76,6 +83,18 @@ internal fun BooksScreenContent(
                 selectedItem = BottomNavItem.Books,
                 onItemClick = onNavigate
             )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = onCreateBookClick,
+                shape = CircleShape,
+                modifier = Modifier.testTag("create_book_fab")
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_add),
+                    contentDescription = stringResource(R.string.fab_create_book)
+                )
+            }
         }
     ) { innerPadding ->
         Box(
