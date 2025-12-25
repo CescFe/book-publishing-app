@@ -5,11 +5,16 @@ import java.util.UUID
 import org.cescfe.book_publishing_app.R
 import org.cescfe.book_publishing_app.domain.shared.enums.Genre
 import org.cescfe.book_publishing_app.domain.shared.enums.Language
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 object BookValidation {
     private val ISBN_REGEX = Regex("^(978|979)\\d{10}$")
     private val DATE_REGEX = Regex("^\\d{4}-\\d{2}-\\d{2}$")
     private val UUID_REGEX = Regex("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+    private val DATE_FORMAT = SimpleDateFormat("yyyy-MM-dd", Locale.US).apply {
+        isLenient = false
+    }
 
     fun validateTitle(value: String): ValidationResult = when {
         value.isBlank() -> ValidationResult.Error(R.string.error_title_required)
@@ -105,7 +110,7 @@ object BookValidation {
             !trimmed.matches(DATE_REGEX) -> ValidationResult.Error(R.string.error_publication_date_invalid_format)
             else -> {
                 try {
-                    java.time.LocalDate.parse(trimmed)
+                    DATE_FORMAT.parse(trimmed)
                     ValidationResult.Valid
                 } catch (_: Exception) {
                     ValidationResult.Error(R.string.error_publication_date_invalid_format)
