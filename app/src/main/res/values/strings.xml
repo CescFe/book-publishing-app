@@ -136,8 +136,10 @@
     <string name="error_title_required">Title is required</string>
     <string name="error_title_too_long">Title is too long (200 max.)</string>
     <string name="error_author_id_required">Author is required</string>
+    <string name="error_author_id_not_found">Author not found</string>
     <string name="error_author_id_invalid_format">Author ID must be a valid UUID</string>
     <string name="error_collection_id_required">Collection is required</string>
+    <string name="error_collection_id_not_found">Collection not found</string>
     <string name="error_collection_id_invalid_format">Collection ID must be a valid UUID</string>
     <string name="error_base_price_required">Base price is required</string>
     <string name="error_base_price_invalid">Base price must be a valid number</string>

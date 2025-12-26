@@ -137,8 +137,10 @@
     <string name="error_title_required">El títol és obligatori</string>
     <string name="error_title_too_long">Títol massa llarg (200 màx.)</string>
     <string name="error_author_id_required">L\'autor és obligatori</string>
+    <string name="error_author_id_not_found">No s\'ha trobat l\'autor</string>
     <string name="error_author_id_invalid_format">L\'ID de l\'autor ha de ser un UUID vàlid</string>
     <string name="error_collection_id_required">La col·lecció és obligatòria</string>
+    <string name="error_collection_id_not_found">No s\'ha trobat la col·lecció</string>
     <string name="error_collection_id_invalid_format">L\'ID de la col·lecció ha de ser un UUID vàlid</string>
     <string name="error_base_price_required">PVP (sense IVA) és obligatori</string>
     <string name="error_base_price_invalid">PVP (sense IVA) ha de ser un nº vàlid</string>

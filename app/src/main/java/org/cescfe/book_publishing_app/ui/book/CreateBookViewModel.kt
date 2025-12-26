@@ -67,31 +67,27 @@ data class CreateBookUiState(
 ) {
     val isFormValid: Boolean
         get() = title.isNotBlank() &&
-                authorName.isNotBlank() &&
-                collectionName.isNotBlank() &&
-                basePrice.isNotBlank() &&
-                titleError == null &&
-                authorNameError == null &&
-                collectionNameError == null &&
-                basePriceError == null &&
-                vatRateError == null &&
-                isbnError == null &&
-                publicationDateError == null &&
-                pageCountError == null &&
-                descriptionError == null &&
-                secondaryLanguagesError == null &&
-                secondaryGenresError == null &&
-                findAuthorIdByName(authorName) != null &&
-                findCollectionIdByName(collectionName) != null
+            authorName.isNotBlank() &&
+            collectionName.isNotBlank() &&
+            basePrice.isNotBlank() &&
+            titleError == null &&
+            authorNameError == null &&
+            collectionNameError == null &&
+            basePriceError == null &&
+            vatRateError == null &&
+            isbnError == null &&
+            publicationDateError == null &&
+            pageCountError == null &&
+            descriptionError == null &&
+            secondaryLanguagesError == null &&
+            secondaryGenresError == null &&
+            findAuthorIdByName(authorName) != null &&
+            findCollectionIdByName(collectionName) != null
 
     // Helper functions to find IDs by name
-    fun findAuthorIdByName(name: String): String? {
-        return authors.find { it.fullName.equals(name, ignoreCase = true) }?.id
-    }
+    fun findAuthorIdByName(name: String): String? = authors.find { it.fullName.equals(name, ignoreCase = true) }?.id
 
-    fun findCollectionIdByName(name: String): String? {
-        return collections.find { it.name.equals(name, ignoreCase = true) }?.id
-    }
+    fun findCollectionIdByName(name: String): String? = collections.find { it.name.equals(name, ignoreCase = true) }?.id
 }
 
 class CreateBookViewModel(
@@ -169,12 +165,12 @@ class CreateBookViewModel(
         }
     }
 
-    fun onAuthorNameChange(authorName: String) {  // Changed from onAuthorIdChange
+    fun onAuthorNameChange(authorName: String) {
         val currentState = _uiState.value
         val error = if (authorName.isBlank()) {
-            R.string.error_author_id_required  // Keep same error string for now
+            R.string.error_author_id_required
         } else if (currentState.findAuthorIdByName(authorName) == null) {
-            R.string.error_author_id_invalid_format  // Author not found
+            R.string.error_author_id_not_found
         } else {
             null
         }
@@ -186,12 +182,12 @@ class CreateBookViewModel(
         )
     }
 
-    fun onCollectionNameChange(collectionName: String) {  // Changed from onCollectionIdChange
+    fun onCollectionNameChange(collectionName: String) {
         val currentState = _uiState.value
         val error = if (collectionName.isBlank()) {
-            R.string.error_collection_id_required  // Keep same error string for now
+            R.string.error_collection_id_required
         } else if (currentState.findCollectionIdByName(collectionName) == null) {
-            R.string.error_collection_id_invalid_format  // Collection not found
+            R.string.error_collection_id_not_found
         } else {
             null
         }
@@ -359,8 +355,8 @@ class CreateBookViewModel(
 
             val request = CreateBookRequest(
                 title = currentState.title.trim(),
-                authorId = authorId,  // Use found ID
-                collectionId = collectionId,  // Use found ID
+                authorId = authorId, // Use found ID
+                collectionId = collectionId, // Use found ID
                 basePrice = roundedBasePrice,
                 readingLevel = currentState.readingLevel,
                 primaryLanguage = currentState.primaryLanguage,

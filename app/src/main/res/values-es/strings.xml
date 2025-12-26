@@ -133,11 +133,14 @@
     <string name="select_genre">Seleccionar género</string>
     <string name="select_status">Seleccionar estado</string>
 
+    <!-- Book Form Validation -->
     <string name="error_title_required">El título es obligatorio</string>
     <string name="error_title_too_long">Título demasiado largo (200 máx.)</string>
     <string name="error_author_id_required">El autor es obligatorio</string>
+    <string name="error_author_id_not_found">No se ha encontrado el autor</string>
     <string name="error_author_id_invalid_format">El ID del autor debe ser un UUID válido</string>
     <string name="error_collection_id_required">La colección es obligatoria</string>
+    <string name="error_collection_id_not_found">No se ha encontrado la colección</string>
     <string name="error_collection_id_invalid_format">El ID de la colección debe ser un UUID válido</string>
     <string name="error_base_price_required">PVP (sin IVA) es obligatorio</string>
     <string name="error_base_price_invalid">PVP (sin IVA) debe ser un nº válido</string>
@@ -157,6 +160,7 @@
     <string name="error_secondary_genres_too_many">No puede haber más de 3 géneros secundarios</string>
     <string name="error_secondary_genres_duplicated">No puede haber géneros duplicados</string>
     <string name="error_secondary_genre_same_as_primary">En géneros secundarios no se puede incluir el género principal</string>
+
     <!-- Author Form -->
     <string name="author_full_name_label">Nombre completo *</string>
     <string name="author_pseudonym_label">Pseudónimo</string>
