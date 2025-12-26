@@ -43,29 +43,6 @@ object BookValidation {
         }
     }
 
-    fun validateVatRate(value: String): ValidationResult {
-        val trimmed = value.trim()
-        if (trimmed.isEmpty()) return ValidationResult.Valid
-        return try {
-            val rate = trimmed.toDouble()
-            when {
-                rate < 0 -> ValidationResult.Error(R.string.error_vat_rate_negative)
-                rate > 1 -> ValidationResult.Error(R.string.error_vat_rate_too_high)
-                else -> {
-                    val rounded = (rate * 100).toInt() / 100.0
-                    val difference = kotlin.math.abs(rate - rounded)
-                    if (difference >= 0.001) {
-                        ValidationResult.Error(R.string.error_vat_rate_invalid_precision)
-                    } else {
-                        ValidationResult.Valid
-                    }
-                }
-            }
-        } catch (_: NumberFormatException) {
-            ValidationResult.Error(R.string.error_vat_rate_invalid)
-        }
-    }
-
     fun validateIsbn(value: String): ValidationResult {
         val trimmed = value.trim()
         if (trimmed.isEmpty()) return ValidationResult.Valid

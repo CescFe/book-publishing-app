@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.cescfe.book_publishing_app.R
 import org.cescfe.book_publishing_app.domain.book.model.enums.Status
+import org.cescfe.book_publishing_app.domain.book.model.enums.VatRate
 import org.cescfe.book_publishing_app.domain.shared.enums.Genre
 import org.cescfe.book_publishing_app.domain.shared.enums.Language
 import org.cescfe.book_publishing_app.domain.shared.enums.ReadingLevel
@@ -94,7 +95,7 @@ internal fun CreateBookScreenContent(
     onSecondaryLanguagesChange: (List<Language>) -> Unit,
     onPrimaryGenreChange: (Genre?) -> Unit,
     onSecondaryGenresChange: (List<Genre>) -> Unit,
-    onVatRateChange: (String) -> Unit,
+    onVatRateChange: (VatRate?) -> Unit,
     onIsbnChange: (String) -> Unit,
     onPublicationDateChange: (String) -> Unit,
     onPageCountChange: (String) -> Unit,
@@ -181,7 +182,6 @@ internal fun CreateBookScreenContent(
                         authorNameError = uiState.authorNameError?.let { stringResource(it) },
                         collectionNameError = uiState.collectionNameError?.let { stringResource(it) },
                         basePriceError = uiState.basePriceError?.let { stringResource(it) },
-                        vatRateError = uiState.vatRateError?.let { stringResource(it) },
                         isbnError = uiState.isbnError?.let { stringResource(it) },
                         publicationDateError = uiState.publicationDateError?.let { stringResource(it) },
                         pageCountError = uiState.pageCountError?.let { stringResource(it) },

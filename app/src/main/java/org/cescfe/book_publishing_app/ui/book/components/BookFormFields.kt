@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import org.cescfe.book_publishing_app.R
 import org.cescfe.book_publishing_app.domain.author.model.AuthorSummary
 import org.cescfe.book_publishing_app.domain.book.model.enums.Status
+import org.cescfe.book_publishing_app.domain.book.model.enums.VatRate
 import org.cescfe.book_publishing_app.domain.collection.model.CollectionSummary
 import org.cescfe.book_publishing_app.domain.shared.enums.Genre
 import org.cescfe.book_publishing_app.domain.shared.enums.Language
@@ -58,8 +59,8 @@ fun BookFormFields(
     onPrimaryGenreChange: (Genre?) -> Unit,
     secondaryGenres: List<Genre>,
     onSecondaryGenresChange: (List<Genre>) -> Unit,
-    vatRate: String,
-    onVatRateChange: (String) -> Unit,
+    vatRate: VatRate?,
+    onVatRateChange: (VatRate?) -> Unit,
     isbn: String,
     onIsbnChange: (String) -> Unit,
     publicationDate: String,
@@ -74,7 +75,6 @@ fun BookFormFields(
     authorNameError: String? = null,
     collectionNameError: String? = null,
     basePriceError: String? = null,
-    vatRateError: String? = null,
     isbnError: String? = null,
     publicationDateError: String? = null,
     pageCountError: String? = null,
@@ -190,21 +190,10 @@ fun BookFormFields(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        OutlinedTextField(
-            value = vatRate,
+        VatRateDropdown(
+            selectedValue = vatRate,
             onValueChange = onVatRateChange,
-            label = { Text(stringResource(R.string.book_vat_rate_label)) },
-            modifier = Modifier
-                .fillMaxWidth()
-                .testTag("vat_rate_field"),
-            singleLine = true,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Decimal,
-                imeAction = ImeAction.Next
-            ),
-            enabled = enabled,
-            isError = vatRateError != null,
-            supportingText = vatRateError?.let { { Text(it, color = MaterialTheme.colorScheme.error) } }
+            enabled = enabled
         )
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -788,6 +777,58 @@ private fun SecondaryGenresMultiSelect(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun VatRateDropdown(
+    selectedValue: VatRate?,
+    onValueChange: (VatRate?) -> Unit,
+    enabled: Boolean = true
+) {
+    var expanded by remember { mutableStateOf(false) }
+    val options = VatRate.entries
+
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = !expanded },
+        modifier = Modifier
+            .fillMaxWidth()
+            .testTag("vat_rate_dropdown")
+    ) {
+        OutlinedTextField(
+            value = selectedValue?.toDisplayString() ?: stringResource(R.string.select_none),
+            onValueChange = {},
+            readOnly = true,
+            label = { Text(stringResource(R.string.book_vat_rate_label)) },
+            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable, enabled = enabled),
+            enabled = enabled
+        )
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            DropdownMenuItem(
+                text = { Text(stringResource(R.string.select_none)) },
+                onClick = {
+                    onValueChange(null)
+                    expanded = false
+                }
+            )
+            options.forEach { vatRate ->
+                DropdownMenuItem(
+                    text = { Text(vatRate.toDisplayString()) },
+                    onClick = {
+                        onValueChange(vatRate)
+                        expanded = false
+                    }
+                )
+            }
+        }
+    }
+}
+
 // ==================== PREVIEWS ====================
 
 @Preview(showBackground = true)
@@ -815,7 +856,7 @@ private fun BookFormFieldsEmptyPreview() {
             onPrimaryGenreChange = {},
             secondaryGenres = emptyList(),
             onSecondaryGenresChange = {},
-            vatRate = "",
+            vatRate = null,
             onVatRateChange = {},
             isbn = "",
             onIsbnChange = {},

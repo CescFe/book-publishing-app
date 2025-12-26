@@ -16,6 +16,7 @@ import org.cescfe.book_publishing_app.domain.author.model.AuthorSummary
 import org.cescfe.book_publishing_app.domain.author.repository.AuthorsRepository
 import org.cescfe.book_publishing_app.domain.book.model.CreateBookRequest
 import org.cescfe.book_publishing_app.domain.book.model.enums.Status
+import org.cescfe.book_publishing_app.domain.book.model.enums.VatRate
 import org.cescfe.book_publishing_app.domain.book.repository.BooksRepository
 import org.cescfe.book_publishing_app.domain.book.validation.BookValidation
 import org.cescfe.book_publishing_app.domain.book.validation.ValidationResult
@@ -38,7 +39,7 @@ data class CreateBookUiState(
     val secondaryLanguages: List<Language> = emptyList(),
     val primaryGenre: Genre? = null,
     val secondaryGenres: List<Genre> = emptyList(),
-    val vatRate: String = "",
+    val vatRate: VatRate? = null,
     val isbn: String = "",
     val publicationDate: String = "",
     val pageCount: String = "",
@@ -74,7 +75,6 @@ data class CreateBookUiState(
             authorNameError == null &&
             collectionNameError == null &&
             basePriceError == null &&
-            vatRateError == null &&
             isbnError == null &&
             publicationDateError == null &&
             pageCountError == null &&
@@ -84,7 +84,6 @@ data class CreateBookUiState(
             findAuthorIdByName(authorName) != null &&
             findCollectionIdByName(collectionName) != null
 
-    // Helper functions to find IDs by name
     fun findAuthorIdByName(name: String): String? = authors.find { it.fullName.equals(name, ignoreCase = true) }?.id
 
     fun findCollectionIdByName(name: String): String? = collections.find { it.name.equals(name, ignoreCase = true) }?.id
@@ -264,13 +263,12 @@ class CreateBookViewModel(
         )
     }
 
-    fun onVatRateChange(vatRate: String) {
-        updateField(
-            value = vatRate,
-            validator = BookValidation::validateVatRate
-        ) { state, error ->
-            state.copy(vatRate = vatRate, vatRateError = error)
-        }
+    fun onVatRateChange(vatRate: VatRate?) {
+        _uiState.value = _uiState.value.copy(
+            vatRate = vatRate,
+            vatRateError = null,
+            errorResId = null
+        )
     }
 
     fun onIsbnChange(isbn: String) {
@@ -330,12 +328,10 @@ class CreateBookViewModel(
 
         val currentState = _uiState.value
 
-        // Find IDs from names
         val authorId = currentState.findAuthorIdByName(currentState.authorName)
         val collectionId = currentState.findCollectionIdByName(currentState.collectionName)
 
         if (authorId == null || collectionId == null) {
-            // This shouldn't happen if validation is correct, but handle it anyway
             return
         }
 
@@ -349,14 +345,12 @@ class CreateBookViewModel(
             val basePriceValue = currentState.basePrice.trim().toDouble()
             val roundedBasePrice = (basePriceValue * 100).toInt() / 100.0
 
-            val vatRateValue = currentState.vatRate.trim().ifBlank { null }?.toDoubleOrNull()?.let { rate ->
-                (rate * 100).toInt() / 100.0
-            }
+            val vatRateValue = currentState.vatRate?.decimalValue
 
             val request = CreateBookRequest(
                 title = currentState.title.trim(),
-                authorId = authorId, // Use found ID
-                collectionId = collectionId, // Use found ID
+                authorId = authorId,
+                collectionId = collectionId,
                 basePrice = roundedBasePrice,
                 readingLevel = currentState.readingLevel,
                 primaryLanguage = currentState.primaryLanguage,
@@ -405,7 +399,6 @@ class CreateBookViewModel(
                 null
             },
             basePriceError = BookValidation.validateBasePrice(s.basePrice).errorResIdOrNull(),
-            vatRateError = BookValidation.validateVatRate(s.vatRate).errorResIdOrNull(),
             isbnError = BookValidation.validateIsbn(s.isbn).errorResIdOrNull(),
             publicationDateError = BookValidation.validatePublicationDate(s.publicationDate).errorResIdOrNull(),
             pageCountError = BookValidation.validatePageCount(s.pageCount).errorResIdOrNull(),
