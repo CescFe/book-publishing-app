@@ -64,7 +64,8 @@ class CreateBookScreenTest {
                         collectionName = "Fantasy Classics",
                         basePrice = "29.99",
                         authors = authors,
-                        collections = collections
+                        collections = collections,
+                        showConfirmDialog = true
                     ),
                     onNavigateUp = {},
                     onTitleChange = {},
@@ -89,9 +90,6 @@ class CreateBookScreenTest {
             }
         }
 
-        composeTestRule
-            .onNodeWithTag("save_button")
-            .performClick()
         composeTestRule
             .onNodeWithTag("confirmation_dialog")
             .assertIsDisplayed()
