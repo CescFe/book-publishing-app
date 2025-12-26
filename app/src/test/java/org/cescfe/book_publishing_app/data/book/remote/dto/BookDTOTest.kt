@@ -7,6 +7,7 @@ import org.cescfe.book_publishing_app.domain.shared.enums.Language
 import org.cescfe.book_publishing_app.domain.shared.enums.ReadingLevel
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class BookDTOTest {
@@ -91,9 +92,9 @@ class BookDTOTest {
         assertEquals("Collection Name", book.collectionName)
         assertNull(book.readingLevel)
         assertNull(book.primaryLanguage)
-        assertNull(book.secondaryLanguages)
+        assertTrue(book.secondaryLanguages.isEmpty())
         assertNull(book.primaryGenre)
-        assertNull(book.secondaryGenres)
+        assertTrue(book.secondaryGenres.isEmpty())
         assertNull(book.isbn)
         assertNull(book.publicationDate)
         assertNull(book.pageCount)

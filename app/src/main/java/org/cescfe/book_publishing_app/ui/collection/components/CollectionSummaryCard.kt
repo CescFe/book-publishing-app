@@ -21,6 +21,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import org.cescfe.book_publishing_app.R
 import org.cescfe.book_publishing_app.domain.collection.model.CollectionSummary
+import org.cescfe.book_publishing_app.domain.shared.toLocalizedString
 
 @Composable
 fun CollectionSummaryCard(collectionSummary: CollectionSummary, modifier: Modifier = Modifier) {
@@ -55,39 +56,21 @@ fun CollectionSummaryCard(collectionSummary: CollectionSummary, modifier: Modifi
                 )
 
                 Text(
-                    text = if (collectionSummary.readingLevel.isNullOrBlank()) {
-                        stringResource(R.string.collection_card_no_reading_level)
-                    } else {
-                        stringResource(R.string.collection_card_reading_level, collectionSummary.readingLevel)
-                    },
+                    text = collectionSummary.readingLevel?.toLocalizedString() ?: stringResource(R.string.not_informed),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
 
                 Text(
-                    text = if (collectionSummary.primaryLanguage.isNullOrBlank()) {
-                        stringResource(R.string.collection_card_no_language)
-                    } else {
-                        stringResource(R.string.collection_card_language, collectionSummary.primaryLanguage)
-                    },
+                    text = collectionSummary.primaryLanguage?.toLocalizedString() ?: stringResource(R.string.not_informed),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
 
                 Text(
-                    text = if (collectionSummary.primaryGenre.isNullOrBlank()) {
-                        stringResource(R.string.collection_card_no_genre)
-                    } else {
-                        stringResource(R.string.collection_card_genre, collectionSummary.primaryGenre)
-                    },
+                    text = collectionSummary.primaryGenre?.toLocalizedString() ?: stringResource(R.string.not_informed),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }

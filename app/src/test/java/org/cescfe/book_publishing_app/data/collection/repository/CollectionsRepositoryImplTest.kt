@@ -11,6 +11,7 @@ import org.cescfe.book_publishing_app.data.shared.repository.helper.TestHttpExce
 import org.cescfe.book_publishing_app.domain.shared.DomainErrorType
 import org.cescfe.book_publishing_app.domain.shared.DomainResult
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -34,9 +35,9 @@ class CollectionsRepositoryImplTest {
         val collectionDto = createCollectionDTO(
             id = "collection-123",
             name = "Fantasy Classics",
-            readingLevel = "Adult",
-            primaryLanguage = "English",
-            primaryGenre = "Fantasy"
+            readingLevel = "ADULT",
+            primaryLanguage = "ENGLISH",
+            primaryGenre = "FANTASY"
         )
         mockCollectionsApi.successResponse = createCollectionsResponse(listOf(collectionDto))
 
@@ -95,9 +96,9 @@ class CollectionsRepositoryImplTest {
         val collection = (result as DomainResult.Success).data[0]
         assertEquals("8f5ef275-4987-47bc-8643-ff4e5efd6523", collection.id)
         assertEquals("Science Fiction", collection.name)
-        assertEquals("", collection.readingLevel)
-        assertEquals("", collection.primaryLanguage)
-        assertEquals("", collection.primaryGenre)
+        assertNull(collection.readingLevel)
+        assertNull(collection.primaryLanguage)
+        assertNull(collection.primaryGenre)
     }
 
     // ==================== ERROR HANDLING ====================

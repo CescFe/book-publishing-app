@@ -10,6 +10,7 @@ import org.cescfe.book_publishing_app.R
 import org.cescfe.book_publishing_app.domain.author.model.AuthorSummary
 import org.cescfe.book_publishing_app.domain.book.model.Book
 import org.cescfe.book_publishing_app.domain.book.model.enums.Status
+import org.cescfe.book_publishing_app.domain.book.model.enums.VatRate
 import org.cescfe.book_publishing_app.domain.collection.model.CollectionSummary
 import org.cescfe.book_publishing_app.domain.shared.DomainErrorType
 import org.cescfe.book_publishing_app.domain.shared.DomainResult
@@ -134,7 +135,7 @@ class CreateBookViewModelTest {
         viewModel.onSecondaryLanguagesChange(listOf(Language.SPANISH, Language.CATALAN))
         viewModel.onPrimaryGenreChange(Genre.FANTASY)
         viewModel.onSecondaryGenresChange(listOf(Genre.ADVENTURE))
-        viewModel.onVatRateChange("0.04")
+        viewModel.onVatRateChange(VatRate.FOUR_PERCENT)
         viewModel.onIsbnChange("9780747591054")
         viewModel.onPublicationDateChange("1954-07-29")
         viewModel.onPageCountChange("1178")
@@ -154,7 +155,7 @@ class CreateBookViewModelTest {
         assertEquals(2, state.secondaryLanguages.size)
         assertEquals(Genre.FANTASY, state.primaryGenre)
         assertEquals(1, state.secondaryGenres.size)
-        assertEquals("0.04", state.vatRate)
+        assertEquals(VatRate.FOUR_PERCENT, state.vatRate)
         assertEquals("9780747591054", state.isbn)
         assertEquals("1954-07-29", state.publicationDate)
         assertEquals("1178", state.pageCount)
@@ -268,7 +269,7 @@ class CreateBookViewModelTest {
 
         val state = viewModel.uiState.value
         assertFalse(state.isFormValid)
-        assertEquals(R.string.error_author_id_invalid_format, state.authorNameError)
+        assertEquals(R.string.error_author_id_not_found, state.authorNameError)
     }
 
     @Test
@@ -299,15 +300,6 @@ class CreateBookViewModelTest {
         val state = viewModel.uiState.value
         assertFalse(state.isFormValid)
         assertEquals(R.string.error_base_price_invalid_precision, state.basePriceError)
-    }
-
-    @Test
-    fun `form is invalid when vatRate is greater than 1`() = runTest {
-        val viewModel = createViewModel()
-        viewModel.onVatRateChange("1.5")
-
-        val state = viewModel.uiState.value
-        assertEquals(R.string.error_vat_rate_too_high, state.vatRateError)
     }
 
     @Test

@@ -1,6 +1,7 @@
 package org.cescfe.book_publishing_app.data.collection.remote.dto
 
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Test
 
 class CollectionSummaryDTOTest {
@@ -19,9 +20,9 @@ class CollectionSummaryDTOTest {
 
         assertEquals(dto.id, collection.id)
         assertEquals(dto.name, collection.name)
-        assertEquals(dto.readingLevel, collection.readingLevel)
-        assertEquals(dto.primaryLanguage, collection.primaryLanguage)
-        assertEquals(dto.primaryGenre, collection.primaryGenre)
+        assertEquals(dto.readingLevel, collection.readingLevel.toString())
+        assertEquals(dto.primaryLanguage, collection.primaryLanguage.toString())
+        assertEquals(dto.primaryGenre, collection.primaryGenre.toString())
     }
 
     @Test
@@ -36,8 +37,8 @@ class CollectionSummaryDTOTest {
 
         val collection = dto.toDomain()
 
-        assertEquals("", collection.readingLevel)
-        assertEquals("", collection.primaryLanguage)
-        assertEquals("", collection.primaryGenre)
+        assertNull(collection.readingLevel)
+        assertNull(collection.primaryLanguage)
+        assertNull(collection.primaryGenre)
     }
 }

@@ -6,6 +6,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.cescfe.book_publishing_app.domain.collection.model.CollectionSummary
+import org.cescfe.book_publishing_app.domain.shared.enums.Genre
+import org.cescfe.book_publishing_app.domain.shared.enums.Language
+import org.cescfe.book_publishing_app.domain.shared.enums.ReadingLevel
 import org.cescfe.book_publishing_app.ui.theme.BookpublishingappTheme
 
 @Preview(showBackground = true)
@@ -16,9 +19,9 @@ private fun CollectionSummaryCardPreview() {
             collectionSummary = CollectionSummary(
                 id = "1",
                 name = "Fantasy Collection",
-                readingLevel = "Advanced",
-                primaryLanguage = "English",
-                primaryGenre = "Fantasy"
+                readingLevel = ReadingLevel.ADULT,
+                primaryLanguage = Language.ENGLISH,
+                primaryGenre = Genre.FANTASY
             ),
             modifier = Modifier.padding(16.dp)
         )
@@ -34,8 +37,8 @@ private fun CollectionSummaryCardNoReadingLevelPreview() {
                 id = "2",
                 name = "Classic Literature",
                 readingLevel = null,
-                primaryLanguage = "Spanish",
-                primaryGenre = "Classics"
+                primaryLanguage = Language.VALENCIAN,
+                primaryGenre = Genre.GENERAL_INTEREST
             ),
             modifier = Modifier.padding(16.dp)
         )
@@ -50,9 +53,9 @@ private fun CollectionSummaryCardNoLanguagePreview() {
             collectionSummary = CollectionSummary(
                 id = "3",
                 name = "Science Fiction",
-                readingLevel = "Intermediate",
+                readingLevel = ReadingLevel.YOUNG_ADULT,
                 primaryLanguage = null,
-                primaryGenre = "Sci-Fi"
+                primaryGenre = Genre.SCIENCE_FICTION
             ),
             modifier = Modifier.padding(16.dp)
         )
@@ -67,8 +70,8 @@ private fun CollectionSummaryCardNoGenrePreview() {
             collectionSummary = CollectionSummary(
                 id = "4",
                 name = "Mixed Collection",
-                readingLevel = "Beginner",
-                primaryLanguage = "Catalan",
+                readingLevel = ReadingLevel.CHILDREN,
+                primaryLanguage = Language.CATALAN,
                 primaryGenre = null
             ),
             modifier = Modifier.padding(16.dp)
@@ -101,9 +104,9 @@ private fun CollectionSummaryCardLongNamePreview() {
             collectionSummary = CollectionSummary(
                 id = "6",
                 name = "A Very Long Collection Name That Might Overflow The Card Layout",
-                readingLevel = "Advanced Reader Level",
-                primaryLanguage = "English (United States)",
-                primaryGenre = "Historical Fiction"
+                readingLevel = ReadingLevel.CHILDREN,
+                primaryLanguage = Language.ENGLISH,
+                primaryGenre = Genre.HISTORICAL_FICTION
             ),
             modifier = Modifier.padding(16.dp)
         )

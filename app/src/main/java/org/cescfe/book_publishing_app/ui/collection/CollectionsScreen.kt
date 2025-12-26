@@ -23,6 +23,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.cescfe.book_publishing_app.R
 import org.cescfe.book_publishing_app.domain.collection.model.CollectionSummary
+import org.cescfe.book_publishing_app.domain.shared.enums.Genre
+import org.cescfe.book_publishing_app.domain.shared.enums.Language
+import org.cescfe.book_publishing_app.domain.shared.enums.ReadingLevel
 import org.cescfe.book_publishing_app.ui.collection.components.CollectionSummaryCard
 import org.cescfe.book_publishing_app.ui.shared.components.EmptyState
 import org.cescfe.book_publishing_app.ui.shared.components.ErrorState
@@ -168,16 +171,16 @@ private fun CollectionsScreenSuccessPreview() {
                     CollectionSummary(
                         id = "1",
                         name = "Fantasy Collection",
-                        readingLevel = "Advanced",
-                        primaryLanguage = "English",
-                        primaryGenre = "Fantasy"
+                        readingLevel = ReadingLevel.ADULT,
+                        primaryLanguage = Language.ENGLISH,
+                        primaryGenre = Genre.FANTASY
                     ),
                     CollectionSummary(
                         id = "2",
                         name = "Classic Literature",
                         readingLevel = null,
-                        primaryLanguage = "Spanish",
-                        primaryGenre = "Classics"
+                        primaryLanguage = Language.SPANISH,
+                        primaryGenre = Genre.FANTASY
                     )
                 )
             ),

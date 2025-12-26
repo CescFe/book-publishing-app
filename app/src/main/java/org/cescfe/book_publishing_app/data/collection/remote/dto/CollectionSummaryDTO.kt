@@ -3,6 +3,9 @@ package org.cescfe.book_publishing_app.data.collection.remote.dto
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.cescfe.book_publishing_app.domain.collection.model.CollectionSummary
+import org.cescfe.book_publishing_app.domain.shared.enums.Genre
+import org.cescfe.book_publishing_app.domain.shared.enums.Language
+import org.cescfe.book_publishing_app.domain.shared.enums.ReadingLevel
 
 @Serializable
 data class CollectionSummaryDTO(
@@ -19,7 +22,7 @@ data class CollectionSummaryDTO(
 fun CollectionSummaryDTO.toDomain(): CollectionSummary = CollectionSummary(
     id = id,
     name = name,
-    readingLevel = readingLevel ?: "",
-    primaryLanguage = primaryLanguage ?: "",
-    primaryGenre = primaryGenre ?: ""
+    readingLevel = readingLevel?.let { ReadingLevel.valueOf(it) },
+    primaryLanguage = primaryLanguage?.let { Language.valueOf(it) },
+    primaryGenre = primaryGenre?.let { Genre.valueOf(it) },
 )
