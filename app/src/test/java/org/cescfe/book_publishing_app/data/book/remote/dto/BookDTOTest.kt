@@ -7,6 +7,7 @@ import org.cescfe.book_publishing_app.domain.shared.enums.Language
 import org.cescfe.book_publishing_app.domain.shared.enums.ReadingLevel
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class BookDTOTest {
@@ -65,7 +66,7 @@ class BookDTOTest {
     }
 
     @Test
-    fun `toDomain should handle nullable collection`() {
+    fun `toDomain should handle nullable fields`() {
         val dto = BookDTO(
             id = "1",
             title = "Test Book",
@@ -74,9 +75,9 @@ class BookDTOTest {
             collection = CollectionRefDTO(id = "collection-1", name = "Collection Name"),
             readingLevel = null,
             primaryLanguage = null,
-            secondaryLanguages = emptyList(),
+            secondaryLanguages = null,
             primaryGenre = null,
-            secondaryGenres = emptyList(),
+            secondaryGenres = null,
             vatRate = 0.04,
             finalPrice = 10.04,
             isbn = null,
@@ -91,9 +92,9 @@ class BookDTOTest {
         assertEquals("Collection Name", book.collectionName)
         assertNull(book.readingLevel)
         assertNull(book.primaryLanguage)
-        assertEquals(0, book.secondaryLanguages.size)
+        assertTrue(book.secondaryLanguages.isEmpty())
         assertNull(book.primaryGenre)
-        assertEquals(0, book.secondaryGenres.size)
+        assertTrue(book.secondaryGenres.isEmpty())
         assertNull(book.isbn)
         assertNull(book.publicationDate)
         assertNull(book.pageCount)
@@ -139,9 +140,9 @@ class BookDTOTest {
         assertEquals("Young Wizards", dto.collection.name)
         assertEquals("YOUNG_ADULT", dto.readingLevel)
         assertEquals("ENGLISH", dto.primaryLanguage)
-        assertEquals(2, dto.secondaryLanguages.size)
+        assertEquals(2, dto.secondaryLanguages!!.size)
         assertEquals("FANTASY", dto.primaryGenre)
-        assertEquals(2, dto.secondaryGenres.size)
+        assertEquals(2, dto.secondaryGenres!!.size)
         assertEquals(0.04, dto.vatRate, 0.001)
         assertEquals(31.19, dto.finalPrice, 0.001)
         assertEquals("9780747591054", dto.isbn)

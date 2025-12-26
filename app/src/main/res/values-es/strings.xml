@@ -108,11 +108,39 @@
     <!-- Update Author Screen -->
     <string name="update_author_title">Modificar Autor</string>
 
+    <!-- Book Form -->
+    <string name="book_title_label">Título *</string>
+    <string name="book_author_id_label">ID del Autor *</string>
+    <string name="book_collection_id_label">ID de la Colección *</string>
+    <string name="book_author_name_label">Nombre del autor</string>
+    <string name="book_collection_name_label">Nombre de la colección</string>
+    <string name="book_base_price_label">Precio sin IVA *</string>
+    <string name="book_reading_level_label">Nivel de Lectura</string>
+    <string name="book_primary_language_label">Idioma</string>
+    <string name="book_secondary_languages_label">Otros idiomas</string>
+    <string name="book_primary_genre_label">Género Principal</string>
+    <string name="book_secondary_genres_label">Géneros Secundarios</string>
+    <string name="book_vat_rate_label">Tipo de IVA</string>
+    <string name="book_isbn_label">ISBN</string>
+    <string name="book_publication_date_label">Fecha de Publicación</string>
+    <string name="book_page_count_label">Número de Páginas</string>
+    <string name="book_description_label">Descripción</string>
+    <string name="book_status_label">Estado</string>
+    <string name="book_publication_date_hint">AAAA-MM-DD</string>
+    <string name="select_none">Ninguno</string>
+    <string name="select_reading_level">Seleccionar nivel de lectura</string>
+    <string name="select_language">Seleccionar idioma</string>
+    <string name="select_genre">Seleccionar género</string>
+    <string name="select_status">Seleccionar estado</string>
+
+    <!-- Book Form Validation -->
     <string name="error_title_required">El título es obligatorio</string>
     <string name="error_title_too_long">Título demasiado largo (200 máx.)</string>
     <string name="error_author_id_required">El autor es obligatorio</string>
+    <string name="error_author_id_not_found">No se ha encontrado el autor</string>
     <string name="error_author_id_invalid_format">El ID del autor debe ser un UUID válido</string>
     <string name="error_collection_id_required">La colección es obligatoria</string>
+    <string name="error_collection_id_not_found">No se ha encontrado la colección</string>
     <string name="error_collection_id_invalid_format">El ID de la colección debe ser un UUID válido</string>
     <string name="error_base_price_required">PVP (sin IVA) es obligatorio</string>
     <string name="error_base_price_invalid">PVP (sin IVA) debe ser un nº válido</string>
@@ -132,6 +160,7 @@
     <string name="error_secondary_genres_too_many">No puede haber más de 3 géneros secundarios</string>
     <string name="error_secondary_genres_duplicated">No puede haber géneros duplicados</string>
     <string name="error_secondary_genre_same_as_primary">En géneros secundarios no se puede incluir el género principal</string>
+
     <!-- Author Form -->
     <string name="author_full_name_label">Nombre completo *</string>
     <string name="author_pseudonym_label">Pseudónimo</string>

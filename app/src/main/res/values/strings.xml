@@ -107,12 +107,39 @@
     <!-- Update Author Screen -->
     <string name="update_author_title">Update Author</string>
 
+    <!-- Book Form -->
+    <string name="book_title_label">Title *</string>
+    <string name="book_author_id_label">Author ID *</string>
+    <string name="book_collection_id_label">Collection ID *</string>
+    <string name="book_author_name_label">Author Name</string>
+    <string name="book_collection_name_label">Collection Name</string>
+    <string name="book_base_price_label">Base Price *</string>
+    <string name="book_reading_level_label">Reading Level</string>
+    <string name="book_primary_language_label">Primary Language</string>
+    <string name="book_secondary_languages_label">Secondary Languages</string>
+    <string name="book_primary_genre_label">Primary Genre</string>
+    <string name="book_secondary_genres_label">Secondary Genres</string>
+    <string name="book_vat_rate_label">VAT Rate</string>
+    <string name="book_isbn_label">ISBN</string>
+    <string name="book_publication_date_label">Publication Date</string>
+    <string name="book_page_count_label">Page Count</string>
+    <string name="book_description_label">Description</string>
+    <string name="book_status_label">Status</string>
+    <string name="book_publication_date_hint">YYYY-MM-DD</string>
+    <string name="select_none">None</string>
+    <string name="select_reading_level">Select reading level</string>
+    <string name="select_language">Select language</string>
+    <string name="select_genre">Select genre</string>
+    <string name="select_status">Select status</string>
+
     <!-- Book Form Validation -->
     <string name="error_title_required">Title is required</string>
     <string name="error_title_too_long">Title is too long (200 max.)</string>
     <string name="error_author_id_required">Author is required</string>
+    <string name="error_author_id_not_found">Author not found</string>
     <string name="error_author_id_invalid_format">Author ID must be a valid UUID</string>
     <string name="error_collection_id_required">Collection is required</string>
+    <string name="error_collection_id_not_found">Collection not found</string>
     <string name="error_collection_id_invalid_format">Collection ID must be a valid UUID</string>
     <string name="error_base_price_required">Base price is required</string>
     <string name="error_base_price_invalid">Base price must be a valid number</string>

@@ -21,11 +21,11 @@ data class BookDTO(
     @SerialName("primary_language")
     val primaryLanguage: String? = null,
     @SerialName("secondary_languages")
-    val secondaryLanguages: List<String> = emptyList(),
+    val secondaryLanguages: List<String>? = null,
     @SerialName("primary_genre")
     val primaryGenre: String? = null,
     @SerialName("secondary_genres")
-    val secondaryGenres: List<String> = emptyList(),
+    val secondaryGenres: List<String>? = null,
     @SerialName("vat_rate")
     val vatRate: Double,
     @SerialName("final_price")
@@ -47,9 +47,9 @@ fun BookDTO.toDomain(): Book = Book(
     collectionName = collection.name,
     readingLevel = readingLevel?.let { ReadingLevel.valueOf(it) },
     primaryLanguage = primaryLanguage?.let { Language.valueOf(it) },
-    secondaryLanguages = secondaryLanguages.map { Language.valueOf(it) },
+    secondaryLanguages = secondaryLanguages?.map { Language.valueOf(it) } ?: emptyList(),
     primaryGenre = primaryGenre?.let { Genre.valueOf(it) },
-    secondaryGenres = secondaryGenres.map { Genre.valueOf(it) },
+    secondaryGenres = secondaryGenres?.map { Genre.valueOf(it) } ?: emptyList(),
     vatRate = vatRate,
     finalPrice = finalPrice,
     isbn = isbn,

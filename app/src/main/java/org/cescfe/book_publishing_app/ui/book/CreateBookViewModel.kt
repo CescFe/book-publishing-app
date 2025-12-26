@@ -7,13 +7,21 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import org.cescfe.book_publishing_app.R
+import org.cescfe.book_publishing_app.data.author.repository.AuthorsRepositoryImpl
 import org.cescfe.book_publishing_app.data.book.repository.BooksRepositoryImpl
+import org.cescfe.book_publishing_app.data.collection.repository.CollectionsRepositoryImpl
 import org.cescfe.book_publishing_app.data.shared.remote.RetrofitClient
+import org.cescfe.book_publishing_app.domain.author.model.AuthorSummary
+import org.cescfe.book_publishing_app.domain.author.repository.AuthorsRepository
 import org.cescfe.book_publishing_app.domain.book.model.CreateBookRequest
 import org.cescfe.book_publishing_app.domain.book.model.enums.Status
+import org.cescfe.book_publishing_app.domain.book.model.enums.VatRate
 import org.cescfe.book_publishing_app.domain.book.repository.BooksRepository
 import org.cescfe.book_publishing_app.domain.book.validation.BookValidation
 import org.cescfe.book_publishing_app.domain.book.validation.ValidationResult
+import org.cescfe.book_publishing_app.domain.collection.model.CollectionSummary
+import org.cescfe.book_publishing_app.domain.collection.repository.CollectionsRepository
 import org.cescfe.book_publishing_app.domain.shared.DomainErrorType
 import org.cescfe.book_publishing_app.domain.shared.DomainResult
 import org.cescfe.book_publishing_app.domain.shared.enums.Genre
@@ -23,24 +31,28 @@ import org.cescfe.book_publishing_app.ui.shared.toStringResId
 
 data class CreateBookUiState(
     val title: String = "",
-    val authorId: String = "",
-    val collectionId: String = "",
+    val authorName: String = "",
+    val collectionName: String = "",
     val basePrice: String = "",
     val readingLevel: ReadingLevel? = null,
     val primaryLanguage: Language? = null,
     val secondaryLanguages: List<Language> = emptyList(),
     val primaryGenre: Genre? = null,
     val secondaryGenres: List<Genre> = emptyList(),
-    val vatRate: String = "",
+    val vatRate: VatRate? = null,
     val isbn: String = "",
     val publicationDate: String = "",
     val pageCount: String = "",
     val description: String = "",
     val status: Status? = null,
     val isLoading: Boolean = false,
+    val isLoadingAuthors: Boolean = false,
+    val isLoadingCollections: Boolean = false,
+    val authors: List<AuthorSummary> = emptyList(),
+    val collections: List<CollectionSummary> = emptyList(),
     @get:StringRes val titleError: Int? = null,
-    @get:StringRes val authorIdError: Int? = null,
-    @get:StringRes val collectionIdError: Int? = null,
+    @get:StringRes val authorNameError: Int? = null,
+    @get:StringRes val collectionNameError: Int? = null,
     @get:StringRes val basePriceError: Int? = null,
     @get:StringRes val vatRateError: Int? = null,
     @get:StringRes val isbnError: Int? = null,
@@ -56,33 +68,91 @@ data class CreateBookUiState(
 ) {
     val isFormValid: Boolean
         get() = title.isNotBlank() &&
-            authorId.isNotBlank() &&
-            collectionId.isNotBlank() &&
+            authorName.isNotBlank() &&
+            collectionName.isNotBlank() &&
             basePrice.isNotBlank() &&
             titleError == null &&
-            authorIdError == null &&
-            collectionIdError == null &&
+            authorNameError == null &&
+            collectionNameError == null &&
             basePriceError == null &&
-            vatRateError == null &&
             isbnError == null &&
             publicationDateError == null &&
             pageCountError == null &&
             descriptionError == null &&
             secondaryLanguagesError == null &&
-            secondaryGenresError == null
+            secondaryGenresError == null &&
+            findAuthorIdByName(authorName) != null &&
+            findCollectionIdByName(collectionName) != null
+
+    fun findAuthorIdByName(name: String): String? = authors.find { it.fullName.equals(name, ignoreCase = true) }?.id
+
+    fun findCollectionIdByName(name: String): String? = collections.find { it.name.equals(name, ignoreCase = true) }?.id
 }
 
 class CreateBookViewModel(
     private val booksRepository: BooksRepository = BooksRepositoryImpl(
         RetrofitClient.booksApi
+    ),
+    private val authorsRepository: AuthorsRepository = AuthorsRepositoryImpl(
+        RetrofitClient.authorsApi
+    ),
+    private val collectionsRepository: CollectionsRepository = CollectionsRepositoryImpl(
+        RetrofitClient.collectionsApi
     )
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(CreateBookUiState())
     val uiState: StateFlow<CreateBookUiState> = _uiState.asStateFlow()
 
+    init {
+        loadAuthors()
+        loadCollections()
+    }
+
     fun onSessionExpiredHandled() {
         _uiState.value = _uiState.value.copy(sessionExpired = false)
+    }
+
+    private fun loadAuthors() {
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(isLoadingAuthors = true)
+
+            when (val result = authorsRepository.getAuthors()) {
+                is DomainResult.Success -> {
+                    _uiState.value = _uiState.value.copy(
+                        isLoadingAuthors = false,
+                        authors = result.data
+                    )
+                }
+                is DomainResult.Error -> {
+                    _uiState.value = _uiState.value.copy(
+                        isLoadingAuthors = false,
+                        errorResId = result.type.toStringResId()
+                    )
+                }
+            }
+        }
+    }
+
+    private fun loadCollections() {
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(isLoadingCollections = true)
+
+            when (val result = collectionsRepository.getCollections()) {
+                is DomainResult.Success -> {
+                    _uiState.value = _uiState.value.copy(
+                        isLoadingCollections = false,
+                        collections = result.data
+                    )
+                }
+                is DomainResult.Error -> {
+                    _uiState.value = _uiState.value.copy(
+                        isLoadingCollections = false,
+                        errorResId = result.type.toStringResId()
+                    )
+                }
+            }
+        }
     }
 
     fun onTitleChange(title: String) {
@@ -94,22 +164,38 @@ class CreateBookViewModel(
         }
     }
 
-    fun onAuthorIdChange(authorId: String) {
-        updateField(
-            value = authorId,
-            validator = BookValidation::validateAuthorId
-        ) { state, error ->
-            state.copy(authorId = authorId, authorIdError = error)
+    fun onAuthorNameChange(authorName: String) {
+        val currentState = _uiState.value
+        val error = if (authorName.isBlank()) {
+            R.string.error_author_id_required
+        } else if (currentState.findAuthorIdByName(authorName) == null) {
+            R.string.error_author_id_not_found
+        } else {
+            null
         }
+
+        _uiState.value = currentState.copy(
+            authorName = authorName,
+            authorNameError = error,
+            errorResId = null
+        )
     }
 
-    fun onCollectionIdChange(collectionId: String) {
-        updateField(
-            value = collectionId,
-            validator = BookValidation::validateCollectionId
-        ) { state, error ->
-            state.copy(collectionId = collectionId, collectionIdError = error)
+    fun onCollectionNameChange(collectionName: String) {
+        val currentState = _uiState.value
+        val error = if (collectionName.isBlank()) {
+            R.string.error_collection_id_required
+        } else if (currentState.findCollectionIdByName(collectionName) == null) {
+            R.string.error_collection_id_not_found
+        } else {
+            null
         }
+
+        _uiState.value = currentState.copy(
+            collectionName = collectionName,
+            collectionNameError = error,
+            errorResId = null
+        )
     }
 
     fun onBasePriceChange(basePrice: String) {
@@ -177,13 +263,12 @@ class CreateBookViewModel(
         )
     }
 
-    fun onVatRateChange(vatRate: String) {
-        updateField(
-            value = vatRate,
-            validator = BookValidation::validateVatRate
-        ) { state, error ->
-            state.copy(vatRate = vatRate, vatRateError = error)
-        }
+    fun onVatRateChange(vatRate: VatRate?) {
+        _uiState.value = _uiState.value.copy(
+            vatRate = vatRate,
+            vatRateError = null,
+            errorResId = null
+        )
     }
 
     fun onIsbnChange(isbn: String) {
@@ -243,6 +328,13 @@ class CreateBookViewModel(
 
         val currentState = _uiState.value
 
+        val authorId = currentState.findAuthorIdByName(currentState.authorName)
+        val collectionId = currentState.findCollectionIdByName(currentState.collectionName)
+
+        if (authorId == null || collectionId == null) {
+            return
+        }
+
         viewModelScope.launch {
             _uiState.value = currentState.copy(
                 isLoading = true,
@@ -253,14 +345,12 @@ class CreateBookViewModel(
             val basePriceValue = currentState.basePrice.trim().toDouble()
             val roundedBasePrice = (basePriceValue * 100).toInt() / 100.0
 
-            val vatRateValue = currentState.vatRate.trim().ifBlank { null }?.toDoubleOrNull()?.let { rate ->
-                (rate * 100).toInt() / 100.0
-            }
+            val vatRateValue = currentState.vatRate?.decimalValue
 
             val request = CreateBookRequest(
                 title = currentState.title.trim(),
-                authorId = currentState.authorId.trim(),
-                collectionId = currentState.collectionId.trim(),
+                authorId = authorId,
+                collectionId = collectionId,
                 basePrice = roundedBasePrice,
                 readingLevel = currentState.readingLevel,
                 primaryLanguage = currentState.primaryLanguage,
@@ -294,10 +384,21 @@ class CreateBookViewModel(
         val s = _uiState.value
         _uiState.value = s.copy(
             titleError = BookValidation.validateTitle(s.title).errorResIdOrNull(),
-            authorIdError = BookValidation.validateAuthorId(s.authorId).errorResIdOrNull(),
-            collectionIdError = BookValidation.validateCollectionId(s.collectionId).errorResIdOrNull(),
+            authorNameError = if (s.authorName.isBlank()) {
+                R.string.error_author_id_required
+            } else if (s.findAuthorIdByName(s.authorName) == null) {
+                R.string.error_author_id_invalid_format
+            } else {
+                null
+            },
+            collectionNameError = if (s.collectionName.isBlank()) {
+                R.string.error_collection_id_required
+            } else if (s.findCollectionIdByName(s.collectionName) == null) {
+                R.string.error_collection_id_invalid_format
+            } else {
+                null
+            },
             basePriceError = BookValidation.validateBasePrice(s.basePrice).errorResIdOrNull(),
-            vatRateError = BookValidation.validateVatRate(s.vatRate).errorResIdOrNull(),
             isbnError = BookValidation.validateIsbn(s.isbn).errorResIdOrNull(),
             publicationDateError = BookValidation.validatePublicationDate(s.publicationDate).errorResIdOrNull(),
             pageCountError = BookValidation.validatePageCount(s.pageCount).errorResIdOrNull(),

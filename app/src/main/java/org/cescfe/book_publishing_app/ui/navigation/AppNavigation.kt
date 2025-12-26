@@ -122,8 +122,10 @@ fun AppNavigation(navController: NavHostController) {
                         popUpTo(Routes.BOOKS) { inclusive = true }
                     }
                 },
-                onBookCreated = {
-                    // TODO: Navigation to book detail after creation
+                onBookCreated = { bookId ->
+                    navController.navigate(Routes.book(bookId)) {
+                        popUpTo(Routes.BOOKS) { inclusive = false }
+                    }
                 }
             )
         }

@@ -7,6 +7,9 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import org.cescfe.book_publishing_app.R
 import org.cescfe.book_publishing_app.domain.collection.model.CollectionSummary
+import org.cescfe.book_publishing_app.domain.shared.enums.Genre
+import org.cescfe.book_publishing_app.domain.shared.enums.Language
+import org.cescfe.book_publishing_app.domain.shared.enums.ReadingLevel
 import org.cescfe.book_publishing_app.ui.shared.navigation.BottomNavItem
 import org.cescfe.book_publishing_app.ui.theme.BookpublishingappTheme
 import org.junit.Rule
@@ -103,9 +106,9 @@ class CollectionsScreenTest {
             CollectionSummary(
                 id = "1",
                 name = "Fantasy Collection",
-                readingLevel = "Advanced",
-                primaryLanguage = "English",
-                primaryGenre = "Fantasy"
+                readingLevel = ReadingLevel.ADULT,
+                primaryLanguage = Language.ENGLISH,
+                primaryGenre = Genre.FANTASY
             )
         )
 

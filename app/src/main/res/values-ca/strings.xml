@@ -31,8 +31,8 @@
     <!-- Collection Summary Card -->
     <string name="collection_card_reading_level">Nivell de lectura: %1$s</string>
     <string name="collection_card_no_reading_level">Sense nivell de lectura</string>
-    <string name="collection_card_language">Idioma: %1$s</string>
-    <string name="collection_card_no_language">Sense idioma especificat</string>
+    <string name="collection_card_language">Llengua: %1$s</string>
+    <string name="collection_card_no_language">Sense llengua especificada</string>
     <string name="collection_card_genre">Gènere: %1$s</string>
     <string name="collection_card_no_genre">Sense gènere</string>
 
@@ -54,9 +54,9 @@
     <string name="book_card_page_count">%1$d pàgs.</string>
     <string name="book_card_no_page_count">Nº págs. no indicadas</string>
     <string name="book_card_reading_level_label">Nivell de lectura</string>
-    <string name="book_card_primary_language_label">Idioma</string>
-    <string name="book_card_no_language">Idioma no indicat</string>
-    <string name="book_card_secondary_languages_label">Altres idiomes</string>
+    <string name="book_card_primary_language_label">Llengua</string>
+    <string name="book_card_no_language">Llengua no indicada</string>
+    <string name="book_card_secondary_languages_label">Altres llengües</string>
     <string name="book_card_primary_genre_label">Gènere</string>
     <string name="book_card_no_genre">Gènere no indicat</string>
     <string name="book_card_secondary_genres_label">Subgèneres</string>
@@ -108,12 +108,39 @@
     <!-- Update Author Screen -->
     <string name="update_author_title">Modificar Autor</string>
 
+    <!-- Book Form -->
+    <string name="book_title_label">Títol *</string>
+    <string name="book_author_id_label">ID de l\'Autor *</string>
+    <string name="book_collection_id_label">ID de la Col·lecció *</string>
+    <string name="book_author_name_label">Nom de l\'autor</string>
+    <string name="book_collection_name_label">Nom de la col·lecció</string>
+    <string name="book_base_price_label">Preu sense IVA *</string>
+    <string name="book_reading_level_label">Nivell de Lectura</string>
+    <string name="book_primary_language_label">Llengua</string>
+    <string name="book_secondary_languages_label">Altres llengües</string>
+    <string name="book_primary_genre_label">Gènere Principal</string>
+    <string name="book_secondary_genres_label">Gèneres Secundaris</string>
+    <string name="book_vat_rate_label">Tipus d\'IVA</string>
+    <string name="book_isbn_label">ISBN</string>
+    <string name="book_publication_date_label">Data de Publicació</string>
+    <string name="book_page_count_label">Nombre de Pàgines</string>
+    <string name="book_description_label">Descripció</string>
+    <string name="book_status_label">Estat</string>
+    <string name="book_publication_date_hint">AAAA-MM-DD</string>
+    <string name="select_none">Cap</string>
+    <string name="select_reading_level">Seleccionar nivell de lectura</string>
+    <string name="select_language">Seleccionar llengua</string>
+    <string name="select_genre">Seleccionar gènere</string>
+    <string name="select_status">Seleccionar estat</string>
+
     <!-- Book Form Validation -->
     <string name="error_title_required">El títol és obligatori</string>
     <string name="error_title_too_long">Títol massa llarg (200 màx.)</string>
     <string name="error_author_id_required">L\'autor és obligatori</string>
+    <string name="error_author_id_not_found">No s\'ha trobat l\'autor</string>
     <string name="error_author_id_invalid_format">L\'ID de l\'autor ha de ser un UUID vàlid</string>
     <string name="error_collection_id_required">La col·lecció és obligatòria</string>
+    <string name="error_collection_id_not_found">No s\'ha trobat la col·lecció</string>
     <string name="error_collection_id_invalid_format">L\'ID de la col·lecció ha de ser un UUID vàlid</string>
     <string name="error_base_price_required">PVP (sense IVA) és obligatori</string>
     <string name="error_base_price_invalid">PVP (sense IVA) ha de ser un nº vàlid</string>
@@ -127,9 +154,9 @@
     <string name="error_publication_date_invalid_format">El Format de la data de publicació no és vàlid (YYYY-MM-DD)</string>
     <string name="error_page_count_invalid">El nº de pàgines ha de ser positiu</string>
     <string name="error_description_too_long">Sinopsi massa llarga (2,000 màx.)</string>
-    <string name="error_secondary_languages_too_many">No pot haver més de 3 idiomes extra</string>
-    <string name="error_secondary_languages_duplicated">No poden haver idiomes duplicats</string>
-    <string name="error_secondary_language_same_as_primary">En altres idiomes no es pot incloure l\'idioma principal</string>
+    <string name="error_secondary_languages_too_many">No pot haver més de 3 llengües extra</string>
+    <string name="error_secondary_languages_duplicated">No poden haver llengües duplicades</string>
+    <string name="error_secondary_language_same_as_primary">En altres llengües no es pot incloure la llengua principal</string>
     <string name="error_secondary_genres_too_many">No pot haver més de 3 gèneres secundaris</string>
     <string name="error_secondary_genres_duplicated">No poden haver gèneres duplicats</string>
     <string name="error_secondary_genre_same_as_primary">En gèneres secundaris no es pot incloure el gènere principal</string>

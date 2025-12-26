@@ -8,10 +8,10 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.cescfe.book_publishing_app.R
-import org.cescfe.book_publishing_app.domain.collection.model.CollectionSummary
-import org.cescfe.book_publishing_app.domain.collection.repository.CollectionsRepository
 import org.cescfe.book_publishing_app.domain.shared.DomainErrorType
 import org.cescfe.book_publishing_app.domain.shared.DomainResult
+import org.cescfe.book_publishing_app.ui.collection.helper.MockCollectionsRepository
+import org.cescfe.book_publishing_app.ui.collection.helper.TestCollectionFactory
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -43,10 +43,10 @@ class CollectionsViewModelTest {
     @Test
     fun `loadCollections with success should update collections list`() = runTest {
         val collections = listOf(
-            createCollection(id = "1", name = "Collection One"),
-            createCollection(id = "2", name = "Collection Two")
+            TestCollectionFactory.createCollectionSummary(id = "1", name = "Collection One"),
+            TestCollectionFactory.createCollectionSummary(id = "2", name = "Collection Two")
         )
-        mockRepository.result = DomainResult.Success(collections)
+        mockRepository.collectionsResult = DomainResult.Success(collections)
 
         val viewModel = createViewModel()
         advanceUntilIdle()
@@ -62,7 +62,7 @@ class CollectionsViewModelTest {
 
     @Test
     fun `loadCollections with empty list should return empty collections`() = runTest {
-        mockRepository.result = DomainResult.Success(emptyList())
+        mockRepository.collectionsResult = DomainResult.Success(emptyList())
 
         val viewModel = createViewModel()
         advanceUntilIdle()
@@ -77,7 +77,7 @@ class CollectionsViewModelTest {
 
     @Test
     fun `loadCollections with network error should update error state`() = runTest {
-        mockRepository.result = DomainResult.Error(DomainErrorType.NETWORK_ERROR)
+        mockRepository.collectionsResult = DomainResult.Error(DomainErrorType.NETWORK_ERROR)
 
         val viewModel = createViewModel()
         advanceUntilIdle()
@@ -91,7 +91,7 @@ class CollectionsViewModelTest {
 
     @Test
     fun `loadCollections with server error should update error state`() = runTest {
-        mockRepository.result = DomainResult.Error(DomainErrorType.SERVER_ERROR)
+        mockRepository.collectionsResult = DomainResult.Error(DomainErrorType.SERVER_ERROR)
 
         val viewModel = createViewModel()
         advanceUntilIdle()
@@ -103,7 +103,7 @@ class CollectionsViewModelTest {
 
     @Test
     fun `loadCollections with timeout should update error state`() = runTest {
-        mockRepository.result = DomainResult.Error(DomainErrorType.TIMEOUT)
+        mockRepository.collectionsResult = DomainResult.Error(DomainErrorType.TIMEOUT)
 
         val viewModel = createViewModel()
         advanceUntilIdle()
@@ -117,7 +117,7 @@ class CollectionsViewModelTest {
 
     @Test
     fun `loadCollections with unauthorized should set sessionExpired true`() = runTest {
-        mockRepository.result = DomainResult.Error(DomainErrorType.UNAUTHORIZED)
+        mockRepository.collectionsResult = DomainResult.Error(DomainErrorType.UNAUTHORIZED)
 
         val viewModel = createViewModel()
         advanceUntilIdle()
@@ -133,7 +133,7 @@ class CollectionsViewModelTest {
     @Test
     fun `retry should reload collections`() = runTest {
         // First try: error
-        mockRepository.result = DomainResult.Error(DomainErrorType.NETWORK_ERROR)
+        mockRepository.collectionsResult = DomainResult.Error(DomainErrorType.NETWORK_ERROR)
 
         val viewModel = createViewModel()
         advanceUntilIdle()
@@ -142,8 +142,8 @@ class CollectionsViewModelTest {
         assertEquals(R.string.error_network, errorState.errorResId)
 
         // Second try: success
-        val collections = listOf(createCollection(id = "1", name = "Collection One"))
-        mockRepository.result = DomainResult.Success(collections)
+        val collections = listOf(TestCollectionFactory.createCollectionSummary(id = "1", name = "Collection One"))
+        mockRepository.collectionsResult = DomainResult.Success(collections)
 
         viewModel.retry()
         advanceUntilIdle()
@@ -156,40 +156,16 @@ class CollectionsViewModelTest {
 
     @Test
     fun `retry should clear previous error`() = runTest {
-        mockRepository.result = DomainResult.Error(DomainErrorType.NETWORK_ERROR)
+        mockRepository.collectionsResult = DomainResult.Error(DomainErrorType.NETWORK_ERROR)
 
         val viewModel = createViewModel()
         advanceUntilIdle()
         assertTrue(viewModel.uiState.value.errorResId != null)
 
-        mockRepository.result = DomainResult.Success(emptyList())
+        mockRepository.collectionsResult = DomainResult.Success(emptyList())
         viewModel.retry()
         advanceUntilIdle()
 
         assertNull(viewModel.uiState.value.errorResId)
     }
-
-    // ==================== HELPERS ====================
-
-    private fun createCollection(
-        id: String = "default-id",
-        name: String = "Default Name",
-        readingLevel: String? = null,
-        primaryLanguage: String? = null,
-        primaryGenre: String? = null
-    ) = CollectionSummary(
-        id = id,
-        name = name,
-        readingLevel = readingLevel,
-        primaryLanguage = primaryLanguage,
-        primaryGenre = primaryGenre
-    )
-}
-
-// ==================== MOCK ====================
-
-class MockCollectionsRepository : CollectionsRepository {
-    var result: DomainResult<List<CollectionSummary>> = DomainResult.Success(emptyList())
-
-    override suspend fun getCollections(): DomainResult<List<CollectionSummary>> = result
 }

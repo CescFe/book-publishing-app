@@ -3,20 +3,24 @@ package org.cescfe.book_publishing_app.ui.book
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.cescfe.book_publishing_app.R
+import org.cescfe.book_publishing_app.domain.author.model.AuthorSummary
 import org.cescfe.book_publishing_app.domain.book.model.Book
 import org.cescfe.book_publishing_app.domain.book.model.enums.Status
+import org.cescfe.book_publishing_app.domain.book.model.enums.VatRate
+import org.cescfe.book_publishing_app.domain.collection.model.CollectionSummary
 import org.cescfe.book_publishing_app.domain.shared.DomainErrorType
 import org.cescfe.book_publishing_app.domain.shared.DomainResult
 import org.cescfe.book_publishing_app.domain.shared.enums.Genre
 import org.cescfe.book_publishing_app.domain.shared.enums.Language
 import org.cescfe.book_publishing_app.domain.shared.enums.ReadingLevel
+import org.cescfe.book_publishing_app.ui.author.helper.MockAuthorsRepository
 import org.cescfe.book_publishing_app.ui.book.helper.MockBooksRepository
 import org.cescfe.book_publishing_app.ui.book.helper.TestBookFactory
+import org.cescfe.book_publishing_app.ui.collection.helper.MockCollectionsRepository
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -28,12 +32,19 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class CreateBookViewModelTest {
 
-    private lateinit var mockRepository: MockBooksRepository
+    private lateinit var mockBooksRepository: MockBooksRepository
+    private lateinit var mockAuthorsRepository: MockAuthorsRepository
+    private lateinit var mockCollectionsRepository: MockCollectionsRepository
 
     @Before
     fun setup() {
         Dispatchers.setMain(UnconfinedTestDispatcher())
-        mockRepository = MockBooksRepository()
+        mockBooksRepository = MockBooksRepository()
+        mockAuthorsRepository = MockAuthorsRepository()
+        mockCollectionsRepository = MockCollectionsRepository()
+
+        setupDefaultAuthors()
+        setupDefaultCollections()
     }
 
     @After
@@ -41,7 +52,64 @@ class CreateBookViewModelTest {
         Dispatchers.resetMain()
     }
 
-    private fun createViewModel(): CreateBookViewModel = CreateBookViewModel(mockRepository)
+    private fun setupDefaultAuthors() {
+        mockAuthorsRepository.authorsResult = DomainResult.Success(
+            listOf(
+                AuthorSummary(
+                    id = "550e8400-e29b-41d4-a716-446655440000",
+                    fullName = "J.R.R. Tolkien",
+                    pseudonym = "Tolkien",
+                    email = "tolkien@example.com"
+                ),
+                AuthorSummary(
+                    id = "550e8400-e29b-41d4-a716-446655440002",
+                    fullName = "George Orwell",
+                    pseudonym = null,
+                    email = "orwell@example.com"
+                ),
+                AuthorSummary(
+                    id = "test-author-id",
+                    fullName = "Test Author",
+                    pseudonym = null,
+                    email = null
+                )
+            )
+        )
+    }
+
+    private fun setupDefaultCollections() {
+        mockCollectionsRepository.collectionsResult = DomainResult.Success(
+            listOf(
+                CollectionSummary(
+                    id = "550e8400-e29b-41d4-a716-446655440001",
+                    name = "Fantasy Collection",
+                    readingLevel = null,
+                    primaryLanguage = null,
+                    primaryGenre = null
+                ),
+                CollectionSummary(
+                    id = "550e8400-e29b-41d4-a716-446655440003",
+                    name = "Classics",
+                    readingLevel = null,
+                    primaryLanguage = null,
+                    primaryGenre = null
+                ),
+                CollectionSummary(
+                    id = "test-collection-id",
+                    name = "Test Collection",
+                    readingLevel = null,
+                    primaryLanguage = null,
+                    primaryGenre = null
+                )
+            )
+        )
+    }
+
+    private fun createViewModel(): CreateBookViewModel = CreateBookViewModel(
+        mockBooksRepository,
+        mockAuthorsRepository,
+        mockCollectionsRepository
+    )
 
     // ==================== SUCCESS CASES ====================
 
@@ -54,40 +122,40 @@ class CreateBookViewModelTest {
             authorName = "J.R.R. Tolkien",
             collectionName = "Fantasy Collection"
         )
-        mockRepository.createBookResult = DomainResult.Success(createdBook)
+        mockBooksRepository.createBookResult = DomainResult.Success(createdBook)
 
         val viewModel = createViewModel()
+
         viewModel.onTitleChange("The Lord of the Rings")
-        viewModel.onAuthorIdChange("550e8400-e29b-41d4-a716-446655440000")
-        viewModel.onCollectionIdChange("550e8400-e29b-41d4-a716-446655440001")
+        viewModel.onAuthorNameChange("J.R.R. Tolkien")
+        viewModel.onCollectionNameChange("Fantasy Collection")
         viewModel.onBasePriceChange("29.99")
         viewModel.onReadingLevelChange(ReadingLevel.ADULT)
         viewModel.onPrimaryLanguageChange(Language.ENGLISH)
         viewModel.onSecondaryLanguagesChange(listOf(Language.SPANISH, Language.CATALAN))
         viewModel.onPrimaryGenreChange(Genre.FANTASY)
         viewModel.onSecondaryGenresChange(listOf(Genre.ADVENTURE))
-        viewModel.onVatRateChange("0.04")
+        viewModel.onVatRateChange(VatRate.FOUR_PERCENT)
         viewModel.onIsbnChange("9780747591054")
         viewModel.onPublicationDateChange("1954-07-29")
         viewModel.onPageCountChange("1178")
         viewModel.onDescriptionChange("Epic fantasy novel")
         viewModel.onStatusChange(Status.PUBLISHED)
         viewModel.createBook()
-        advanceUntilIdle()
 
         val state = viewModel.uiState.value
         assertFalse(state.isLoading)
         assertEquals("book-456", state.createdBookId)
         assertEquals("The Lord of the Rings", state.title)
-        assertEquals("550e8400-e29b-41d4-a716-446655440000", state.authorId)
-        assertEquals("550e8400-e29b-41d4-a716-446655440001", state.collectionId)
+        assertEquals("J.R.R. Tolkien", state.authorName)
+        assertEquals("Fantasy Collection", state.collectionName)
         assertEquals("29.99", state.basePrice)
         assertEquals(ReadingLevel.ADULT, state.readingLevel)
         assertEquals(Language.ENGLISH, state.primaryLanguage)
         assertEquals(2, state.secondaryLanguages.size)
         assertEquals(Genre.FANTASY, state.primaryGenre)
         assertEquals(1, state.secondaryGenres.size)
-        assertEquals("0.04", state.vatRate)
+        assertEquals(VatRate.FOUR_PERCENT, state.vatRate)
         assertEquals("9780747591054", state.isbn)
         assertEquals("1954-07-29", state.publicationDate)
         assertEquals("1178", state.pageCount)
@@ -116,15 +184,15 @@ class CreateBookViewModelTest {
             description = null,
             status = Status.DRAFT
         )
-        mockRepository.createBookResult = DomainResult.Success(createdBook)
+        mockBooksRepository.createBookResult = DomainResult.Success(createdBook)
 
         val viewModel = createViewModel()
+
         viewModel.onTitleChange("1984")
-        viewModel.onAuthorIdChange("550e8400-e29b-41d4-a716-446655440002")
-        viewModel.onCollectionIdChange("550e8400-e29b-41d4-a716-446655440003")
+        viewModel.onAuthorNameChange("George Orwell")
+        viewModel.onCollectionNameChange("Classics")
         viewModel.onBasePriceChange("15.50")
         viewModel.createBook()
-        advanceUntilIdle()
 
         val state = viewModel.uiState.value
         assertFalse(state.isLoading)
@@ -152,10 +220,10 @@ class CreateBookViewModelTest {
     }
 
     @Test
-    fun `form is invalid when authorId is empty`() = runTest {
+    fun `form is invalid when authorName is empty`() = runTest {
         val viewModel = createViewModel()
         viewModel.onTitleChange("Test Book")
-        viewModel.onCollectionIdChange("collection-123")
+        viewModel.onCollectionNameChange("Test Collection")
         viewModel.onBasePriceChange("10.0")
 
         val state = viewModel.uiState.value
@@ -163,10 +231,10 @@ class CreateBookViewModelTest {
     }
 
     @Test
-    fun `form is invalid when collectionId is empty`() = runTest {
+    fun `form is invalid when collectionName is empty`() = runTest {
         val viewModel = createViewModel()
         viewModel.onTitleChange("Test Book")
-        viewModel.onAuthorIdChange("author-123")
+        viewModel.onAuthorNameChange("Test Author")
         viewModel.onBasePriceChange("10.0")
 
         val state = viewModel.uiState.value
@@ -177,8 +245,8 @@ class CreateBookViewModelTest {
     fun `form is invalid when basePrice is empty`() = runTest {
         val viewModel = createViewModel()
         viewModel.onTitleChange("Test Book")
-        viewModel.onAuthorIdChange("author-123")
-        viewModel.onCollectionIdChange("collection-123")
+        viewModel.onAuthorNameChange("Test Author")
+        viewModel.onCollectionNameChange("Test Collection")
 
         val state = viewModel.uiState.value
         assertFalse(state.isFormValid)
@@ -195,23 +263,23 @@ class CreateBookViewModelTest {
     }
 
     @Test
-    fun `form is invalid when authorId is not a valid UUID`() = runTest {
+    fun `form is invalid when authorName does not exist`() = runTest {
         val viewModel = createViewModel()
-        viewModel.onAuthorIdChange("invalid-uuid")
+        viewModel.onAuthorNameChange("Non-existent Author")
 
         val state = viewModel.uiState.value
         assertFalse(state.isFormValid)
-        assertEquals(R.string.error_author_id_invalid_format, state.authorIdError)
+        assertEquals(R.string.error_author_id_not_found, state.authorNameError)
     }
 
     @Test
-    fun `form is invalid when collectionId is not a valid UUID`() = runTest {
+    fun `form is invalid when collectionName does not exist`() = runTest {
         val viewModel = createViewModel()
-        viewModel.onCollectionIdChange("invalid-uuid")
+        viewModel.onCollectionNameChange("Non-existent Collection")
 
         val state = viewModel.uiState.value
         assertFalse(state.isFormValid)
-        assertEquals(R.string.error_collection_id_invalid_format, state.collectionIdError)
+        assertEquals(R.string.error_collection_id_not_found, state.collectionNameError)
     }
 
     @Test
@@ -232,15 +300,6 @@ class CreateBookViewModelTest {
         val state = viewModel.uiState.value
         assertFalse(state.isFormValid)
         assertEquals(R.string.error_base_price_invalid_precision, state.basePriceError)
-    }
-
-    @Test
-    fun `form is invalid when vatRate is greater than 1`() = runTest {
-        val viewModel = createViewModel()
-        viewModel.onVatRateChange("1.5")
-
-        val state = viewModel.uiState.value
-        assertEquals(R.string.error_vat_rate_too_high, state.vatRateError)
     }
 
     @Test
@@ -353,7 +412,6 @@ class CreateBookViewModelTest {
     fun `createBook does nothing when form is invalid`() = runTest {
         val viewModel = createViewModel()
         viewModel.createBook()
-        advanceUntilIdle()
 
         val state = viewModel.uiState.value
         assertNull(state.createdBookId)
@@ -366,8 +424,8 @@ class CreateBookViewModelTest {
     fun `onSaveClicked with valid form should show confirm dialog`() = runTest {
         val viewModel = createViewModel()
         viewModel.onTitleChange("Test Book")
-        viewModel.onAuthorIdChange("550e8400-e29b-41d4-a716-446655440000")
-        viewModel.onCollectionIdChange("550e8400-e29b-41d4-a716-446655440001")
+        viewModel.onAuthorNameChange("Test Author")
+        viewModel.onCollectionNameChange("Test Collection")
         viewModel.onBasePriceChange("10.0")
         viewModel.onSaveClicked()
 
@@ -388,8 +446,8 @@ class CreateBookViewModelTest {
     fun `dismissConfirmDialog should hide confirm dialog`() = runTest {
         val viewModel = createViewModel()
         viewModel.onTitleChange("Test Book")
-        viewModel.onAuthorIdChange("550e8400-e29b-41d4-a716-446655440000")
-        viewModel.onCollectionIdChange("550e8400-e29b-41d4-a716-446655440001")
+        viewModel.onAuthorNameChange("Test Author")
+        viewModel.onCollectionNameChange("Test Collection")
         viewModel.onBasePriceChange("10.0")
         viewModel.onSaveClicked()
         viewModel.dismissConfirmDialog()
@@ -402,15 +460,14 @@ class CreateBookViewModelTest {
 
     @Test
     fun `createBook with UNAUTHORIZED error should set sessionExpired`() = runTest {
-        mockRepository.createBookResult = DomainResult.Error(DomainErrorType.UNAUTHORIZED)
+        mockBooksRepository.createBookResult = DomainResult.Error(DomainErrorType.UNAUTHORIZED)
 
         val viewModel = createViewModel()
         viewModel.onTitleChange("Test Book")
-        viewModel.onAuthorIdChange("550e8400-e29b-41d4-a716-446655440000")
-        viewModel.onCollectionIdChange("550e8400-e29b-41d4-a716-446655440001")
+        viewModel.onAuthorNameChange("Test Author")
+        viewModel.onCollectionNameChange("Test Collection")
         viewModel.onBasePriceChange("10.0")
         viewModel.createBook()
-        advanceUntilIdle()
 
         val state = viewModel.uiState.value
         assertTrue(state.sessionExpired)
@@ -419,15 +476,14 @@ class CreateBookViewModelTest {
 
     @Test
     fun `onSessionExpiredHandled should clear sessionExpired flag`() = runTest {
-        mockRepository.createBookResult = DomainResult.Error(DomainErrorType.UNAUTHORIZED)
+        mockBooksRepository.createBookResult = DomainResult.Error(DomainErrorType.UNAUTHORIZED)
 
         val viewModel = createViewModel()
         viewModel.onTitleChange("Test Book")
-        viewModel.onAuthorIdChange("550e8400-e29b-41d4-a716-446655440000")
-        viewModel.onCollectionIdChange("550e8400-e29b-41d4-a716-446655440001")
+        viewModel.onAuthorNameChange("Test Author")
+        viewModel.onCollectionNameChange("Test Collection")
         viewModel.onBasePriceChange("10.0")
         viewModel.createBook()
-        advanceUntilIdle()
         viewModel.onSessionExpiredHandled()
 
         val state = viewModel.uiState.value
@@ -438,15 +494,14 @@ class CreateBookViewModelTest {
 
     @Test
     fun `createBook with network error should set errorResId`() = runTest {
-        mockRepository.createBookResult = DomainResult.Error(DomainErrorType.NETWORK_ERROR)
+        mockBooksRepository.createBookResult = DomainResult.Error(DomainErrorType.NETWORK_ERROR)
 
         val viewModel = createViewModel()
         viewModel.onTitleChange("Test Book")
-        viewModel.onAuthorIdChange("550e8400-e29b-41d4-a716-446655440000")
-        viewModel.onCollectionIdChange("550e8400-e29b-41d4-a716-446655440001")
+        viewModel.onAuthorNameChange("Test Author")
+        viewModel.onCollectionNameChange("Test Collection")
         viewModel.onBasePriceChange("10.0")
         viewModel.createBook()
-        advanceUntilIdle()
 
         val state = viewModel.uiState.value
         assertFalse(state.sessionExpired)
