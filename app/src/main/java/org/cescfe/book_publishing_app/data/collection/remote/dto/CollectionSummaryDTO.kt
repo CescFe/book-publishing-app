@@ -24,5 +24,5 @@ fun CollectionSummaryDTO.toDomain(): CollectionSummary = CollectionSummary(
     name = name,
     readingLevel = readingLevel?.let { ReadingLevel.valueOf(it) },
     primaryLanguage = primaryLanguage?.let { Language.valueOf(it) },
-    primaryGenre = primaryGenre?.let { Genre.valueOf(it) },
+    primaryGenre = primaryGenre?.let { Genre.valueOf(it) }
 )

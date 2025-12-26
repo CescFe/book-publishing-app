@@ -62,7 +62,8 @@ fun CollectionSummaryCard(collectionSummary: CollectionSummary, modifier: Modifi
                 )
 
                 Text(
-                    text = collectionSummary.primaryLanguage?.toLocalizedString() ?: stringResource(R.string.not_informed),
+                    text =
+                    collectionSummary.primaryLanguage?.toLocalizedString() ?: stringResource(R.string.not_informed),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

@@ -779,11 +779,7 @@ private fun SecondaryGenresMultiSelect(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun VatRateDropdown(
-    selectedValue: VatRate?,
-    onValueChange: (VatRate?) -> Unit,
-    enabled: Boolean = true
-) {
+private fun VatRateDropdown(selectedValue: VatRate?, onValueChange: (VatRate?) -> Unit, enabled: Boolean = true) {
     var expanded by remember { mutableStateOf(false) }
     val options = VatRate.entries
 
