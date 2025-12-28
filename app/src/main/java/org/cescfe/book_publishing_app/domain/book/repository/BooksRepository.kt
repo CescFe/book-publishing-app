@@ -9,4 +9,5 @@ interface BooksRepository {
     suspend fun getBooks(): DomainResult<List<BookSummary>>
     suspend fun getBookById(bookId: String): DomainResult<Book>
     suspend fun createBook(request: CreateBookRequest): DomainResult<Book>
+    suspend fun deleteBookById(bookId: String): DomainResult<Unit>
 }

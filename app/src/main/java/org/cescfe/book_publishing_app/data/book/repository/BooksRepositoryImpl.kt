@@ -34,4 +34,11 @@ class BooksRepositoryImpl(private val booksApi: BooksApi) : BooksRepository {
     } catch (e: Exception) {
         RepositoryErrorHandler.handleException(e)
     }
+
+    override suspend fun deleteBookById(bookId: String): DomainResult<Unit> = try {
+        booksApi.deleteBookById(bookId)
+        DomainResult.Success(Unit)
+    } catch (e: Exception) {
+        RepositoryErrorHandler.handleException(e)
+    }
 }

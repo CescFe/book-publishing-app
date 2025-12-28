@@ -16,6 +16,9 @@ class MockBooksApi : BooksApi {
     var bookException: Throwable? = null
     var createBookRequest: CreateBookRequestDTO? = null
 
+    var deleteSuccess: Boolean = false
+    var deleteBookId: String? = null
+
     override suspend fun getBooks(): BooksResponse = when {
         httpException != null -> throw httpException!!
         exception != null -> throw exception!!
@@ -37,6 +40,16 @@ class MockBooksApi : BooksApi {
             bookException != null -> throw bookException!!
             bookResponse != null -> bookResponse!!
             else -> throw RuntimeException("Mock not configured for createBook")
+        }
+    }
+
+    override suspend fun deleteBookById(bookId: String) {
+        deleteBookId = bookId
+        when {
+            httpException != null -> throw httpException!!
+            exception != null -> throw exception!!
+            deleteSuccess -> Unit
+            else -> throw RuntimeException("Mock not configured for deleteBookById")
         }
     }
 }
