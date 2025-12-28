@@ -23,7 +23,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.cescfe.book_publishing_app.R
+import org.cescfe.book_publishing_app.domain.book.model.enums.Status
+import org.cescfe.book_publishing_app.domain.shared.enums.Genre
+import org.cescfe.book_publishing_app.domain.shared.enums.Language
+import org.cescfe.book_publishing_app.domain.shared.enums.ReadingLevel
 import org.cescfe.book_publishing_app.ui.book.components.BookCard
+import org.cescfe.book_publishing_app.ui.shared.components.ConfirmationDialog
 import org.cescfe.book_publishing_app.ui.shared.components.ErrorState
 import org.cescfe.book_publishing_app.ui.shared.components.LoadingState
 import org.cescfe.book_publishing_app.ui.shared.navigation.DetailActionsBottomBar
@@ -36,8 +41,8 @@ fun BookScreen(
     viewModel: BookViewModel = viewModel(),
     onSessionExpired: () -> Unit = {},
     onNavigateUp: () -> Unit = {},
-    onEditClick: () -> Unit = {},
-    onDeleteClick: () -> Unit = {}
+    onDeleteSuccess: () -> Unit,
+    onEditClick: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -52,12 +57,20 @@ fun BookScreen(
         }
     }
 
+    LaunchedEffect(uiState.deleteSuccess) {
+        if (uiState.deleteSuccess) {
+            onDeleteSuccess()
+        }
+    }
+
     BookScreenContent(
         uiState = uiState,
         onRetry = viewModel::retry,
         onNavigateUp = onNavigateUp,
         onEditClick = onEditClick,
-        onDeleteClick = onDeleteClick
+        onDeleteClick = viewModel::onDeleteClicked,
+        onDeleteDialogDismissed = viewModel::onDeleteDialogDismissed,
+        onDeleteConfirmed = viewModel::onDeleteConfirmed
     )
 }
 
@@ -68,7 +81,9 @@ internal fun BookScreenContent(
     onRetry: () -> Unit,
     onNavigateUp: () -> Unit,
     onEditClick: () -> Unit = {},
-    onDeleteClick: () -> Unit = {}
+    onDeleteClick: () -> Unit = {},
+    onDeleteDialogDismissed: () -> Unit = {},
+    onDeleteConfirmed: () -> Unit = {}
 ) {
     Scaffold(
         modifier = Modifier.testTag("book_screen"),
@@ -101,7 +116,7 @@ internal fun BookScreenContent(
                 .padding(innerPadding)
         ) {
             when {
-                uiState.isLoading -> {
+                uiState.isLoading || uiState.isDeleting -> {
                     LoadingState()
                 }
                 uiState.errorResId != null -> {
@@ -122,6 +137,14 @@ internal fun BookScreenContent(
             }
         }
     }
+
+    ConfirmationDialog(
+        title = stringResource(R.string.book_delete_confirmation_title),
+        message = stringResource(R.string.book_delete_confirmation_message),
+        onDismiss = onDeleteDialogDismissed,
+        onConfirm = onDeleteConfirmed,
+        isVisible = uiState.showDeleteDialog
+    )
 }
 
 // ==================== PREVIEWS ====================
@@ -135,7 +158,9 @@ private fun BookScreenLoadingPreview() {
             onRetry = {},
             onNavigateUp = {},
             onEditClick = {},
-            onDeleteClick = {}
+            onDeleteClick = {},
+            onDeleteDialogDismissed = {},
+            onDeleteConfirmed = {}
         )
     }
 }
@@ -149,7 +174,9 @@ private fun BookScreenErrorPreview() {
             onRetry = {},
             onNavigateUp = {},
             onEditClick = {},
-            onDeleteClick = {}
+            onDeleteClick = {},
+            onDeleteDialogDismissed = {},
+            onDeleteConfirmed = {}
         )
     }
 }
@@ -166,16 +193,16 @@ private fun BookScreenSuccessPreview() {
                     basePrice = 29.99,
                     authorName = "J.K. Rowling",
                     collectionName = "Harry Potter Series",
-                    readingLevel = org.cescfe.book_publishing_app.domain.shared.enums.ReadingLevel.YOUNG_ADULT,
-                    primaryLanguage = org.cescfe.book_publishing_app.domain.shared.enums.Language.ENGLISH,
+                    readingLevel = ReadingLevel.YOUNG_ADULT,
+                    primaryLanguage = Language.ENGLISH,
                     secondaryLanguages = listOf(
-                        org.cescfe.book_publishing_app.domain.shared.enums.Language.SPANISH,
-                        org.cescfe.book_publishing_app.domain.shared.enums.Language.CATALAN
+                        Language.SPANISH,
+                        Language.CATALAN
                     ),
-                    primaryGenre = org.cescfe.book_publishing_app.domain.shared.enums.Genre.FANTASY,
+                    primaryGenre = Genre.FANTASY,
                     secondaryGenres = listOf(
-                        org.cescfe.book_publishing_app.domain.shared.enums.Genre.ADVENTURE,
-                        org.cescfe.book_publishing_app.domain.shared.enums.Genre.MYSTERY
+                        Genre.ADVENTURE,
+                        Genre.MYSTERY
                     ),
                     vatRate = 0.04,
                     finalPrice = 31.19,
@@ -183,13 +210,15 @@ private fun BookScreenSuccessPreview() {
                     publicationDate = "2007-07-21",
                     pageCount = 607,
                     description = "Harry, Ron, and Hermione hunt for Horcruxes",
-                    status = org.cescfe.book_publishing_app.domain.book.model.enums.Status.PUBLISHED
+                    status = Status.PUBLISHED
                 )
             ),
             onRetry = {},
             onNavigateUp = {},
             onEditClick = {},
-            onDeleteClick = {}
+            onDeleteClick = {},
+            onDeleteDialogDismissed = {},
+            onDeleteConfirmed = {}
         )
     }
 }

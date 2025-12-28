@@ -19,7 +19,10 @@ data class BookUiState(
     val book: Book? = null,
     val isLoading: Boolean = false,
     @get:StringRes val errorResId: Int? = null,
-    val sessionExpired: Boolean = false
+    val sessionExpired: Boolean = false,
+    val isDeleting: Boolean = false,
+    val deleteSuccess: Boolean = false,
+    val showDeleteDialog: Boolean = false
 )
 
 class BookViewModel(
@@ -55,6 +58,42 @@ class BookViewModel(
                 }
                 is DomainResult.Error -> {
                     _uiState.value = _uiState.value.copy(isLoading = false)
+                    handleError(result.type)
+                }
+            }
+        }
+    }
+
+    fun onDeleteClicked() {
+        _uiState.value = _uiState.value.copy(showDeleteDialog = true)
+    }
+
+    fun onDeleteDialogDismissed() {
+        _uiState.value = _uiState.value.copy(showDeleteDialog = false)
+    }
+
+    fun onDeleteConfirmed() {
+        deleteBook()
+    }
+
+    fun deleteBook() {
+        val bookId = _uiState.value.book?.id ?: return
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(
+                isDeleting = true,
+                errorResId = null,
+                showDeleteDialog = false
+            )
+
+            when (val result = booksRepository.deleteBookById(bookId)) {
+                is DomainResult.Success -> {
+                    _uiState.value = _uiState.value.copy(
+                        isDeleting = false,
+                        deleteSuccess = true
+                    )
+                }
+                is DomainResult.Error -> {
+                    _uiState.value = _uiState.value.copy(isDeleting = false)
                     handleError(result.type)
                 }
             }
