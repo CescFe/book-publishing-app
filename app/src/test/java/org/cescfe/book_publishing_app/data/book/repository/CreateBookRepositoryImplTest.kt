@@ -7,6 +7,7 @@ import org.cescfe.book_publishing_app.data.book.remote.dto.AuthorRefDTO
 import org.cescfe.book_publishing_app.data.book.remote.dto.BookDTO
 import org.cescfe.book_publishing_app.data.book.remote.dto.CollectionRefDTO
 import org.cescfe.book_publishing_app.data.book.repository.helper.MockBooksApi
+import org.cescfe.book_publishing_app.data.shared.repository.helper.MockResult
 import org.cescfe.book_publishing_app.data.shared.repository.helper.TestHttpExceptionFactory
 import org.cescfe.book_publishing_app.domain.book.model.CreateBookRequest
 import org.cescfe.book_publishing_app.domain.book.model.enums.Status
@@ -52,7 +53,7 @@ class CreateBookRepositoryImplTest {
             description = "Epic fantasy novel",
             status = Status.PUBLISHED
         )
-        mockBooksApi.bookResponse = BookDTO(
+        val bookDto = BookDTO(
             id = "new-book-123",
             title = "The Lord of the Rings",
             basePrice = 29.99,
@@ -77,6 +78,8 @@ class CreateBookRepositoryImplTest {
             description = "Epic fantasy novel",
             status = Status.PUBLISHED
         )
+
+        mockBooksApi.createBookResult = MockResult.Success(bookDto)
 
         val result = repository.createBook(request)
 
@@ -121,7 +124,7 @@ class CreateBookRepositoryImplTest {
             description = null,
             status = null
         )
-        mockBooksApi.bookResponse = BookDTO(
+        val bookDto = BookDTO(
             id = "book-456",
             title = "1984",
             basePrice = 15.50,
@@ -137,6 +140,8 @@ class CreateBookRepositoryImplTest {
             finalPrice = 16.12,
             status = Status.DRAFT
         )
+
+        mockBooksApi.createBookResult = MockResult.Success(bookDto)
 
         repository.createBook(request)
 
@@ -162,7 +167,9 @@ class CreateBookRepositoryImplTest {
 
     @Test
     fun `createBook with SocketTimeoutException should return Timeout error`() = runTest {
-        mockBooksApi.bookException = SocketTimeoutException("Connection timed out")
+        mockBooksApi.createBookResult = MockResult.Error(
+            SocketTimeoutException("Connection timed out")
+        )
 
         val result = repository.createBook(
             CreateBookRequest(
@@ -179,7 +186,9 @@ class CreateBookRepositoryImplTest {
 
     @Test
     fun `createBook with IOException should return NetworkError`() = runTest {
-        mockBooksApi.bookException = IOException("Network unavailable")
+        mockBooksApi.createBookResult = MockResult.Error(
+            IOException("Network unavailable")
+        )
 
         val result = repository.createBook(
             CreateBookRequest(
@@ -196,7 +205,9 @@ class CreateBookRepositoryImplTest {
 
     @Test
     fun `createBook with 401 HttpException should return Unauthorized error`() = runTest {
-        mockBooksApi.bookHttpException = TestHttpExceptionFactory.create(401)
+        mockBooksApi.createBookResult = MockResult.Error(
+            TestHttpExceptionFactory.create(401)
+        )
 
         val result = repository.createBook(
             CreateBookRequest(
@@ -213,7 +224,9 @@ class CreateBookRepositoryImplTest {
 
     @Test
     fun `createBook with 500 HttpException should return ServerError`() = runTest {
-        mockBooksApi.bookHttpException = TestHttpExceptionFactory.create(500)
+        mockBooksApi.createBookResult = MockResult.Error(
+            TestHttpExceptionFactory.create(500)
+        )
 
         val result = repository.createBook(
             CreateBookRequest(

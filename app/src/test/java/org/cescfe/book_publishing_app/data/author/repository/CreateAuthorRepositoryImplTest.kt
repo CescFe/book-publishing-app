@@ -5,6 +5,7 @@ import java.net.SocketTimeoutException
 import kotlinx.coroutines.test.runTest
 import org.cescfe.book_publishing_app.data.author.remote.dto.AuthorDTO
 import org.cescfe.book_publishing_app.data.author.repository.helper.MockAuthorsApi
+import org.cescfe.book_publishing_app.data.shared.repository.helper.MockResult
 import org.cescfe.book_publishing_app.data.shared.repository.helper.TestHttpExceptionFactory
 import org.cescfe.book_publishing_app.domain.author.model.CreateAuthorRequest
 import org.cescfe.book_publishing_app.domain.shared.DomainErrorType
@@ -36,7 +37,7 @@ class CreateAuthorRepositoryImplTest {
             email = "tolkien@example.com",
             website = "https://tolkien.com"
         )
-        mockAuthorsApi.authorResponse = AuthorDTO(
+        val authorDto = AuthorDTO(
             id = "new-author-123",
             fullName = "J.R.R. Tolkien",
             pseudonym = "Tolkien",
@@ -44,6 +45,8 @@ class CreateAuthorRepositoryImplTest {
             email = "tolkien@example.com",
             website = "https://tolkien.com"
         )
+
+        mockAuthorsApi.createAuthorResult = MockResult.Success(authorDto)
 
         val result = repository.createAuthor(request)
 
@@ -64,10 +67,12 @@ class CreateAuthorRepositoryImplTest {
             email = null,
             website = null
         )
-        mockAuthorsApi.authorResponse = AuthorDTO(
+        val authorDto = AuthorDTO(
             id = "author-456",
             fullName = "George Orwell"
         )
+
+        mockAuthorsApi.createAuthorResult = MockResult.Success(authorDto)
 
         repository.createAuthor(request)
 
@@ -81,7 +86,9 @@ class CreateAuthorRepositoryImplTest {
 
     @Test
     fun `createAuthor with SocketTimeoutException should return Timeout error`() = runTest {
-        mockAuthorsApi.authorException = SocketTimeoutException("Connection timed out")
+        mockAuthorsApi.createAuthorResult = MockResult.Error(
+            SocketTimeoutException("Connection timed out")
+        )
 
         val result = repository.createAuthor(CreateAuthorRequest(fullName = "Test"))
 
@@ -91,7 +98,9 @@ class CreateAuthorRepositoryImplTest {
 
     @Test
     fun `createAuthor with IOException should return NetworkError`() = runTest {
-        mockAuthorsApi.authorException = IOException("Network unavailable")
+        mockAuthorsApi.createAuthorResult = MockResult.Error(
+            IOException("Network unavailable")
+        )
 
         val result = repository.createAuthor(CreateAuthorRequest(fullName = "Test"))
 
@@ -101,7 +110,9 @@ class CreateAuthorRepositoryImplTest {
 
     @Test
     fun `createAuthor with 401 HttpException should return Unauthorized error`() = runTest {
-        mockAuthorsApi.authorHttpException = TestHttpExceptionFactory.create(401)
+        mockAuthorsApi.createAuthorResult = MockResult.Error(
+            TestHttpExceptionFactory.create(401)
+        )
 
         val result = repository.createAuthor(CreateAuthorRequest(fullName = "Test"))
 
@@ -111,7 +122,9 @@ class CreateAuthorRepositoryImplTest {
 
     @Test
     fun `createAuthor with 500 HttpException should return ServerError`() = runTest {
-        mockAuthorsApi.authorHttpException = TestHttpExceptionFactory.create(500)
+        mockAuthorsApi.createAuthorResult = MockResult.Error(
+            TestHttpExceptionFactory.create(500)
+        )
 
         val result = repository.createAuthor(CreateAuthorRequest(fullName = "Test"))
 

@@ -7,6 +7,7 @@ import org.cescfe.book_publishing_app.data.author.remote.dto.AuthorSummaryDTO
 import org.cescfe.book_publishing_app.data.author.remote.dto.AuthorsResponse
 import org.cescfe.book_publishing_app.data.author.repository.helper.MockAuthorsApi
 import org.cescfe.book_publishing_app.data.shared.remote.dto.PaginationMeta
+import org.cescfe.book_publishing_app.data.shared.repository.helper.MockResult
 import org.cescfe.book_publishing_app.data.shared.repository.helper.TestHttpExceptionFactory
 import org.cescfe.book_publishing_app.domain.shared.DomainErrorType
 import org.cescfe.book_publishing_app.domain.shared.DomainResult
@@ -36,7 +37,9 @@ class ListAuthorsRepositoryImplTest {
             pseudonym = "Tolkien",
             email = "tolkien@example.com"
         )
-        mockAuthorsApi.successResponse = createAuthorsResponse(listOf(authorDto))
+        mockAuthorsApi.getAuthorsResult = MockResult.Success(
+            createAuthorsResponse(listOf(authorDto))
+        )
 
         val result = repository.getAuthors()
 
@@ -49,7 +52,9 @@ class ListAuthorsRepositoryImplTest {
 
     @Test
     fun `getAuthors with empty list should return Success with empty list`() = runTest {
-        mockAuthorsApi.successResponse = createAuthorsResponse(emptyList())
+        mockAuthorsApi.getAuthorsResult = MockResult.Success(
+            createAuthorsResponse(emptyList())
+        )
 
         val result = repository.getAuthors()
 
@@ -65,7 +70,9 @@ class ListAuthorsRepositoryImplTest {
             createAuthorSummaryDTO(id = "author-2", fullName = "Author Two"),
             createAuthorSummaryDTO(id = "author-3", fullName = "Author Three")
         )
-        mockAuthorsApi.successResponse = createAuthorsResponse(authors)
+        val authorDtos = createAuthorsResponse(authors)
+
+        mockAuthorsApi.getAuthorsResult = MockResult.Success(authorDtos)
 
         val result = repository.getAuthors()
 
@@ -84,7 +91,9 @@ class ListAuthorsRepositoryImplTest {
             pseudonym = null,
             email = null
         )
-        mockAuthorsApi.successResponse = createAuthorsResponse(listOf(authorDto))
+        val authorDtos = createAuthorsResponse(listOf(authorDto))
+
+        mockAuthorsApi.getAuthorsResult = MockResult.Success(authorDtos)
 
         val result = repository.getAuthors()
 
@@ -100,7 +109,9 @@ class ListAuthorsRepositoryImplTest {
 
     @Test
     fun `getAuthors with SocketTimeoutException should return Timeout error`() = runTest {
-        mockAuthorsApi.exception = SocketTimeoutException("Connection timed out")
+        mockAuthorsApi.getAuthorsResult = MockResult.Error(
+            SocketTimeoutException("Connection timed out")
+        )
 
         val result = repository.getAuthors()
 
@@ -111,7 +122,9 @@ class ListAuthorsRepositoryImplTest {
 
     @Test
     fun `getAuthors with IOException should return NetworkError`() = runTest {
-        mockAuthorsApi.exception = IOException("Network unavailable")
+        mockAuthorsApi.getAuthorsResult = MockResult.Error(
+            IOException("Network unavailable")
+        )
 
         val result = repository.getAuthors()
 
@@ -122,7 +135,9 @@ class ListAuthorsRepositoryImplTest {
 
     @Test
     fun `getAuthors with 401 HttpException should return Unauthorized error`() = runTest {
-        mockAuthorsApi.httpException = TestHttpExceptionFactory.create(401)
+        mockAuthorsApi.getAuthorsResult = MockResult.Error(
+            TestHttpExceptionFactory.create(401)
+        )
 
         val result = repository.getAuthors()
 
@@ -133,7 +148,9 @@ class ListAuthorsRepositoryImplTest {
 
     @Test
     fun `getAuthors with 500 HttpException should return ServerError`() = runTest {
-        mockAuthorsApi.httpException = TestHttpExceptionFactory.create(500)
+        mockAuthorsApi.getAuthorsResult = MockResult.Error(
+            TestHttpExceptionFactory.create(500)
+        )
 
         val result = repository.getAuthors()
 
@@ -144,7 +161,9 @@ class ListAuthorsRepositoryImplTest {
 
     @Test
     fun `getAuthors with 503 HttpException should return ServerError`() = runTest {
-        mockAuthorsApi.httpException = TestHttpExceptionFactory.create(503)
+        mockAuthorsApi.getAuthorsResult = MockResult.Error(
+            TestHttpExceptionFactory.create(503)
+        )
 
         val result = repository.getAuthors()
 
@@ -155,7 +174,9 @@ class ListAuthorsRepositoryImplTest {
 
     @Test
     fun `getAuthors with unknown exception should return Unknown error`() = runTest {
-        mockAuthorsApi.exception = RuntimeException("Something unexpected")
+        mockAuthorsApi.getAuthorsResult = MockResult.Error(
+            RuntimeException("Something unexpected")
+        )
 
         val result = repository.getAuthors()
 
@@ -166,7 +187,9 @@ class ListAuthorsRepositoryImplTest {
 
     @Test
     fun `getAuthors with 404 HttpException should return Unknown error`() = runTest {
-        mockAuthorsApi.httpException = TestHttpExceptionFactory.create(404)
+        mockAuthorsApi.getAuthorsResult = MockResult.Error(
+            TestHttpExceptionFactory.create(404)
+        )
 
         val result = repository.getAuthors()
 

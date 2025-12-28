@@ -5,70 +5,38 @@ import org.cescfe.book_publishing_app.data.author.remote.dto.AuthorDTO
 import org.cescfe.book_publishing_app.data.author.remote.dto.AuthorsResponse
 import org.cescfe.book_publishing_app.data.author.remote.dto.CreateAuthorRequestDTO
 import org.cescfe.book_publishing_app.data.author.remote.dto.UpdateAuthorRequestDTO
-import retrofit2.HttpException
+import org.cescfe.book_publishing_app.data.shared.repository.helper.MockResult
+import org.cescfe.book_publishing_app.data.shared.repository.helper.resolve
 
 class MockAuthorsApi : AuthorsApi {
-    var successResponse: AuthorsResponse? = null
-    var httpException: HttpException? = null
-    var exception: Throwable? = null
+    var getAuthorsResult: MockResult<AuthorsResponse>? = null
+    var getAuthorResult: MockResult<AuthorDTO>? = null
+    var createAuthorResult: MockResult<AuthorDTO>? = null
+    var updateAuthorResult: MockResult<AuthorDTO>? = null
+    var deleteAuthorResult: MockResult<Unit>? = null
 
-    var authorResponse: AuthorDTO? = null
-    var authorHttpException: HttpException? = null
-    var authorException: Throwable? = null
     var createAuthorRequest: CreateAuthorRequestDTO? = null
-
     var updateAuthorRequest: UpdateAuthorRequestDTO? = null
     var updateAuthorId: String? = null
-    var updateAuthorHttpException: HttpException? = null
-    var updateAuthorException: Throwable? = null
-
-    var deleteSuccess: Boolean = false
-    var deleteHttpException: HttpException? = null
-    var deleteException: Throwable? = null
     var deleteAuthorId: String? = null
 
-    override suspend fun getAuthors(): AuthorsResponse = when {
-        httpException != null -> throw httpException!!
-        exception != null -> throw exception!!
-        successResponse != null -> successResponse!!
-        else -> throw RuntimeException("Mock not configured")
-    }
+    override suspend fun getAuthors(): AuthorsResponse = getAuthorsResult.resolve()
 
-    override suspend fun getAuthorById(id: String): AuthorDTO = when {
-        authorHttpException != null -> throw authorHttpException!!
-        authorException != null -> throw authorException!!
-        authorResponse != null -> authorResponse!!
-        else -> throw RuntimeException("Mock not configured for getAuthorById")
-    }
+    override suspend fun getAuthorById(id: String): AuthorDTO = getAuthorResult.resolve()
 
     override suspend fun createAuthor(request: CreateAuthorRequestDTO): AuthorDTO {
         createAuthorRequest = request
-        return when {
-            authorHttpException != null -> throw authorHttpException!!
-            authorException != null -> throw authorException!!
-            authorResponse != null -> authorResponse!!
-            else -> throw RuntimeException("Mock not configured for createAuthor")
-        }
+        return createAuthorResult.resolve()
     }
 
     override suspend fun updateAuthor(authorId: String, request: UpdateAuthorRequestDTO): AuthorDTO {
         updateAuthorId = authorId
         updateAuthorRequest = request
-        return when {
-            updateAuthorHttpException != null -> throw updateAuthorHttpException!!
-            updateAuthorException != null -> throw updateAuthorException!!
-            authorResponse != null -> authorResponse!!
-            else -> throw RuntimeException("Mock not configured for updateAuthor")
-        }
+        return updateAuthorResult.resolve()
     }
 
     override suspend fun deleteAuthorById(authorId: String) {
         deleteAuthorId = authorId
-        when {
-            deleteHttpException != null -> throw deleteHttpException!!
-            deleteException != null -> throw deleteException!!
-            deleteSuccess -> Unit
-            else -> throw RuntimeException("Mock not configured for deleteAuthorById")
-        }
+        deleteAuthorResult.resolve()
     }
 }
