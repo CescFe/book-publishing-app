@@ -29,7 +29,9 @@ class BookScreenTest {
                     onRetry = {},
                     onNavigateUp = {},
                     onEditClick = {},
-                    onDeleteClick = {}
+                    onDeleteClick = {},
+                    onDeleteDialogDismissed = {},
+                    onDeleteConfirmed = {}
                 )
             }
         }
@@ -50,7 +52,9 @@ class BookScreenTest {
                     onRetry = {},
                     onNavigateUp = {},
                     onEditClick = {},
-                    onDeleteClick = {}
+                    onDeleteClick = {},
+                    onDeleteDialogDismissed = {},
+                    onDeleteConfirmed = {}
                 )
             }
         }
@@ -73,7 +77,9 @@ class BookScreenTest {
                     onRetry = { retryCalled = true },
                     onNavigateUp = {},
                     onEditClick = {},
-                    onDeleteClick = {}
+                    onDeleteClick = {},
+                    onDeleteDialogDismissed = {},
+                    onDeleteConfirmed = {}
                 )
             }
         }
@@ -115,13 +121,61 @@ class BookScreenTest {
                     onRetry = {},
                     onNavigateUp = {},
                     onEditClick = {},
-                    onDeleteClick = {}
+                    onDeleteClick = {},
+                    onDeleteDialogDismissed = {},
+                    onDeleteConfirmed = {}
                 )
             }
         }
 
         composeTestRule
             .onNodeWithText("Test Book")
+            .assertIsDisplayed()
+    }
+
+    // ==================== DELETE DIALOG ====================
+
+    @Test
+    fun bookScreen_showsDeleteDialog_whenStateIsTrue() {
+        val book = Book(
+            id = "book-123",
+            title = "Test Book",
+            basePrice = 10.0,
+            authorName = "Test Author",
+            collectionName = "Test Collection",
+            readingLevel = null,
+            primaryLanguage = null,
+            secondaryLanguages = emptyList(),
+            primaryGenre = null,
+            secondaryGenres = emptyList(),
+            vatRate = 0.04,
+            finalPrice = 10.40,
+            isbn = null,
+            publicationDate = null,
+            pageCount = null,
+            description = null,
+            status = Status.DRAFT
+        )
+
+        composeTestRule.setContent {
+            BookpublishingappTheme {
+                BookScreenContent(
+                    uiState = BookUiState(
+                        book = book,
+                        showDeleteDialog = true
+                    ),
+                    onRetry = {},
+                    onNavigateUp = {},
+                    onEditClick = {},
+                    onDeleteClick = {},
+                    onDeleteDialogDismissed = {},
+                    onDeleteConfirmed = {}
+                )
+            }
+        }
+
+        composeTestRule
+            .onNodeWithTag("confirmation_dialog")
             .assertIsDisplayed()
     }
 
