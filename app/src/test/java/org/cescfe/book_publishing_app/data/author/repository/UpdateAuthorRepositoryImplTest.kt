@@ -99,7 +99,7 @@ class UpdateAuthorRepositoryImplTest {
 
     @Test
     fun `updateAuthor with SocketTimeoutException should return Timeout error`() = runTest {
-        mockAuthorsApi.updateAuthorException = SocketTimeoutException("Connection timed out")
+        mockAuthorsApi.exception = SocketTimeoutException("Connection timed out")
 
         val result = repository.updateAuthor("author-123", UpdateAuthorRequest(fullName = "Test"))
 
@@ -109,7 +109,7 @@ class UpdateAuthorRepositoryImplTest {
 
     @Test
     fun `updateAuthor with IOException should return NetworkError`() = runTest {
-        mockAuthorsApi.updateAuthorException = IOException("Network unavailable")
+        mockAuthorsApi.exception = IOException("Network unavailable")
 
         val result = repository.updateAuthor("author-123", UpdateAuthorRequest(fullName = "Test"))
 
@@ -119,7 +119,7 @@ class UpdateAuthorRepositoryImplTest {
 
     @Test
     fun `updateAuthor with 400 HttpException should return Unknown error`() = runTest {
-        mockAuthorsApi.updateAuthorHttpException = TestHttpExceptionFactory.create(400)
+        mockAuthorsApi.httpException = TestHttpExceptionFactory.create(400)
 
         val result = repository.updateAuthor("author-123", UpdateAuthorRequest(fullName = "Test"))
 
@@ -129,7 +129,7 @@ class UpdateAuthorRepositoryImplTest {
 
     @Test
     fun `updateAuthor with 401 HttpException should return Unauthorized error`() = runTest {
-        mockAuthorsApi.updateAuthorHttpException = TestHttpExceptionFactory.create(401)
+        mockAuthorsApi.httpException = TestHttpExceptionFactory.create(401)
 
         val result = repository.updateAuthor("author-123", UpdateAuthorRequest(fullName = "Test"))
 
@@ -139,7 +139,7 @@ class UpdateAuthorRepositoryImplTest {
 
     @Test
     fun `updateAuthor with 500 HttpException should return ServerError`() = runTest {
-        mockAuthorsApi.updateAuthorHttpException = TestHttpExceptionFactory.create(500)
+        mockAuthorsApi.httpException = TestHttpExceptionFactory.create(500)
 
         val result = repository.updateAuthor("author-123", UpdateAuthorRequest(fullName = "Test"))
 

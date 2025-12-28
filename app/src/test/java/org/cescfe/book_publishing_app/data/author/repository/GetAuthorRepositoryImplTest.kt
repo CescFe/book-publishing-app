@@ -54,7 +54,7 @@ class GetAuthorRepositoryImplTest {
 
     @Test
     fun `getAuthorById with SocketTimeoutException should return Timeout error`() = runTest {
-        mockAuthorsApi.authorException = SocketTimeoutException("Connection timed out")
+        mockAuthorsApi.exception = SocketTimeoutException("Connection timed out")
 
         val result = repository.getAuthorById("author-123")
 
@@ -65,7 +65,7 @@ class GetAuthorRepositoryImplTest {
 
     @Test
     fun `getAuthorById with IOException should return NetworkError`() = runTest {
-        mockAuthorsApi.authorException = IOException("Network unavailable")
+        mockAuthorsApi.exception = IOException("Network unavailable")
 
         val result = repository.getAuthorById("author-123")
 
@@ -76,7 +76,7 @@ class GetAuthorRepositoryImplTest {
 
     @Test
     fun `getAuthorById with 401 HttpException should return Unauthorized error`() = runTest {
-        mockAuthorsApi.authorHttpException = TestHttpExceptionFactory.create(401)
+        mockAuthorsApi.httpException = TestHttpExceptionFactory.create(401)
 
         val result = repository.getAuthorById("author-123")
 
@@ -87,7 +87,7 @@ class GetAuthorRepositoryImplTest {
 
     @Test
     fun `getAuthorById with 404 HttpException should return Unknown error`() = runTest {
-        mockAuthorsApi.authorHttpException = TestHttpExceptionFactory.create(404)
+        mockAuthorsApi.httpException = TestHttpExceptionFactory.create(404)
 
         val result = repository.getAuthorById("non-existent")
 
@@ -98,7 +98,7 @@ class GetAuthorRepositoryImplTest {
 
     @Test
     fun `getAuthorById with 500 HttpException should return ServerError`() = runTest {
-        mockAuthorsApi.authorHttpException = TestHttpExceptionFactory.create(500)
+        mockAuthorsApi.httpException = TestHttpExceptionFactory.create(500)
 
         val result = repository.getAuthorById("author-123")
 
@@ -109,7 +109,7 @@ class GetAuthorRepositoryImplTest {
 
     @Test
     fun `getAuthorById with 503 HttpException should return ServerError`() = runTest {
-        mockAuthorsApi.authorHttpException = TestHttpExceptionFactory.create(503)
+        mockAuthorsApi.httpException = TestHttpExceptionFactory.create(503)
 
         val result = repository.getAuthorById("author-123")
 
@@ -120,7 +120,7 @@ class GetAuthorRepositoryImplTest {
 
     @Test
     fun `getAuthorById with unknown exception should return Unknown error`() = runTest {
-        mockAuthorsApi.authorException = RuntimeException("Something unexpected")
+        mockAuthorsApi.exception = RuntimeException("Something unexpected")
 
         val result = repository.getAuthorById("author-123")
 

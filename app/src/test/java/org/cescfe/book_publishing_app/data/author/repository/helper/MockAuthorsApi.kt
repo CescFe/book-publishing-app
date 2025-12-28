@@ -13,18 +13,12 @@ class MockAuthorsApi : AuthorsApi {
     var exception: Throwable? = null
 
     var authorResponse: AuthorDTO? = null
-    var authorHttpException: HttpException? = null
-    var authorException: Throwable? = null
     var createAuthorRequest: CreateAuthorRequestDTO? = null
 
     var updateAuthorRequest: UpdateAuthorRequestDTO? = null
     var updateAuthorId: String? = null
-    var updateAuthorHttpException: HttpException? = null
-    var updateAuthorException: Throwable? = null
 
     var deleteSuccess: Boolean = false
-    var deleteHttpException: HttpException? = null
-    var deleteException: Throwable? = null
     var deleteAuthorId: String? = null
 
     override suspend fun getAuthors(): AuthorsResponse = when {
@@ -35,8 +29,8 @@ class MockAuthorsApi : AuthorsApi {
     }
 
     override suspend fun getAuthorById(id: String): AuthorDTO = when {
-        authorHttpException != null -> throw authorHttpException!!
-        authorException != null -> throw authorException!!
+        httpException != null -> throw httpException!!
+        exception != null -> throw exception!!
         authorResponse != null -> authorResponse!!
         else -> throw RuntimeException("Mock not configured for getAuthorById")
     }
@@ -44,8 +38,8 @@ class MockAuthorsApi : AuthorsApi {
     override suspend fun createAuthor(request: CreateAuthorRequestDTO): AuthorDTO {
         createAuthorRequest = request
         return when {
-            authorHttpException != null -> throw authorHttpException!!
-            authorException != null -> throw authorException!!
+            httpException != null -> throw httpException!!
+            exception != null -> throw exception!!
             authorResponse != null -> authorResponse!!
             else -> throw RuntimeException("Mock not configured for createAuthor")
         }
@@ -55,8 +49,8 @@ class MockAuthorsApi : AuthorsApi {
         updateAuthorId = authorId
         updateAuthorRequest = request
         return when {
-            updateAuthorHttpException != null -> throw updateAuthorHttpException!!
-            updateAuthorException != null -> throw updateAuthorException!!
+            httpException != null -> throw httpException!!
+            exception != null -> throw exception!!
             authorResponse != null -> authorResponse!!
             else -> throw RuntimeException("Mock not configured for updateAuthor")
         }
@@ -65,8 +59,8 @@ class MockAuthorsApi : AuthorsApi {
     override suspend fun deleteAuthorById(authorId: String) {
         deleteAuthorId = authorId
         when {
-            deleteHttpException != null -> throw deleteHttpException!!
-            deleteException != null -> throw deleteException!!
+            httpException != null -> throw httpException!!
+            exception != null -> throw exception!!
             deleteSuccess -> Unit
             else -> throw RuntimeException("Mock not configured for deleteAuthorById")
         }
