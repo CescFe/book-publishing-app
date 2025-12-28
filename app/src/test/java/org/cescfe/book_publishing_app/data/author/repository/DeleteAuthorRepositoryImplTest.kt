@@ -4,6 +4,7 @@ import java.io.IOException
 import java.net.SocketTimeoutException
 import kotlinx.coroutines.test.runTest
 import org.cescfe.book_publishing_app.data.author.repository.helper.MockAuthorsApi
+import org.cescfe.book_publishing_app.data.shared.repository.helper.MockResult
 import org.cescfe.book_publishing_app.data.shared.repository.helper.TestHttpExceptionFactory
 import org.cescfe.book_publishing_app.domain.shared.DomainErrorType
 import org.cescfe.book_publishing_app.domain.shared.DomainResult
@@ -26,7 +27,7 @@ class DeleteAuthorRepositoryImplTest {
 
     @Test
     fun `deleteAuthorById with successful deletion should return Success with Unit`() = runTest {
-        mockAuthorsApi.deleteSuccess = true
+        mockAuthorsApi.deleteAuthorResult = MockResult.Success(Unit)
 
         val result = repository.deleteAuthorById("author-123")
 
@@ -40,7 +41,7 @@ class DeleteAuthorRepositoryImplTest {
 
     @Test
     fun `deleteAuthorById should call API with correct author ID`() = runTest {
-        mockAuthorsApi.deleteSuccess = true
+        mockAuthorsApi.deleteAuthorResult = MockResult.Success(Unit)
         val expectedAuthorId = "test-author-id-456"
 
         repository.deleteAuthorById(expectedAuthorId)
@@ -52,7 +53,9 @@ class DeleteAuthorRepositoryImplTest {
 
     @Test
     fun `deleteAuthorById with SocketTimeoutException should return Timeout error`() = runTest {
-        mockAuthorsApi.exception = SocketTimeoutException("Connection timed out")
+        mockAuthorsApi.deleteAuthorResult = MockResult.Error(
+            SocketTimeoutException("Connection timed out")
+        )
 
         val result = repository.deleteAuthorById("author-123")
 
@@ -63,7 +66,9 @@ class DeleteAuthorRepositoryImplTest {
 
     @Test
     fun `deleteAuthorById with IOException should return NetworkError`() = runTest {
-        mockAuthorsApi.exception = IOException("Network unavailable")
+        mockAuthorsApi.deleteAuthorResult = MockResult.Error(
+            IOException("Network unavailable")
+        )
 
         val result = repository.deleteAuthorById("author-123")
 
@@ -74,7 +79,9 @@ class DeleteAuthorRepositoryImplTest {
 
     @Test
     fun `deleteAuthorById with 401 HttpException should return Unauthorized error`() = runTest {
-        mockAuthorsApi.httpException = TestHttpExceptionFactory.create(401)
+        mockAuthorsApi.deleteAuthorResult = MockResult.Error(
+            TestHttpExceptionFactory.create(401)
+        )
 
         val result = repository.deleteAuthorById("author-123")
 
@@ -85,7 +92,9 @@ class DeleteAuthorRepositoryImplTest {
 
     @Test
     fun `deleteAuthorById with 404 HttpException should return Unknown error`() = runTest {
-        mockAuthorsApi.httpException = TestHttpExceptionFactory.create(404)
+        mockAuthorsApi.deleteAuthorResult = MockResult.Error(
+            TestHttpExceptionFactory.create(404)
+        )
 
         val result = repository.deleteAuthorById("non-existent")
 
@@ -96,7 +105,9 @@ class DeleteAuthorRepositoryImplTest {
 
     @Test
     fun `deleteAuthorById with 500 HttpException should return ServerError`() = runTest {
-        mockAuthorsApi.httpException = TestHttpExceptionFactory.create(500)
+        mockAuthorsApi.deleteAuthorResult = MockResult.Error(
+            TestHttpExceptionFactory.create(500)
+        )
 
         val result = repository.deleteAuthorById("author-123")
 

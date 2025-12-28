@@ -9,6 +9,7 @@ import org.cescfe.book_publishing_app.data.book.remote.dto.BooksResponse
 import org.cescfe.book_publishing_app.data.book.remote.dto.CollectionRefDTO
 import org.cescfe.book_publishing_app.data.book.repository.helper.MockBooksApi
 import org.cescfe.book_publishing_app.data.shared.remote.dto.PaginationMeta
+import org.cescfe.book_publishing_app.data.shared.repository.helper.MockResult
 import org.cescfe.book_publishing_app.data.shared.repository.helper.TestHttpExceptionFactory
 import org.cescfe.book_publishing_app.domain.shared.DomainErrorType
 import org.cescfe.book_publishing_app.domain.shared.DomainResult
@@ -62,7 +63,9 @@ class BooksRepositoryImplTest {
                 status = null
             )
         )
-        mockBooksApi.successResponse = createBooksResponse(books)
+        mockBooksApi.getBooksResult = MockResult.Success(
+            createBooksResponse(books)
+        )
 
         val result = repository.getBooks()
 
@@ -89,7 +92,9 @@ class BooksRepositoryImplTest {
             isbn = null,
             status = null
         )
-        mockBooksApi.successResponse = createBooksResponse(listOf(bookDto))
+        mockBooksApi.getBooksResult = MockResult.Success(
+            createBooksResponse(listOf(bookDto))
+        )
 
         val result = repository.getBooks()
 
@@ -106,7 +111,9 @@ class BooksRepositoryImplTest {
 
     @Test
     fun `getBooks with SocketTimeoutException should return Timeout error`() = runTest {
-        mockBooksApi.exception = SocketTimeoutException("Connection timed out")
+        mockBooksApi.getBooksResult = MockResult.Error(
+            SocketTimeoutException("Connection timed out")
+        )
 
         val result = repository.getBooks()
 
@@ -117,7 +124,9 @@ class BooksRepositoryImplTest {
 
     @Test
     fun `getBooks with IOException should return NetworkError`() = runTest {
-        mockBooksApi.exception = IOException("Network unavailable")
+        mockBooksApi.getBooksResult = MockResult.Error(
+            IOException("Network unavailable")
+        )
 
         val result = repository.getBooks()
 
@@ -128,7 +137,9 @@ class BooksRepositoryImplTest {
 
     @Test
     fun `getBooks with 401 HttpException should return Unauthorized error`() = runTest {
-        mockBooksApi.httpException = TestHttpExceptionFactory.create(401)
+        mockBooksApi.getBooksResult = MockResult.Error(
+            TestHttpExceptionFactory.create(401)
+        )
 
         val result = repository.getBooks()
 
@@ -139,7 +150,9 @@ class BooksRepositoryImplTest {
 
     @Test
     fun `getBooks with 500 HttpException should return ServerError`() = runTest {
-        mockBooksApi.httpException = TestHttpExceptionFactory.create(500)
+        mockBooksApi.getBooksResult = MockResult.Error(
+            TestHttpExceptionFactory.create(500)
+        )
 
         val result = repository.getBooks()
 
@@ -150,7 +163,9 @@ class BooksRepositoryImplTest {
 
     @Test
     fun `getBooks with 503 HttpException should return ServerError`() = runTest {
-        mockBooksApi.httpException = TestHttpExceptionFactory.create(503)
+        mockBooksApi.getBooksResult = MockResult.Error(
+            TestHttpExceptionFactory.create(503)
+        )
 
         val result = repository.getBooks()
 
@@ -161,7 +176,9 @@ class BooksRepositoryImplTest {
 
     @Test
     fun `getBooks with unknown exception should return Unknown error`() = runTest {
-        mockBooksApi.exception = RuntimeException("Something unexpected")
+        mockBooksApi.getBooksResult = MockResult.Error(
+            RuntimeException("Something unexpected")
+        )
 
         val result = repository.getBooks()
 
@@ -172,7 +189,9 @@ class BooksRepositoryImplTest {
 
     @Test
     fun `getBooks with 404 HttpException should return Unknown error`() = runTest {
-        mockBooksApi.httpException = TestHttpExceptionFactory.create(404)
+        mockBooksApi.getBooksResult = MockResult.Error(
+            TestHttpExceptionFactory.create(404)
+        )
 
         val result = repository.getBooks()
 

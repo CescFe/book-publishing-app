@@ -5,6 +5,7 @@ import java.net.SocketTimeoutException
 import kotlinx.coroutines.test.runTest
 import org.cescfe.book_publishing_app.data.author.remote.dto.AuthorDTO
 import org.cescfe.book_publishing_app.data.author.repository.helper.MockAuthorsApi
+import org.cescfe.book_publishing_app.data.shared.repository.helper.MockResult
 import org.cescfe.book_publishing_app.data.shared.repository.helper.TestHttpExceptionFactory
 import org.cescfe.book_publishing_app.domain.author.model.UpdateAuthorRequest
 import org.cescfe.book_publishing_app.domain.shared.DomainErrorType
@@ -37,7 +38,7 @@ class UpdateAuthorRepositoryImplTest {
             email = "tolkien@example.com",
             website = "https://tolkien.com"
         )
-        mockAuthorsApi.authorResponse = AuthorDTO(
+        val authorDto = AuthorDTO(
             id = authorId,
             fullName = "J.R.R. Tolkien",
             pseudonym = "Tolkien",
@@ -45,6 +46,8 @@ class UpdateAuthorRepositoryImplTest {
             email = "tolkien@example.com",
             website = "https://tolkien.com"
         )
+
+        mockAuthorsApi.updateAuthorResult = MockResult.Success(authorDto)
 
         val result = repository.updateAuthor(authorId, request)
 
@@ -67,10 +70,12 @@ class UpdateAuthorRepositoryImplTest {
             email = null,
             website = null
         )
-        mockAuthorsApi.authorResponse = AuthorDTO(
+        val authorDto = AuthorDTO(
             id = authorId,
             fullName = "George Orwell"
         )
+
+        mockAuthorsApi.updateAuthorResult = MockResult.Success(authorDto)
 
         repository.updateAuthor(authorId, request)
 
@@ -85,10 +90,12 @@ class UpdateAuthorRepositoryImplTest {
     fun `updateAuthor should send correct authorId to API`() = runTest {
         val authorId = "test-author-id"
         val request = UpdateAuthorRequest(fullName = "Test Author")
-        mockAuthorsApi.authorResponse = AuthorDTO(
+        val authorDto = AuthorDTO(
             id = authorId,
             fullName = "Test Author"
         )
+
+        mockAuthorsApi.updateAuthorResult = MockResult.Success(authorDto)
 
         repository.updateAuthor(authorId, request)
 
@@ -99,7 +106,9 @@ class UpdateAuthorRepositoryImplTest {
 
     @Test
     fun `updateAuthor with SocketTimeoutException should return Timeout error`() = runTest {
-        mockAuthorsApi.exception = SocketTimeoutException("Connection timed out")
+        mockAuthorsApi.updateAuthorResult = MockResult.Error(
+            SocketTimeoutException("Connection timed out")
+        )
 
         val result = repository.updateAuthor("author-123", UpdateAuthorRequest(fullName = "Test"))
 
@@ -109,7 +118,9 @@ class UpdateAuthorRepositoryImplTest {
 
     @Test
     fun `updateAuthor with IOException should return NetworkError`() = runTest {
-        mockAuthorsApi.exception = IOException("Network unavailable")
+        mockAuthorsApi.updateAuthorResult = MockResult.Error(
+            IOException("Network unavailable")
+        )
 
         val result = repository.updateAuthor("author-123", UpdateAuthorRequest(fullName = "Test"))
 
@@ -119,7 +130,9 @@ class UpdateAuthorRepositoryImplTest {
 
     @Test
     fun `updateAuthor with 400 HttpException should return Unknown error`() = runTest {
-        mockAuthorsApi.httpException = TestHttpExceptionFactory.create(400)
+        mockAuthorsApi.updateAuthorResult = MockResult.Error(
+            TestHttpExceptionFactory.create(400)
+        )
 
         val result = repository.updateAuthor("author-123", UpdateAuthorRequest(fullName = "Test"))
 
@@ -129,7 +142,9 @@ class UpdateAuthorRepositoryImplTest {
 
     @Test
     fun `updateAuthor with 401 HttpException should return Unauthorized error`() = runTest {
-        mockAuthorsApi.httpException = TestHttpExceptionFactory.create(401)
+        mockAuthorsApi.updateAuthorResult = MockResult.Error(
+            TestHttpExceptionFactory.create(401)
+        )
 
         val result = repository.updateAuthor("author-123", UpdateAuthorRequest(fullName = "Test"))
 
@@ -139,7 +154,9 @@ class UpdateAuthorRepositoryImplTest {
 
     @Test
     fun `updateAuthor with 500 HttpException should return ServerError`() = runTest {
-        mockAuthorsApi.httpException = TestHttpExceptionFactory.create(500)
+        mockAuthorsApi.updateAuthorResult = MockResult.Error(
+            TestHttpExceptionFactory.create(500)
+        )
 
         val result = repository.updateAuthor("author-123", UpdateAuthorRequest(fullName = "Test"))
 

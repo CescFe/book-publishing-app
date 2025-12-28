@@ -7,6 +7,7 @@ import org.cescfe.book_publishing_app.data.book.remote.dto.AuthorRefDTO
 import org.cescfe.book_publishing_app.data.book.remote.dto.BookDTO
 import org.cescfe.book_publishing_app.data.book.remote.dto.CollectionRefDTO
 import org.cescfe.book_publishing_app.data.book.repository.helper.MockBooksApi
+import org.cescfe.book_publishing_app.data.shared.repository.helper.MockResult
 import org.cescfe.book_publishing_app.data.shared.repository.helper.TestHttpExceptionFactory
 import org.cescfe.book_publishing_app.domain.book.model.enums.Status
 import org.cescfe.book_publishing_app.domain.shared.DomainErrorType
@@ -60,7 +61,7 @@ class GetBookRepositoryImplTest {
             description = "Harry, Ron, and Hermione hunt for Horcruxes",
             status = Status.DRAFT
         )
-        mockBooksApi.bookResponse = bookDto
+        mockBooksApi.getBookResult = MockResult.Success(bookDto)
 
         val result = repository.getBookById("1b871121-881e-44cf-b7b8-a2e9954ce6d6")
 
@@ -116,7 +117,7 @@ class GetBookRepositoryImplTest {
             description = null,
             status = Status.DRAFT
         )
-        mockBooksApi.bookResponse = bookDto
+        mockBooksApi.getBookResult = MockResult.Success(bookDto)
 
         val result = repository.getBookById("1")
 
@@ -137,7 +138,9 @@ class GetBookRepositoryImplTest {
 
     @Test
     fun `getBookById with SocketTimeoutException should return Timeout error`() = runTest {
-        mockBooksApi.bookException = SocketTimeoutException("Connection timed out")
+        mockBooksApi.getBookResult = MockResult.Error(
+            SocketTimeoutException("Connection timed out")
+        )
 
         val result = repository.getBookById("1")
 
@@ -148,7 +151,9 @@ class GetBookRepositoryImplTest {
 
     @Test
     fun `getBookById with IOException should return NetworkError`() = runTest {
-        mockBooksApi.bookException = IOException("Network unavailable")
+        mockBooksApi.getBookResult = MockResult.Error(
+            IOException("Network unavailable")
+        )
 
         val result = repository.getBookById("1")
 
@@ -159,7 +164,9 @@ class GetBookRepositoryImplTest {
 
     @Test
     fun `getBookById with 401 HttpException should return Unauthorized error`() = runTest {
-        mockBooksApi.bookHttpException = TestHttpExceptionFactory.create(401)
+        mockBooksApi.getBookResult = MockResult.Error(
+            TestHttpExceptionFactory.create(401)
+        )
 
         val result = repository.getBookById("1")
 
@@ -170,7 +177,9 @@ class GetBookRepositoryImplTest {
 
     @Test
     fun `getBookById with 404 HttpException should return Unknown error`() = runTest {
-        mockBooksApi.bookHttpException = TestHttpExceptionFactory.create(404)
+        mockBooksApi.getBookResult = MockResult.Error(
+            TestHttpExceptionFactory.create(404)
+        )
 
         val result = repository.getBookById("non-existent")
 
@@ -181,7 +190,9 @@ class GetBookRepositoryImplTest {
 
     @Test
     fun `getBookById with 500 HttpException should return ServerError`() = runTest {
-        mockBooksApi.bookHttpException = TestHttpExceptionFactory.create(500)
+        mockBooksApi.getBookResult = MockResult.Error(
+            TestHttpExceptionFactory.create(500)
+        )
 
         val result = repository.getBookById("1")
 
@@ -192,7 +203,9 @@ class GetBookRepositoryImplTest {
 
     @Test
     fun `getBookById with 503 HttpException should return ServerError`() = runTest {
-        mockBooksApi.bookHttpException = TestHttpExceptionFactory.create(503)
+        mockBooksApi.getBookResult = MockResult.Error(
+            TestHttpExceptionFactory.create(503)
+        )
 
         val result = repository.getBookById("1")
 
@@ -203,7 +216,9 @@ class GetBookRepositoryImplTest {
 
     @Test
     fun `getBookById with unknown exception should return Unknown error`() = runTest {
-        mockBooksApi.bookException = RuntimeException("Something unexpected")
+        mockBooksApi.getBookResult = MockResult.Error(
+            RuntimeException("Something unexpected")
+        )
 
         val result = repository.getBookById("1")
 

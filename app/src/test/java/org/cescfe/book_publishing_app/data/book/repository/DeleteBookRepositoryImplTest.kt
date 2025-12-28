@@ -4,6 +4,7 @@ import java.io.IOException
 import java.net.SocketTimeoutException
 import kotlinx.coroutines.test.runTest
 import org.cescfe.book_publishing_app.data.book.repository.helper.MockBooksApi
+import org.cescfe.book_publishing_app.data.shared.repository.helper.MockResult
 import org.cescfe.book_publishing_app.data.shared.repository.helper.TestHttpExceptionFactory
 import org.cescfe.book_publishing_app.domain.shared.DomainErrorType
 import org.cescfe.book_publishing_app.domain.shared.DomainResult
@@ -26,7 +27,7 @@ class DeleteBookRepositoryImplTest {
 
     @Test
     fun `deleteBookById with successful deletion should return Success with Unit`() = runTest {
-        mockBooksApi.deleteSuccess = true
+        mockBooksApi.deleteBookResult = MockResult.Success(Unit)
 
         val result = repository.deleteBookById("book-123")
 
@@ -40,7 +41,7 @@ class DeleteBookRepositoryImplTest {
 
     @Test
     fun `deleteBookById should call API with correct book ID`() = runTest {
-        mockBooksApi.deleteSuccess = true
+        mockBooksApi.deleteBookResult = MockResult.Success(Unit)
         val expectedBookId = "test-book-id-456"
 
         repository.deleteBookById(expectedBookId)
@@ -52,7 +53,9 @@ class DeleteBookRepositoryImplTest {
 
     @Test
     fun `deleteBookById with SocketTimeoutException should return Timeout error`() = runTest {
-        mockBooksApi.exception = SocketTimeoutException("Connection timed out")
+        mockBooksApi.deleteBookResult = MockResult.Error(
+            SocketTimeoutException("Connection timed out")
+        )
 
         val result = repository.deleteBookById("book-123")
 
@@ -63,7 +66,9 @@ class DeleteBookRepositoryImplTest {
 
     @Test
     fun `deleteBookById with IOException should return NetworkError`() = runTest {
-        mockBooksApi.exception = IOException("Network unavailable")
+        mockBooksApi.deleteBookResult = MockResult.Error(
+            IOException("Network unavailable")
+        )
 
         val result = repository.deleteBookById("book-123")
 
@@ -74,7 +79,9 @@ class DeleteBookRepositoryImplTest {
 
     @Test
     fun `deleteBookById with 401 HttpException should return Unauthorized error`() = runTest {
-        mockBooksApi.httpException = TestHttpExceptionFactory.create(401)
+        mockBooksApi.deleteBookResult = MockResult.Error(
+            TestHttpExceptionFactory.create(401)
+        )
 
         val result = repository.deleteBookById("book-123")
 
@@ -85,7 +92,9 @@ class DeleteBookRepositoryImplTest {
 
     @Test
     fun `deleteBookById with 404 HttpException should return Unknown error`() = runTest {
-        mockBooksApi.httpException = TestHttpExceptionFactory.create(404)
+        mockBooksApi.deleteBookResult = MockResult.Error(
+            TestHttpExceptionFactory.create(404)
+        )
 
         val result = repository.deleteBookById("non-existent")
 
@@ -96,7 +105,9 @@ class DeleteBookRepositoryImplTest {
 
     @Test
     fun `deleteBookById with 500 HttpException should return ServerError`() = runTest {
-        mockBooksApi.httpException = TestHttpExceptionFactory.create(500)
+        mockBooksApi.deleteBookResult = MockResult.Error(
+            TestHttpExceptionFactory.create(500)
+        )
 
         val result = repository.deleteBookById("book-123")
 
