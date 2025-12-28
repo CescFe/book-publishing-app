@@ -105,10 +105,12 @@ fun AppNavigation(navController: NavHostController) {
                 onNavigateUp = {
                     navController.navigateUp()
                 },
-                onEditClick = {
-                    // TODO: Placeholder for future implementation
+                onDeleteSuccess = {
+                    navController.navigate(Routes.BOOKS) {
+                        popUpTo(Routes.BOOKS) { inclusive = true }
+                    }
                 },
-                onDeleteClick = {
+                onEditClick = {
                     // TODO: Placeholder for future implementation
                 }
             )

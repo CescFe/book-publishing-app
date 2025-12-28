@@ -192,8 +192,12 @@
     <string name="update_author_confirmation_title">Modificar Autor</string>
     <string name="update_author_confirmation_message">¿Quieres actualizar este autor?</string>
 
+    <!-- Book Delete Confirmation -->
+    <string name="book_delete_confirmation_title">Eliminar Libro</string>
+    <string name="book_delete_confirmation_message">¿Eliminar este libro? La acción no puede deshacerse.</string>
+
     <!-- Author Delete Confirmation -->
-    <string name="author_delete_confirmation_title">Eliminar Author</string>
+    <string name="author_delete_confirmation_title">Eliminar Autor</string>
     <string name="author_delete_confirmation_message">¿Eliminar este autor? La acción no puede deshacerse.</string>
 
     <!-- Error Messages -->
