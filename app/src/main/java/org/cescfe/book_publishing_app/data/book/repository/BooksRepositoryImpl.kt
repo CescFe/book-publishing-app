@@ -7,6 +7,7 @@ import org.cescfe.book_publishing_app.data.shared.repository.RepositoryErrorHand
 import org.cescfe.book_publishing_app.domain.book.model.Book
 import org.cescfe.book_publishing_app.domain.book.model.BookSummary
 import org.cescfe.book_publishing_app.domain.book.model.CreateBookRequest
+import org.cescfe.book_publishing_app.domain.book.model.UpdateBookRequest
 import org.cescfe.book_publishing_app.domain.book.repository.BooksRepository
 import org.cescfe.book_publishing_app.domain.shared.DomainResult
 
@@ -30,6 +31,13 @@ class BooksRepositoryImpl(private val booksApi: BooksApi) : BooksRepository {
 
     override suspend fun createBook(request: CreateBookRequest): DomainResult<Book> = try {
         val bookDto = booksApi.createBook(request.toDTO())
+        DomainResult.Success(bookDto.toDomain())
+    } catch (e: Exception) {
+        RepositoryErrorHandler.handleException(e)
+    }
+
+    override suspend fun updateBook(bookId: String, request: UpdateBookRequest): DomainResult<Book> = try {
+        val bookDto = booksApi.updateBook(bookId, request.toDTO())
         DomainResult.Success(bookDto.toDomain())
     } catch (e: Exception) {
         RepositoryErrorHandler.handleException(e)
