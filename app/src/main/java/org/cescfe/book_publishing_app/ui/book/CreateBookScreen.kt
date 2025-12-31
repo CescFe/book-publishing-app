@@ -187,8 +187,7 @@ internal fun CreateBookScreenContent(
                         pageCountError = uiState.pageCountError?.let { stringResource(it) },
                         descriptionError = uiState.descriptionError?.let { stringResource(it) },
                         secondaryLanguagesError = uiState.secondaryLanguagesError?.let { stringResource(it) },
-                        secondaryGenresError = uiState.secondaryGenresError?.let { stringResource(it) },
-                        enabled = !uiState.isLoading
+                        secondaryGenresError = uiState.secondaryGenresError?.let { stringResource(it) }
                     )
                 }
             }
