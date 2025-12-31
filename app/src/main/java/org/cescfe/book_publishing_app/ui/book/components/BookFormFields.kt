@@ -294,7 +294,6 @@ private fun AuthorNameAutocomplete(
 ) {
     var expanded by remember { mutableStateOf(false) }
 
-    // Filter authors based on input
     val filteredAuthors = remember(value, authors) {
         if (value.isBlank()) {
             authors
@@ -307,7 +306,7 @@ private fun AuthorNameAutocomplete(
 
     ExposedDropdownMenuBox(
         expanded = expanded,
-        onExpandedChange = { },
+        onExpandedChange = { expanded = it },
         modifier = Modifier
             .fillMaxWidth()
             .testTag("author_name_autocomplete")
@@ -374,7 +373,7 @@ private fun CollectionNameAutocomplete(
 
     ExposedDropdownMenuBox(
         expanded = expanded,
-        onExpandedChange = { },
+        onExpandedChange = { expanded = it },
         modifier = Modifier
             .fillMaxWidth()
             .testTag("collection_name_autocomplete")
@@ -430,7 +429,7 @@ private fun ReadingLevelDropdown(
 
     ExposedDropdownMenuBox(
         expanded = expanded,
-        onExpandedChange = { !expanded },
+        onExpandedChange = { expanded = !expanded },
         modifier = Modifier
             .fillMaxWidth()
             .testTag("reading_level_dropdown")
@@ -483,7 +482,7 @@ private fun LanguageDropdown(
 
     ExposedDropdownMenuBox(
         expanded = expanded,
-        onExpandedChange = { !expanded },
+        onExpandedChange = { expanded = !expanded },
         modifier = Modifier
             .fillMaxWidth()
             .testTag("language_dropdown")
@@ -536,7 +535,7 @@ private fun GenreDropdown(
 
     ExposedDropdownMenuBox(
         expanded = expanded,
-        onExpandedChange = { !expanded },
+        onExpandedChange = { expanded = !expanded },
         modifier = Modifier
             .fillMaxWidth()
             .testTag("genre_dropdown")
@@ -584,7 +583,7 @@ private fun StatusDropdown(selectedValue: Status?, onValueChange: (Status?) -> U
 
     ExposedDropdownMenuBox(
         expanded = expanded,
-        onExpandedChange = { !expanded },
+        onExpandedChange = { expanded = !expanded },
         modifier = Modifier
             .fillMaxWidth()
             .testTag("status_dropdown")
@@ -786,7 +785,7 @@ private fun VatRateDropdown(selectedValue: VatRate?, onValueChange: (VatRate?) -
 
     ExposedDropdownMenuBox(
         expanded = expanded,
-        onExpandedChange = { !expanded },
+        onExpandedChange = { expanded = !expanded },
         modifier = Modifier
             .fillMaxWidth()
             .testTag("vat_rate_dropdown")
