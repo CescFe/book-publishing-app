@@ -17,10 +17,7 @@ class MockBooksRepository : BooksRepository {
     override suspend fun getBooks(): DomainResult<List<BookSummary>> = result
     override suspend fun getBookById(bookId: String): DomainResult<Book> = bookResult
     override suspend fun createBook(request: CreateBookRequest): DomainResult<Book> = createBookResult
-    override suspend fun updateBook(
-        bookId: String,
-        request: UpdateBookRequest
-    ): DomainResult<Book> {
+    override suspend fun updateBook(bookId: String, request: UpdateBookRequest): DomainResult<Book> {
         TODO("Not yet implemented")
     }
 

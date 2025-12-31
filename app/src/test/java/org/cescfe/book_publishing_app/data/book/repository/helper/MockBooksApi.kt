@@ -29,10 +29,7 @@ class MockBooksApi : BooksApi {
         return createBookResult.resolve()
     }
 
-    override suspend fun updateBook(
-        bookId: String,
-        request: UpdateBookRequestDTO
-    ): BookDTO {
+    override suspend fun updateBook(bookId: String, request: UpdateBookRequestDTO): BookDTO {
         updateBookId = bookId
         updateBookRequest = request
         return updateBookResult.resolve()

@@ -36,10 +36,7 @@ class BooksRepositoryImpl(private val booksApi: BooksApi) : BooksRepository {
         RepositoryErrorHandler.handleException(e)
     }
 
-    override suspend fun updateBook(
-        bookId: String,
-        request: UpdateBookRequest
-    ): DomainResult<Book> = try {
+    override suspend fun updateBook(bookId: String, request: UpdateBookRequest): DomainResult<Book> = try {
         val bookDto = booksApi.updateBook(bookId, request.toDTO())
         DomainResult.Success(bookDto.toDomain())
     } catch (e: Exception) {
