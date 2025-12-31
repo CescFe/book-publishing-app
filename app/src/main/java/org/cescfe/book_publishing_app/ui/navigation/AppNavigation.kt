@@ -15,6 +15,7 @@ import org.cescfe.book_publishing_app.ui.author.UpdateAuthorScreen
 import org.cescfe.book_publishing_app.ui.book.BookScreen
 import org.cescfe.book_publishing_app.ui.book.BooksScreen
 import org.cescfe.book_publishing_app.ui.book.CreateBookScreen
+import org.cescfe.book_publishing_app.ui.book.UpdateBookScreen
 import org.cescfe.book_publishing_app.ui.collection.CollectionsScreen
 import org.cescfe.book_publishing_app.ui.shared.navigation.BottomNavItem
 import org.cescfe.book_publishing_app.ui.splash.SplashScreen
@@ -25,6 +26,7 @@ object Routes {
     const val BOOKS = "books"
     const val BOOK = "book"
     const val CREATE_BOOK = "create_book"
+    const val UPDATE_BOOK = "update_book"
     const val COLLECTIONS = "collections"
     const val AUTHORS = "authors"
     const val AUTHOR = "author"
@@ -34,6 +36,7 @@ object Routes {
     fun author(authorId: String) = "author/$authorId"
     fun updateAuthor(authorId: String) = "update_author/$authorId"
     fun book(bookId: String) = "book/$bookId"
+    fun updateBook(bookId: String) = "update_book/$bookId"
 }
 
 @Composable
@@ -111,7 +114,7 @@ fun AppNavigation(navController: NavHostController) {
                     }
                 },
                 onEditClick = {
-                    // TODO: Placeholder for future implementation
+                    navController.navigate(Routes.updateBook(bookId))
                 }
             )
         }
@@ -126,6 +129,31 @@ fun AppNavigation(navController: NavHostController) {
                 },
                 onBookCreated = { bookId ->
                     navController.navigate(Routes.book(bookId)) {
+                        popUpTo(Routes.BOOKS) { inclusive = false }
+                    }
+                }
+            )
+        }
+        composable(
+            route = "${Routes.UPDATE_BOOK}/{bookId}",
+            arguments = listOf(
+                navArgument("bookId") {
+                    type = NavType.StringType
+                }
+            )
+        ) { backStackEntry ->
+            val bookId = backStackEntry.arguments?.getString("bookId") ?: ""
+            UpdateBookScreen(
+                bookId = bookId,
+                onNavigateUp = { navController.navigateUp() },
+                onSessionExpired = {
+                    TokenManager.clearToken()
+                    navController.navigate(Routes.LOGIN) {
+                        popUpTo(Routes.BOOKS) { inclusive = true }
+                    }
+                },
+                onBookUpdated = { updatedBookId ->
+                    navController.navigate(Routes.book(updatedBookId)) {
                         popUpTo(Routes.BOOKS) { inclusive = false }
                     }
                 }

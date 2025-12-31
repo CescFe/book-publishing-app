@@ -89,6 +89,9 @@
     <!-- Book Screen -->
     <string name="book_title">Detall de Llibre</string>
 
+    <!-- Update Book Screen -->
+    <string name="update_book_title">Modificar Llibre</string>
+
     <!-- Collections Screen -->
     <string name="collections_title">Llistat de Col·leccions</string>
     <string name="collections_empty">No hi ha col·leccions disponibles</string>
@@ -183,6 +186,10 @@
     <!-- Create Book Confirmation Dialog-->
     <string name="create_book_confirmation_title">Crear Llibre</string>
     <string name="create_book_confirmation_message">Vols crear aquest llibre?</string>
+
+    <!-- Update Book Confirmation Dialog-->
+    <string name="update_book_confirmation_title">Modificar Llibre</string>
+    <string name="update_book_confirmation_message">Vols actualitzar aquest llibre?</string>
 
     <!-- Create Author Confirmation Dialog-->
     <string name="create_author_confirmation_title">Crear Autor</string>
