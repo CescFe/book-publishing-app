@@ -6,10 +6,14 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import org.cescfe.book_publishing_app.R
+import org.cescfe.book_publishing_app.data.auth.TokenManager
+import org.cescfe.book_publishing_app.domain.auth.model.AuthToken
 import org.cescfe.book_publishing_app.domain.book.model.Book
 import org.cescfe.book_publishing_app.domain.book.model.enums.Status
 import org.cescfe.book_publishing_app.domain.shared.enums.ReadingLevel
 import org.cescfe.book_publishing_app.ui.theme.BookpublishingappTheme
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -17,6 +21,16 @@ class BookScreenTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
+
+    @Before
+    fun setup() {
+        TokenManager.clearToken()
+    }
+
+    @After
+    fun tearDown() {
+        TokenManager.clearToken()
+    }
 
     // ==================== SMOKE TEST ====================
 
@@ -201,5 +215,148 @@ class BookScreenTest {
             .onNodeWithTag("back_button")
             .performClick()
         assert(navigateUpCalled)
+    }
+
+    // ==================== PERMISSIONS ====================
+
+    @Test
+    fun bookScreen_showsDetailActionsBottomBar_whenUserIsAdmin() {
+        val adminToken = AuthToken(
+            accessToken = "admin_token",
+            tokenType = "Bearer",
+            expiresIn = 3600,
+            scope = "read write delete",
+            userId = "admin123"
+        )
+        TokenManager.saveAuthToken(adminToken)
+
+        val book = Book(
+            id = "book-123",
+            title = "Test Book",
+            basePrice = 10.0,
+            authorName = "Test Author",
+            collectionName = "Test Collection",
+            readingLevel = null,
+            primaryLanguage = null,
+            secondaryLanguages = emptyList(),
+            primaryGenre = null,
+            secondaryGenres = emptyList(),
+            vatRate = 0.04,
+            finalPrice = 10.40,
+            isbn = null,
+            publicationDate = null,
+            pageCount = null,
+            description = null,
+            status = Status.DRAFT
+        )
+
+        composeTestRule.setContent {
+            BookpublishingappTheme {
+                BookScreenContent(
+                    uiState = BookUiState(book = book),
+                    onRetry = {},
+                    onNavigateUp = {},
+                    onEditClick = {},
+                    onDeleteClick = {},
+                    onDeleteDialogDismissed = {},
+                    onDeleteConfirmed = {}
+                )
+            }
+        }
+
+        composeTestRule
+            .onNodeWithTag("detail_actions_bottom_bar")
+            .assertIsDisplayed()
+    }
+
+    @Test
+    fun bookScreen_hidesDetailActionsBottomBar_whenUserIsReadOnly() {
+        val readOnlyToken = AuthToken(
+            accessToken = "readonly_token",
+            tokenType = "Bearer",
+            expiresIn = 3600,
+            scope = "read",
+            userId = "user123"
+        )
+        TokenManager.saveAuthToken(readOnlyToken)
+
+        val book = Book(
+            id = "book-123",
+            title = "Test Book",
+            basePrice = 10.0,
+            authorName = "Test Author",
+            collectionName = "Test Collection",
+            readingLevel = null,
+            primaryLanguage = null,
+            secondaryLanguages = emptyList(),
+            primaryGenre = null,
+            secondaryGenres = emptyList(),
+            vatRate = 0.04,
+            finalPrice = 10.40,
+            isbn = null,
+            publicationDate = null,
+            pageCount = null,
+            description = null,
+            status = Status.DRAFT
+        )
+
+        composeTestRule.setContent {
+            BookpublishingappTheme {
+                BookScreenContent(
+                    uiState = BookUiState(book = book),
+                    onRetry = {},
+                    onNavigateUp = {},
+                    onEditClick = {},
+                    onDeleteClick = {},
+                    onDeleteDialogDismissed = {},
+                    onDeleteConfirmed = {}
+                )
+            }
+        }
+
+        composeTestRule
+            .onNodeWithTag("detail_actions_bottom_bar")
+            .assertDoesNotExist()
+    }
+
+    @Test
+    fun bookScreen_hidesDetailActionsBottomBar_whenNoToken() {
+        val book = Book(
+            id = "book-123",
+            title = "Test Book",
+            basePrice = 10.0,
+            authorName = "Test Author",
+            collectionName = "Test Collection",
+            readingLevel = null,
+            primaryLanguage = null,
+            secondaryLanguages = emptyList(),
+            primaryGenre = null,
+            secondaryGenres = emptyList(),
+            vatRate = 0.04,
+            finalPrice = 10.40,
+            isbn = null,
+            publicationDate = null,
+            pageCount = null,
+            description = null,
+            status = Status.DRAFT
+        )
+
+        composeTestRule.setContent {
+            BookpublishingappTheme {
+                BookScreenContent(
+                    uiState = BookUiState(book = book),
+                    onRetry = {},
+                    onNavigateUp = {},
+                    onEditClick = {},
+                    onDeleteClick = {},
+                    onDeleteDialogDismissed = {},
+                    onDeleteConfirmed = {}
+                )
+            }
+        }
+
+        composeTestRule
+            .onNodeWithTag("detail_actions_bottom_bar")
+            .assertDoesNotExist()
     }
 }

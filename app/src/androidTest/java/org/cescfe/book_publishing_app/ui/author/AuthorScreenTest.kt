@@ -6,8 +6,12 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import org.cescfe.book_publishing_app.R
+import org.cescfe.book_publishing_app.data.auth.TokenManager
+import org.cescfe.book_publishing_app.domain.auth.model.AuthToken
 import org.cescfe.book_publishing_app.domain.author.model.Author
 import org.cescfe.book_publishing_app.ui.theme.BookpublishingappTheme
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -15,6 +19,16 @@ class AuthorScreenTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
+
+    @Before
+    fun setup() {
+        TokenManager.clearToken()
+    }
+
+    @After
+    fun tearDown() {
+        TokenManager.clearToken()
+    }
 
     // ==================== SMOKE TEST ====================
 
@@ -179,5 +193,115 @@ class AuthorScreenTest {
             .onNodeWithTag("back_button")
             .performClick()
         assert(navigateUpCalled)
+    }
+
+    // ==================== PERMISSIONS ====================
+
+    @Test
+    fun authorScreen_showsDetailActionsBottomBar_whenUserIsAdmin() {
+        val adminToken = AuthToken(
+            accessToken = "admin_token",
+            tokenType = "Bearer",
+            expiresIn = 3600,
+            scope = "read write delete",
+            userId = "admin123"
+        )
+        TokenManager.saveAuthToken(adminToken)
+
+        val author = Author(
+            id = "author-123",
+            fullName = "J.R.R. Tolkien",
+            pseudonym = "Tolkien",
+            biography = "English writer",
+            email = "tolkien@example.com",
+            website = "https://www.tolkienestate.com"
+        )
+
+        composeTestRule.setContent {
+            BookpublishingappTheme {
+                AuthorScreenContent(
+                    uiState = AuthorUiState(author = author),
+                    onRetry = {},
+                    onNavigateUp = {},
+                    onEditClick = {},
+                    onDeleteClick = {},
+                    onDeleteDialogDismissed = {},
+                    onDeleteConfirmed = {}
+                )
+            }
+        }
+
+        composeTestRule
+            .onNodeWithTag("detail_actions_bottom_bar")
+            .assertIsDisplayed()
+    }
+
+    @Test
+    fun authorScreen_hidesDetailActionsBottomBar_whenUserIsReadOnly() {
+        val readOnlyToken = AuthToken(
+            accessToken = "readonly_token",
+            tokenType = "Bearer",
+            expiresIn = 3600,
+            scope = "read",
+            userId = "user123"
+        )
+        TokenManager.saveAuthToken(readOnlyToken)
+
+        val author = Author(
+            id = "author-123",
+            fullName = "J.R.R. Tolkien",
+            pseudonym = "Tolkien",
+            biography = "English writer",
+            email = "tolkien@example.com",
+            website = "https://www.tolkienestate.com"
+        )
+
+        composeTestRule.setContent {
+            BookpublishingappTheme {
+                AuthorScreenContent(
+                    uiState = AuthorUiState(author = author),
+                    onRetry = {},
+                    onNavigateUp = {},
+                    onEditClick = {},
+                    onDeleteClick = {},
+                    onDeleteDialogDismissed = {},
+                    onDeleteConfirmed = {}
+                )
+            }
+        }
+
+        composeTestRule
+            .onNodeWithTag("detail_actions_bottom_bar")
+            .assertDoesNotExist()
+    }
+
+    @Test
+    fun authorScreen_hidesDetailActionsBottomBar_whenNoToken() {
+        val author = Author(
+            id = "author-123",
+            fullName = "J.R.R. Tolkien",
+            pseudonym = "Tolkien",
+            biography = "English writer",
+            email = "tolkien@example.com",
+            website = "https://www.tolkienestate.com"
+        )
+
+        composeTestRule.setContent {
+            BookpublishingappTheme {
+                AuthorScreenContent(
+                    uiState = AuthorUiState(author = author),
+                    onRetry = {},
+                    onNavigateUp = {},
+                    onEditClick = {},
+                    onDeleteClick = {},
+                    onDeleteDialogDismissed = {},
+                    onDeleteConfirmed = {}
+                )
+            }
+        }
+
+        composeTestRule
+            .onNodeWithTag("detail_actions_bottom_bar")
+            .assertDoesNotExist()
     }
 }
