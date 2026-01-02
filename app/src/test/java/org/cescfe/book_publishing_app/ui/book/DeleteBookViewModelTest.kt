@@ -12,6 +12,7 @@ import org.cescfe.book_publishing_app.domain.shared.DomainErrorType
 import org.cescfe.book_publishing_app.domain.shared.DomainResult
 import org.cescfe.book_publishing_app.ui.book.helper.MockBooksRepository
 import org.cescfe.book_publishing_app.ui.book.helper.TestBookFactory
+import org.cescfe.book_publishing_app.ui.shared.toStringResId
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -105,6 +106,24 @@ class DeleteBookViewModelTest {
         val state = viewModel.uiState.value
         assertFalse(state.isDeleting)
         assertEquals(R.string.error_server, state.errorResId)
+    }
+
+    @Test
+    fun `deleteBook should handle 403 FORBIDDEN error and set errorResId`() = runTest {
+        val book = TestBookFactory.createBook(
+            id = "book-123",
+            title = "Book One"
+        )
+        mockRepository.bookResult = DomainResult.Success(book)
+        mockRepository.deleteResult = DomainResult.Error(DomainErrorType.FORBIDDEN)
+
+        val viewModel = createViewModel()
+        viewModel.loadBook("book-123")
+
+        viewModel.deleteBook()
+
+        val uiState = viewModel.uiState.value
+        assertEquals(DomainErrorType.FORBIDDEN.toStringResId(), uiState.errorResId)
     }
 
     // ==================== DELETE BOOK - SESSION EXPIRED ====================

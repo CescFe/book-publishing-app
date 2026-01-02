@@ -21,6 +21,7 @@ import org.cescfe.book_publishing_app.ui.author.helper.MockAuthorsRepository
 import org.cescfe.book_publishing_app.ui.book.helper.MockBooksRepository
 import org.cescfe.book_publishing_app.ui.book.helper.TestBookFactory
 import org.cescfe.book_publishing_app.ui.collection.helper.MockCollectionsRepository
+import org.cescfe.book_publishing_app.ui.shared.toStringResId
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -507,5 +508,23 @@ class CreateBookViewModelTest {
         assertFalse(state.sessionExpired)
         assertFalse(state.isLoading)
         assertNull(state.createdBookId)
+    }
+
+    @Test
+    fun `createBook should handle 403 FORBIDDEN error and set errorResId`() = runTest {
+        mockBooksRepository.createBookResult = DomainResult.Error(DomainErrorType.FORBIDDEN)
+
+        val viewModel = createViewModel()
+        viewModel.onTitleChange("Test Book")
+        viewModel.onAuthorNameChange("Test Author")
+        viewModel.onCollectionNameChange("Test Collection")
+        viewModel.onBasePriceChange("10.0")
+
+        viewModel.createBook()
+
+        val uiState = viewModel.uiState.value
+
+        assertEquals(DomainErrorType.FORBIDDEN.toStringResId(), uiState.errorResId)
+        assertNull(uiState.createdBookId)
     }
 }
