@@ -33,6 +33,7 @@ import org.cescfe.book_publishing_app.ui.shared.components.ErrorState
 import org.cescfe.book_publishing_app.ui.shared.components.LoadingState
 import org.cescfe.book_publishing_app.ui.shared.navigation.AppBottomBar
 import org.cescfe.book_publishing_app.ui.shared.navigation.BottomNavItem
+import org.cescfe.book_publishing_app.ui.shared.permissions.rememberIsAdmin
 import org.cescfe.book_publishing_app.ui.theme.BookpublishingappTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -80,6 +81,8 @@ internal fun AuthorsScreenContent(
     onAuthorClick: (String) -> Unit = {},
     onCreateAuthorClick: () -> Unit = {}
 ) {
+    val isAdmin = rememberIsAdmin()
+
     Scaffold(
         modifier = Modifier.testTag("authors_screen"),
         topBar = {
@@ -94,15 +97,17 @@ internal fun AuthorsScreenContent(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(
-                onClick = onCreateAuthorClick,
-                shape = CircleShape,
-                modifier = Modifier.testTag("create_author_fab")
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_add),
-                    contentDescription = stringResource(R.string.fab_create_author)
-                )
+            if (isAdmin) {
+                FloatingActionButton(
+                    onClick = onCreateAuthorClick,
+                    shape = CircleShape,
+                    modifier = Modifier.testTag("create_author_fab")
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_add),
+                        contentDescription = stringResource(R.string.fab_create_author)
+                    )
+                }
             }
         }
     ) { innerPadding ->

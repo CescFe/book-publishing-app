@@ -6,9 +6,13 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import org.cescfe.book_publishing_app.R
+import org.cescfe.book_publishing_app.data.auth.TokenManager
+import org.cescfe.book_publishing_app.domain.auth.model.AuthToken
 import org.cescfe.book_publishing_app.domain.book.model.BookSummary
 import org.cescfe.book_publishing_app.ui.shared.navigation.BottomNavItem
 import org.cescfe.book_publishing_app.ui.theme.BookpublishingappTheme
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -16,6 +20,16 @@ class BooksScreenTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
+
+    @Before
+    fun setup() {
+        TokenManager.clearToken()
+    }
+
+    @After
+    fun tearDown() {
+        TokenManager.clearToken()
+    }
 
     // ==================== SMOKE TEST ====================
 
@@ -147,5 +161,73 @@ class BooksScreenTest {
         assert(navigatedItem == BottomNavItem.Collections) {
             "Should navigate to Collections, but got $navigatedItem"
         }
+    }
+
+    // ==================== PERMISSIONS - FAB ====================
+
+    @Test
+    fun booksScreen_showsCreateFab_whenUserIsAdmin() {
+        val adminToken = AuthToken(
+            accessToken = "admin_token",
+            tokenType = "Bearer",
+            expiresIn = 3600,
+            scope = "read write delete",
+            userId = "admin123"
+        )
+        TokenManager.saveAuthToken(adminToken)
+
+        composeTestRule.setContent {
+            BookpublishingappTheme {
+                BooksScreenContent(
+                    uiState = BooksUiState(),
+                    onRetry = {}
+                )
+            }
+        }
+
+        composeTestRule
+            .onNodeWithTag("create_book_fab")
+            .assertIsDisplayed()
+    }
+
+    @Test
+    fun booksScreen_hidesCreateFab_whenUserIsReadOnly() {
+        val readOnlyToken = AuthToken(
+            accessToken = "readonly_token",
+            tokenType = "Bearer",
+            expiresIn = 3600,
+            scope = "read",
+            userId = "user123"
+        )
+        TokenManager.saveAuthToken(readOnlyToken)
+
+        composeTestRule.setContent {
+            BookpublishingappTheme {
+                BooksScreenContent(
+                    uiState = BooksUiState(),
+                    onRetry = {}
+                )
+            }
+        }
+
+        composeTestRule
+            .onNodeWithTag("create_book_fab")
+            .assertDoesNotExist()
+    }
+
+    @Test
+    fun booksScreen_hidesCreateFab_whenNoToken() {
+        composeTestRule.setContent {
+            BookpublishingappTheme {
+                BooksScreenContent(
+                    uiState = BooksUiState(),
+                    onRetry = {}
+                )
+            }
+        }
+
+        composeTestRule
+            .onNodeWithTag("create_book_fab")
+            .assertDoesNotExist()
     }
 }
