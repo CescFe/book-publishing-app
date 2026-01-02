@@ -32,6 +32,7 @@ import org.cescfe.book_publishing_app.ui.shared.components.ConfirmationDialog
 import org.cescfe.book_publishing_app.ui.shared.components.ErrorState
 import org.cescfe.book_publishing_app.ui.shared.components.LoadingState
 import org.cescfe.book_publishing_app.ui.shared.navigation.DetailActionsBottomBar
+import org.cescfe.book_publishing_app.ui.shared.permissions.rememberIsAdmin
 import org.cescfe.book_publishing_app.ui.theme.BookpublishingappTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -85,6 +86,8 @@ internal fun BookScreenContent(
     onDeleteDialogDismissed: () -> Unit = {},
     onDeleteConfirmed: () -> Unit = {}
 ) {
+    val isAdmin = rememberIsAdmin()
+
     Scaffold(
         modifier = Modifier.testTag("book_screen"),
         topBar = {
@@ -104,10 +107,12 @@ internal fun BookScreenContent(
             )
         },
         bottomBar = {
-            DetailActionsBottomBar(
-                onEditClick = onEditClick,
-                onDeleteClick = onDeleteClick
-            )
+            if (isAdmin) {
+                DetailActionsBottomBar(
+                    onEditClick = onEditClick,
+                    onDeleteClick = onDeleteClick
+                )
+            }
         }
     ) { innerPadding ->
         Box(
