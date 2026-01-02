@@ -25,6 +25,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import org.cescfe.book_publishing_app.R
 import org.cescfe.book_publishing_app.ui.author.components.AuthorFormFields
 import org.cescfe.book_publishing_app.ui.shared.components.ConfirmationDialog
+import org.cescfe.book_publishing_app.ui.shared.components.ErrorState
 import org.cescfe.book_publishing_app.ui.shared.components.LoadingState
 import org.cescfe.book_publishing_app.ui.shared.navigation.CreateBottomBar
 import org.cescfe.book_publishing_app.ui.theme.BookpublishingappTheme
@@ -121,11 +122,12 @@ internal fun UpdateAuthorScreenContent(
                     LoadingState()
                 }
                 uiState.errorResId != null -> {
-                    // Error state - could reuse ErrorState component if needed
-                    // For now, just show loading or empty
+                    ErrorState(
+                        errorMessage = stringResource(uiState.errorResId),
+                        onRetry = { }
+                    )
                 }
                 else -> {
-                    // Reuse the same AuthorFormFields component
                     AuthorFormFields(
                         modifier = Modifier
                             .fillMaxSize()

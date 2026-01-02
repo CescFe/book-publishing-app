@@ -3,6 +3,7 @@ package org.cescfe.book_publishing_app.ui.book
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import org.cescfe.book_publishing_app.R
 import org.cescfe.book_publishing_app.domain.author.model.AuthorSummary
@@ -194,5 +195,44 @@ class CreateBookScreenTest {
             .onNodeWithTag("confirm_button")
             .performClick()
         assert(confirmCalled)
+    }
+
+    @Test
+    fun createBookScreen_showsErrorState_whenErrorResIdIsSet() {
+        composeTestRule.setContent {
+            BookpublishingappTheme {
+                CreateBookScreenContent(
+                    uiState = CreateBookUiState(
+                        errorResId = R.string.error_forbidden
+                    ),
+                    onNavigateUp = {},
+                    onTitleChange = {},
+                    onAuthorNameChange = {},
+                    onCollectionNameChange = {},
+                    onBasePriceChange = {},
+                    onReadingLevelChange = {},
+                    onPrimaryLanguageChange = {},
+                    onSecondaryLanguagesChange = {},
+                    onPrimaryGenreChange = {},
+                    onSecondaryGenresChange = {},
+                    onVatRateChange = {},
+                    onIsbnChange = {},
+                    onPublicationDateChange = {},
+                    onPageCountChange = {},
+                    onDescriptionChange = {},
+                    onStatusChange = {},
+                    onSaveClicked = {},
+                    onDismissDialog = {},
+                    onConfirmCreateBook = {}
+                )
+            }
+        }
+
+        composeTestRule
+            .onNodeWithTag("error_state")
+            .assertIsDisplayed()
+        composeTestRule
+            .onNodeWithText("Insufficient permissions. You only have read permissions")
+            .assertIsDisplayed()
     }
 }
