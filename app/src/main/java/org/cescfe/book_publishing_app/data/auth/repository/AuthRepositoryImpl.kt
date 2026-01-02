@@ -26,12 +26,10 @@ class AuthRepositoryImpl(private val authApi: AuthApi) : AuthRepository {
         val request = LoginRequest(username, password)
         val response = authApi.login(request)
 
-        TokenManager.saveToken(
-            token = response.accessToken,
-            expiresInSeconds = response.expiresIn
-        )
+        val authToken = response.toDomain()
+        TokenManager.saveAuthToken(authToken)
 
-        AuthResult.Success(response.toDomain())
+        AuthResult.Success(authToken)
     } catch (e: HttpException) {
         mapHttpExceptionToError(e)
     } catch (_: SocketTimeoutException) {
