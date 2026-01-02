@@ -36,17 +36,22 @@ import org.cescfe.book_publishing_app.ui.theme.BookpublishingappTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreateBookScreen(
-    viewModel: CreateBookViewModel = viewModel(),
+fun UpdateBookScreen(
+    bookId: String,
+    viewModel: UpdateBookViewModel = viewModel(),
     onNavigateUp: () -> Unit = {},
     onSessionExpired: () -> Unit = {},
-    onBookCreated: (String) -> Unit = {}
+    onBookUpdated: (String) -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    LaunchedEffect(uiState.createdBookId) {
-        uiState.createdBookId?.let { bookId ->
-            onBookCreated(bookId)
+    LaunchedEffect(bookId) {
+        viewModel.loadBook(bookId)
+    }
+
+    LaunchedEffect(uiState.updatedBookId) {
+        uiState.updatedBookId?.let { updatedBookId ->
+            onBookUpdated(updatedBookId)
         }
     }
 
@@ -57,7 +62,7 @@ fun CreateBookScreen(
         }
     }
 
-    CreateBookScreenContent(
+    UpdateBookScreenContent(
         uiState = uiState,
         onNavigateUp = onNavigateUp,
         onTitleChange = viewModel::onTitleChange,
@@ -77,14 +82,14 @@ fun CreateBookScreen(
         onStatusChange = viewModel::onStatusChange,
         onSaveClicked = viewModel::onSaveClicked,
         onDismissDialog = viewModel::dismissConfirmDialog,
-        onConfirmCreateBook = viewModel::createBook
+        onConfirmUpdateBook = viewModel::updateBook
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun CreateBookScreenContent(
-    uiState: CreateBookUiState,
+internal fun UpdateBookScreenContent(
+    uiState: UpdateBookUiState,
     onNavigateUp: () -> Unit,
     onTitleChange: (String) -> Unit,
     onAuthorNameChange: (String) -> Unit,
@@ -103,13 +108,13 @@ internal fun CreateBookScreenContent(
     onStatusChange: (Status?) -> Unit,
     onSaveClicked: () -> Unit,
     onDismissDialog: () -> Unit,
-    onConfirmCreateBook: () -> Unit
+    onConfirmUpdateBook: () -> Unit
 ) {
     Scaffold(
-        modifier = Modifier.testTag("create_book_screen"),
+        modifier = Modifier.testTag("update_book_screen"),
         topBar = {
             TopAppBar(
-                title = { Text(text = stringResource(R.string.create_book_title)) },
+                title = { Text(text = stringResource(R.string.update_book_title)) },
                 navigationIcon = {
                     IconButton(
                         onClick = onNavigateUp,
@@ -121,7 +126,7 @@ internal fun CreateBookScreenContent(
                         )
                     }
                 },
-                modifier = Modifier.testTag("create_book_top_bar")
+                modifier = Modifier.testTag("update_book_top_bar")
             )
         },
         bottomBar = {
@@ -139,6 +144,10 @@ internal fun CreateBookScreenContent(
             when {
                 uiState.isLoading -> {
                     LoadingState()
+                }
+                uiState.errorResId != null -> {
+                    // Error state - could reuse ErrorState component if needed
+                    // For now, just show loading or empty
                 }
                 else -> {
                     BookFormFields(
@@ -196,11 +205,11 @@ internal fun CreateBookScreenContent(
     }
 
     ConfirmationDialog(
-        title = stringResource(R.string.create_book_confirmation_title),
-        message = stringResource(R.string.create_book_confirmation_message),
+        title = stringResource(R.string.update_book_confirmation_title),
+        message = stringResource(R.string.update_book_confirmation_message),
         isVisible = uiState.showConfirmDialog,
         onDismiss = onDismissDialog,
-        onConfirm = onConfirmCreateBook
+        onConfirm = onConfirmUpdateBook
     )
 }
 
@@ -208,10 +217,10 @@ internal fun CreateBookScreenContent(
 
 @Preview(showBackground = true)
 @Composable
-private fun CreateBookScreenEmptyPreview() {
+private fun UpdateBookScreenEmptyPreview() {
     BookpublishingappTheme {
-        CreateBookScreenContent(
-            uiState = CreateBookUiState(),
+        UpdateBookScreenContent(
+            uiState = UpdateBookUiState(),
             onNavigateUp = {},
             onTitleChange = {},
             onAuthorNameChange = {},
@@ -230,46 +239,17 @@ private fun CreateBookScreenEmptyPreview() {
             onStatusChange = {},
             onSaveClicked = {},
             onDismissDialog = {},
-            onConfirmCreateBook = {}
+            onConfirmUpdateBook = {}
         )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun CreateBookScreenLoadingPreview() {
+private fun UpdateBookScreenWithDataPreview() {
     BookpublishingappTheme {
-        CreateBookScreenContent(
-            uiState = CreateBookUiState(isLoading = true),
-            onNavigateUp = {},
-            onTitleChange = {},
-            onAuthorNameChange = {},
-            onCollectionNameChange = {},
-            onBasePriceChange = {},
-            onReadingLevelChange = {},
-            onPrimaryLanguageChange = {},
-            onSecondaryLanguagesChange = {},
-            onPrimaryGenreChange = {},
-            onSecondaryGenresChange = {},
-            onVatRateChange = {},
-            onIsbnChange = {},
-            onPublicationDateChange = {},
-            onPageCountChange = {},
-            onDescriptionChange = {},
-            onStatusChange = {},
-            onSaveClicked = {},
-            onDismissDialog = {},
-            onConfirmCreateBook = {}
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun CreateBookScreenWithDataPreview() {
-    BookpublishingappTheme {
-        CreateBookScreenContent(
-            uiState = CreateBookUiState(
+        UpdateBookScreenContent(
+            uiState = UpdateBookUiState(
                 title = "The Lord of the Rings",
                 authorName = "J.R.R. Tolkien",
                 collectionName = "Fantasy Classics",
@@ -296,7 +276,36 @@ private fun CreateBookScreenWithDataPreview() {
             onStatusChange = {},
             onSaveClicked = {},
             onDismissDialog = {},
-            onConfirmCreateBook = {}
+            onConfirmUpdateBook = {}
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun UpdateBookScreenLoadingPreview() {
+    BookpublishingappTheme {
+        UpdateBookScreenContent(
+            uiState = UpdateBookUiState(isLoading = true),
+            onNavigateUp = {},
+            onTitleChange = {},
+            onAuthorNameChange = {},
+            onCollectionNameChange = {},
+            onBasePriceChange = {},
+            onReadingLevelChange = {},
+            onPrimaryLanguageChange = {},
+            onSecondaryLanguagesChange = {},
+            onPrimaryGenreChange = {},
+            onSecondaryGenresChange = {},
+            onVatRateChange = {},
+            onIsbnChange = {},
+            onPublicationDateChange = {},
+            onPageCountChange = {},
+            onDescriptionChange = {},
+            onStatusChange = {},
+            onSaveClicked = {},
+            onDismissDialog = {},
+            onConfirmUpdateBook = {}
         )
     }
 }

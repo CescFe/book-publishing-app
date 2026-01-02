@@ -294,7 +294,6 @@ private fun AuthorNameAutocomplete(
 ) {
     var expanded by remember { mutableStateOf(false) }
 
-    // Filter authors based on input
     val filteredAuthors = remember(value, authors) {
         if (value.isBlank()) {
             authors
@@ -362,7 +361,6 @@ private fun CollectionNameAutocomplete(
 ) {
     var expanded by remember { mutableStateOf(false) }
 
-    // Filter collections based on input
     val filteredCollections = remember(value, collections) {
         if (value.isBlank()) {
             collections
@@ -637,6 +635,7 @@ private fun SecondaryLanguagesMultiSelect(
     var expanded by remember { mutableStateOf(false) }
     val availableLanguages = Language.entries
         .filter { it != primaryLanguage }
+    val labels = selectedLanguages.map { it.toLocalizedString() }
 
     Column {
         ExposedDropdownMenuBox(
@@ -647,10 +646,10 @@ private fun SecondaryLanguagesMultiSelect(
                 .testTag("secondary_languages_dropdown")
         ) {
             OutlinedTextField(
-                value = if (selectedLanguages.isEmpty()) {
+                value = if (labels.isEmpty()) {
                     stringResource(R.string.select_none)
                 } else {
-                    selectedLanguages.map { it.toLocalizedString() }.joinToString(", ")
+                    labels.joinToString(", ")
                 },
                 onValueChange = {},
                 readOnly = true,
@@ -713,6 +712,7 @@ private fun SecondaryGenresMultiSelect(
     var expanded by remember { mutableStateOf(false) }
     val availableGenres = Genre.entries
         .filter { it != primaryGenre }
+    val labels = selectedGenres.map { it.toLocalizedString() }
 
     Column {
         ExposedDropdownMenuBox(
@@ -723,10 +723,10 @@ private fun SecondaryGenresMultiSelect(
                 .testTag("secondary_genres_dropdown")
         ) {
             OutlinedTextField(
-                value = if (selectedGenres.isEmpty()) {
+                value = if (labels.isEmpty()) {
                     stringResource(R.string.select_none)
                 } else {
-                    selectedGenres.map { it.toLocalizedString() }.joinToString(", ")
+                    labels.joinToString(", ")
                 },
                 onValueChange = {},
                 readOnly = true,

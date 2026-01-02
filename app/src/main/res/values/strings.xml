@@ -88,6 +88,9 @@
     <!-- Book Screen -->
     <string name="book_title">Book Detail</string>
 
+    <!-- Update Book Screen -->
+    <string name="update_book_title">Update Book</string>
+
     <!-- Collections Screen -->
     <string name="collections_title">Collections List</string>
     <string name="collections_empty">No collections available</string>
@@ -182,6 +185,10 @@
     <!-- Create Book Confirmation Dialog-->
     <string name="create_book_confirmation_title">Create Book</string>
     <string name="create_book_confirmation_message">Are you sure you want to create this book?</string>
+
+    <!-- Update Book Confirmation Dialog-->
+    <string name="update_book_confirmation_title">Update Book</string>
+    <string name="update_book_confirmation_message">Are you sure you want to update this book?</string>
 
     <!-- Create Author Confirmation Dialog-->
     <string name="create_author_confirmation_title">Create Author</string>
