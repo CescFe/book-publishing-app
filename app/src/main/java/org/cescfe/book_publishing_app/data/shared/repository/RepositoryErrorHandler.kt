@@ -17,6 +17,7 @@ object RepositoryErrorHandler {
 
     private fun mapHttpExceptionToError(ex: HttpException): DomainResult.Error = when (ex.code()) {
         401 -> DomainResult.Error(DomainErrorType.UNAUTHORIZED)
+        403 -> DomainResult.Error(DomainErrorType.FORBIDDEN)
         in 500..599 -> DomainResult.Error(DomainErrorType.SERVER_ERROR)
         else -> DomainResult.Error(DomainErrorType.UNKNOWN)
     }

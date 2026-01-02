@@ -5,5 +5,6 @@ enum class DomainErrorType {
     TIMEOUT,
     SERVER_ERROR,
     UNAUTHORIZED,
+    FORBIDDEN,
     UNKNOWN
 }
