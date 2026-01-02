@@ -4,8 +4,10 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import org.cescfe.book_publishing_app.domain.author.model.AuthorSummary
 import org.cescfe.book_publishing_app.domain.book.model.enums.Status
 import org.cescfe.book_publishing_app.domain.book.model.enums.VatRate
+import org.cescfe.book_publishing_app.domain.collection.model.CollectionSummary
 import org.cescfe.book_publishing_app.domain.shared.enums.Genre
 import org.cescfe.book_publishing_app.domain.shared.enums.Language
 import org.cescfe.book_publishing_app.domain.shared.enums.ReadingLevel
@@ -142,6 +144,24 @@ class UpdateBookScreenTest {
 
     @Test
     fun updateBookScreen_displaysPrefilledFormFields() {
+        val authors = listOf(
+            AuthorSummary(
+                id = "author-123",
+                fullName = "J.R.R. Tolkien",
+                pseudonym = "Tolkien",
+                email = "tolkien@example.com"
+            )
+        )
+        val collections = listOf(
+            CollectionSummary(
+                id = "collection-123",
+                name = "Fantasy Collection",
+                readingLevel = null,
+                primaryLanguage = null,
+                primaryGenre = null
+            )
+        )
+
         composeTestRule.setContent {
             BookpublishingappTheme {
                 UpdateBookScreenContent(
@@ -160,7 +180,9 @@ class UpdateBookScreenTest {
                         publicationDate = "1954-07-29",
                         pageCount = "1178",
                         description = "Epic fantasy novel",
-                        status = Status.PUBLISHED
+                        status = Status.PUBLISHED,
+                        authors = authors,
+                        collections = collections
                     ),
                     onNavigateUp = {},
                     onTitleChange = {},
@@ -189,10 +211,10 @@ class UpdateBookScreenTest {
             .onNodeWithTag("title_field")
             .assertIsDisplayed()
         composeTestRule
-            .onNodeWithTag("author_name_field")
+            .onNodeWithTag("author_name_autocomplete")
             .assertIsDisplayed()
         composeTestRule
-            .onNodeWithTag("collection_name_field")
+            .onNodeWithTag("collection_name_autocomplete")
             .assertIsDisplayed()
         composeTestRule
             .onNodeWithTag("base_price_field")
