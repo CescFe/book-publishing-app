@@ -211,6 +211,7 @@
     <string name="error_timeout">Tiempo de solicitud agotado. Por favor, inténtelo de nuevo.</string>
     <string name="error_network">Error de red. Verifique su conexión.</string>
     <string name="error_unauthorized">Sesión caducada. Por favor, inicie sesión de nuevo.</string>
+    <string name="error_forbidden">Permisos insuficientes. Sólo dispone de permisos de lectura</string>
     <string name="error_server">Error del servidor. Por favor, inténtelo más tarde.</string>
     <string name="error_unknown">Se ha producido un error inesperado</string>
     <string name="author_card_website_open_error">No se ha podido abrir el enlace</string>

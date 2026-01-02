@@ -210,6 +210,7 @@
     <string name="error_timeout">Request timeout. Please try again.</string>
     <string name="error_network">Network error. Please check your connection.</string>
     <string name="error_unauthorized">Session expired. Please login again.</string>
+    <string name="error_forbidden">Insufficient permissions. You only have read permissions</string>
     <string name="error_server">Server error. Please try again later.</string>
     <string name="error_unknown">An unexpected error occurred</string>
     <string name="author_card_website_open_error">Unable to open website</string>
