@@ -42,9 +42,18 @@ fun BooksScreen(
     onSessionExpired: () -> Unit,
     onNavigate: (BottomNavItem) -> Unit = {},
     onBookClick: (String) -> Unit = {},
-    onCreateBookClick: () -> Unit = {}
+    onCreateBookClick: () -> Unit = {},
+    shouldRefresh: Boolean = false,
+    onRefreshHandled: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(shouldRefresh) {
+        if (shouldRefresh) {
+            viewModel.retry()
+            onRefreshHandled()
+        }
+    }
 
     LaunchedEffect(uiState.sessionExpired) {
         if (uiState.sessionExpired) {

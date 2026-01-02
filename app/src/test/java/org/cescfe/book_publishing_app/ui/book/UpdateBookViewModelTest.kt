@@ -232,7 +232,7 @@ class UpdateBookViewModelTest {
         viewModel.onPrimaryGenreChange(Genre.FANTASY)
         viewModel.onSecondaryGenresChange(listOf(Genre.ADVENTURE))
         viewModel.onVatRateChange(VatRate.FOUR_PERCENT)
-        viewModel.onIsbnChange("978-0-544-00001-0")
+        viewModel.onIsbnChange("9780544000010")
         viewModel.onPublicationDateChange("1954-07-29")
         viewModel.onPageCountChange("1178")
         viewModel.onDescriptionChange("Epic fantasy novel")

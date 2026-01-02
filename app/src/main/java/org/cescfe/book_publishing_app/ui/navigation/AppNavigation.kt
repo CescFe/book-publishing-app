@@ -63,7 +63,9 @@ fun AppNavigation(navController: NavHostController) {
                 }
             )
         }
-        composable(Routes.BOOKS) {
+        composable(Routes.BOOKS) { backStackEntry ->
+            val shouldRefresh = backStackEntry.savedStateHandle.get<Boolean>("refresh") ?: false
+
             BooksScreen(
                 onSessionExpired = {
                     TokenManager.clearToken()
@@ -85,6 +87,10 @@ fun AppNavigation(navController: NavHostController) {
                 },
                 onCreateBookClick = {
                     navController.navigate(Routes.CREATE_BOOK)
+                },
+                shouldRefresh = shouldRefresh,
+                onRefreshHandled = {
+                    backStackEntry.savedStateHandle["refresh"] = false
                 }
             )
         }
@@ -156,6 +162,8 @@ fun AppNavigation(navController: NavHostController) {
                     navController.navigate(Routes.book(updatedBookId)) {
                         popUpTo(Routes.BOOKS) { inclusive = false }
                     }
+                    navController.getBackStackEntry(Routes.BOOKS)
+                        .savedStateHandle["refresh"] = true
                 }
             )
         }
