@@ -5,6 +5,7 @@ import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.cescfe.book_publishing_app.BuildConfig
 import org.cescfe.book_publishing_app.data.auth.remote.AuthInterceptor
 import org.cescfe.book_publishing_app.data.auth.remote.api.AuthApi
 import org.cescfe.book_publishing_app.data.author.remote.api.AuthorsApi
@@ -15,7 +16,7 @@ import retrofit2.converter.kotlinx.serialization.asConverterFactory
 
 object RetrofitClient {
 
-    private const val BASE_URL = "https://book-publishing-backend.onrender.com/"
+    private const val BASE_URL = BuildConfig.BASE_URL
 
     private val json = Json {
         ignoreUnknownKeys = true

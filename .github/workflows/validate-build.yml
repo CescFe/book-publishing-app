@@ -35,10 +35,11 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Download Spotless dependencies
-        run: ./gradlew spotlessInternalRegisterDependencies --build-cache
-        env:
-          GRADLE_OPTS: -Dorg.gradle.jvmargs=-Xmx2048m -Dorg.gradle.caching=true
+      - name: Create properties files
+        run: |
+          mkdir -p app
+          echo "base.url=${{ secrets.DEV_BASE_URL }}" > app/dev.properties
+          echo "base.url=${{ secrets.PRO_BASE_URL }}" > app/pro.properties
 
       - name: Run Spotless check
         run: ./gradlew spotlessCheck --build-cache
