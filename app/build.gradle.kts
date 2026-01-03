@@ -1,4 +1,6 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.io.FileInputStream
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
@@ -25,12 +27,36 @@ android {
     }
 
     buildTypes {
+        debug {
+            val devProperties = Properties()
+            val devPropertiesFile = rootProject.file("app/dev.properties")
+            if (!devPropertiesFile.exists()) {
+                throw GradleException("dev.properties file not found. Please create app/dev.properties with base.url property.")
+            }
+            devProperties.load(FileInputStream(devPropertiesFile))
+            val baseUrl = devProperties.getProperty("base.url")
+                ?: throw GradleException("base.url property not found in dev.properties")
+
+            buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
+        }
+
         release {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
+
+            val proProperties = Properties()
+            val proPropertiesFile = rootProject.file("app/pro.properties")
+            if (!proPropertiesFile.exists()) {
+                throw GradleException("pro.properties file not found. Please create app/pro.properties with base.url property.")
+            }
+            proProperties.load(FileInputStream(proPropertiesFile))
+            val baseUrl = proProperties.getProperty("base.url")
+                ?: throw GradleException("base.url property not found in pro.properties")
+
+            buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
         }
     }
     compileOptions {
@@ -44,6 +70,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 

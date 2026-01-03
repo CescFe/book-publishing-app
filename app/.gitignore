@@ -24,3 +24,10 @@ local.properties
 
 # Git
 *.orig
+
+# Configuration properties
+dev.properties
+pro.properties
+
+# APP Release
+/release
