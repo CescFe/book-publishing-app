@@ -137,6 +137,8 @@ fun AppNavigation(navController: NavHostController) {
                     navController.navigate(Routes.book(bookId)) {
                         popUpTo(Routes.BOOKS) { inclusive = false }
                     }
+                    navController.getBackStackEntry(Routes.BOOKS)
+                        .savedStateHandle["refresh"] = true
                 }
             )
         }
