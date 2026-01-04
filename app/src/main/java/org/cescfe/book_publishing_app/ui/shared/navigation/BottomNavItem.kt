@@ -11,7 +11,7 @@ enum class BottomNavItem(val route: String, @field:DrawableRes val iconResId: In
     ),
     Collections(
         route = "collections",
-        iconResId = R.drawable.library_books,
+        iconResId = R.drawable.ic_newsstand,
         labelResId = R.string.nav_collections
     ),
     Authors(

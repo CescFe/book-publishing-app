@@ -128,7 +128,7 @@ internal fun BooksScreenContent(
                 }
                 uiState.bookSummaries.isEmpty() -> {
                     EmptyState(
-                        iconRes = R.drawable.book_2,
+                        iconRes = R.drawable.ic_book_2,
                         messageRes = R.string.books_empty
                     )
                 }

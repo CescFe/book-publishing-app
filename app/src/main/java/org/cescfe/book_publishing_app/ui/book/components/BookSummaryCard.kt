@@ -42,7 +42,7 @@ fun BookSummaryCard(bookSummary: BookSummary, modifier: Modifier = Modifier, onC
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.book_2),
+                painter = painterResource(id = R.drawable.ic_book_2),
                 contentDescription = null,
                 modifier = Modifier.size(48.dp),
                 tint = MaterialTheme.colorScheme.primary
