@@ -85,24 +85,64 @@ Authentication is handled via JWT tokens and the app implements **role-based aut
 ## 📱 Screens
 
 ### Login
-Authentication screen with Editorial Denes branding.
 
-<!-- TODO: Add screenshot -->
+![Login Screen](docs/screenshots/auth_dark_en.jpg)
 
-### Books
-List of all books in the catalog with title, author, collection, and price.
+### Books List (admin vs read only)
 
-<!-- TODO: Add screenshot -->
+<table>
+<tr>
+<td><img src="docs/screenshots/books_en_dark_admin.jpg" alt="Books List Admin" style="max-width: 500px; width: 100%;"/></td>
+<td><img src="docs/screenshots/books_en_dark_readonly.jpg" alt="Books List Read Only" style="max-width: 500px; width: 100%;"/></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>Admin View</strong></td>
+<td style="text-align: center;"><strong>Read-Only View</strong></td>
+</tr>
+</table>
 
-### Authors
-List of authors with name, pseudonym, and email information.
+### Book Update (english dark theme vs catalan light theme)
 
-<!-- TODO: Add screenshot -->
+<table>
+<tr>
+<td><img src="docs/screenshots/book_update_en_dark.jpg" alt="Book Update English Dark" style="max-width: 500px; width: 100%;"/></td>
+<td><img src="docs/screenshots/book_update_cat_light.jpg" alt="Book Update Catalan Light" style="max-width: 500px; width: 100%;"/></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>Admin View</strong></td>
+<td style="text-align: center;"><strong>Read-Only View</strong></td>
+</tr>
+</table>
 
-### Collections
-List of collections with reading level, language, and genre details.
+### Author Detail (admin vs read only)
 
-<!-- TODO: Add screenshot -->
+<table>
+<tr>
+<td><img src="docs/screenshots/author_en_dark_admin.jpg" alt="Author Admin" style="max-width: 500px; width: 100%;"/></td>
+<td><img src="docs/screenshots/author_en_dark_readonly.jpg" alt="Author Read Only" style="max-width: 500px; width: 100%;"/></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>Admin View</strong></td>
+<td style="text-align: center;"><strong>Read-Only View</strong></td>
+</tr>
+</table>
+
+### Author Create (english dark theme vs catalan light theme)
+
+<table>
+<tr>
+<td><img src="docs/screenshots/author_create_en_dark.jpg" alt="Author Create English Dark" style="max-width: 500px; width: 100%;"/></td>
+<td><img src="docs/screenshots/author_create_cat_light.jpg" alt="Author Create Catalan Light" style="max-width: 500px; width: 100%;"/></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>Admin View</strong></td>
+<td style="text-align: center;"><strong>Read-Only View</strong></td>
+</tr>
+</table>
+
+### Collections List
+
+![Collections List](docs/screenshots/collections_en_dark.jpg)
 
 ## 🌍 Internationalization
 
