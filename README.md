@@ -13,8 +13,11 @@ Frontend client for the Book Publishing platform. Native Android application whi
     - [🔎 Tech Stack](#-tech-stack)
     - [🏗️ Architecture](#-architecture)
     - [🧱 Structure](#-structure)
+- [🔐 Authentication & Authorization](#-authentication--authorization)
 - [📱 Screens](#-screens)
 - [🌍 Internationalization](#-internationalization)
+- [🎨 Theme & Appearance](#-theme--appearance)
+- [🔧 Build Configuration](#-build-configuration)
 - [🧪 Testing Strategy](#-testing-strategy)
 - [⚙️ CI/CD Workflow](#-cicd-workflow)
 - [Code Quality](#code-quality)
@@ -66,6 +69,19 @@ app/src/main/java/org/cescfe/book_publishing_app/
 └── repository/ # Repository implementations
 ```
 
+## 🔐 Authentication & Authorization
+
+Authentication is handled via JWT tokens and the app implements **role-based authentication** with the following user roles:
+
+### Admin User
+- **Full Access**: Read, write, and delete permissions
+- Can perform all CRUD operations on books and authors
+
+### Base User (Read-Only)
+- **Limited Access**: Read-only permissions
+- Can only view books (list and detail), authors (list and detail), and collections (list)
+- Cannot create, update, or delete any resources
+
 ## 📱 Screens
 
 ### Login
@@ -92,6 +108,44 @@ List of collections with reading level, language, and genre details.
 
 The app is developed natively in English. In addition, the app dynamically adapts to the device language, supporting Catalan and Spanish.
 
+## 🎨 Theme & Appearance
+
+The app supports **dynamic theme switching** based on the device's system configuration:
+
+- **Light Mode**: Automatically applied when the device is set to light theme
+- **Dark Mode**: Automatically applied when the device is set to dark theme
+- **Brand Colors**: Custom Editorial Denes color scheme with blue and green accents
+- **Material Design 3**: Uses Material 3 color schemes for consistent theming
+- **Material Symbol & Icons**: Applies `Google Fonts` Symbol & Icons to adopt android standards
+- **Enabled actions based on user roles**:  The app automatically checks user permissions and adjusts the UI accordingly, enabling only the actions that the user have permission to perform.
+
+## 🔧 Build Configuration
+
+The project supports two build types with different configurations:
+
+### Debug Build
+- **Configuration File**: `app/dev.properties`
+- **Purpose**: Development environment
+- **Base URL**: Configured in `dev.properties` file
+- **Features**: Full logging, debugging enabled
+
+### Release Build
+- **Configuration File**: `app/pro.properties`
+- **Purpose**: Production environment
+- **Base URL**: Configured in `pro.properties` file
+- **Features**: ProGuard rules configured (minification disabled by default)
+
+**Setup Instructions**:
+1. Create `app/dev.properties` with `base.url` property for debug builds
+2. Create `app/pro.properties` with `base.url` property for release builds
+3. These files are excluded from version control (see `.gitignore`)
+
+# Build debug APK
+./gradlew assembleDebug
+
+# Build release APK
+./gradlew assembleRelease
+
 ## 🧪 Testing Strategy
 
 - **Unit Tests**: ViewModels, DTOs, Repository logic
@@ -109,7 +163,7 @@ The app is developed natively in English. In addition, the app dynamically adapt
 
 ### Automatic Validation
 
-Every push to `main` and every pull request automatically runs:
+Every push to `main` and every **pull request in ready for review** automatically runs:
 - ✅ **Spotless Check** — Code formatting validation
 - ✅ **Android Lint** — Static code analysis
 - ✅ **Unit Tests** — ViewModel and repository tests
@@ -118,7 +172,7 @@ Every push to `main` and every pull request automatically runs:
 ### Create Tag and Release
 
 1. Go to **Actions** → **Create Release Tag**
-2. Run manually with the desired version (e.g., `v0.1.0`)
+2. Run manually with the desired version (e.g., `v1.0`)
 3. This creates a Git tag
 4. Go to **Tags** → Click on **Release**
 
@@ -139,12 +193,37 @@ Every push to `main` and every pull request automatically runs:
 
 The app consumes the [book-publishing-backend](https://github.com/CescFe/book-publishing-backend) RESTful API.
 
-| Endpoint           | Description          |
-|--------------------|----------------------|
-| `POST /auth/login` | User authentication  |
-| `GET /books`       | List all books       |
-| `GET /authors`     | List all authors     |
-| `GET /collections` | List all collections |
+### Authentication
+
+| Endpoint                  | Method | Description         |
+|---------------------------|--------|---------------------|
+| `POST /api/v1/auth/login` | POST   | User authentication |
+
+### Authors (Full CRUD)
+
+| Endpoint                      | Method | Description       |
+|-------------------------------|--------|-------------------|
+| `GET /api/v1/authors`         | GET    | List all authors  |
+| `GET /api/v1/authors/{id}`    | GET    | Get author by ID  |
+| `POST /api/v1/authors`        | POST   | Create new author |
+| `PUT /api/v1/authors/{id}`    | PUT    | Update author     |
+| `DELETE /api/v1/authors/{id}` | DELETE | Delete author     |
+
+### Books (Full CRUD)
+
+| Endpoint                    | Method | Description     |
+|-----------------------------|--------|-----------------|
+| `GET /api/v1/books`         | GET    | List all books  |
+| `GET /api/v1/books/{id}`    | GET    | Get book by ID  |
+| `POST /api/v1/books`        | POST   | Create new book |
+| `PUT /api/v1/books/{id}`    | PUT    | Update book     |
+| `DELETE /api/v1/books/{id}` | DELETE | Delete book     |
+
+### Collections (Read-Only)
+
+| Endpoint                  | Method | Description          |
+|---------------------------|--------|----------------------|
+| `GET /api/v1/collections` | GET    | List all collections |
 
 ## License
 
