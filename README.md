@@ -86,9 +86,9 @@ Authentication is handled via JWT tokens and the app implements **role-based aut
 
 ### Login
 
-<table>
+<table style="width: auto; margin: 0 auto;">
 <tr>
-<td><img src="docs/screenshots/auth_dark_en.jpg" alt="Login Screen" style="max-width: 300px; width: 100%; height: auto;"/></td>
+<td style="width: 300px;"><img src="docs/screenshots/auth_dark_en.jpg" alt="Login Screen" style="max-width: 300px; width: 100%; height: auto;"/></td>
 </tr>
 </table>
 
@@ -146,9 +146,9 @@ Authentication is handled via JWT tokens and the app implements **role-based aut
 
 ### Collections List
 
-<table>
+<table style="width: auto; margin: 0 auto;">
 <tr>
-<td><img src="docs/screenshots/collections_en_dark.jpg" alt="Collections List" style="max-width: 300px; width: 100%; height: auto;"/></td>
+<td style="width: 300px;"><img src="docs/screenshots/collections_en_dark.jpg" alt="Collections List" style="max-width: 300px; width: 100%; height: auto;"/></td>
 </tr>
 </table>
 
