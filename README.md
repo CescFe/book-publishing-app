@@ -1,4 +1,4 @@
-# Book Publishing Backend
+# Book Publishing Frontend
 
 [![GitHub release](https://img.shields.io/github/v/release/CescFe/book-publishing-app?color=blue)](https://github.com/CescFe/book-publishing-app/releases/latest)
 [![GitHub license](https://img.shields.io/github/license/CescFe/book-publishing-app?color=blue)](https://github.com/CescFe/book-publishing-app/blob/main/LICENSE)
