@@ -86,71 +86,103 @@ Authentication is handled via JWT tokens and the app implements **role-based aut
 
 ### Login
 
-<table style="width: auto; margin: 0 auto;">
-<tr>
-<td style="width: 300px;"><img src="docs/screenshots/auth_dark_en.jpg" alt="Login Screen" style="max-width: 300px; width: 100%; height: auto;"/></td>
-</tr>
-</table>
+<div align="center">
+  <img src="docs/screenshots/auth_dark_en.jpg"
+       alt="Login Screen"
+       width="300"/>
+</div>
 
 ### Books List (admin vs read only)
 
-<table>
-<tr>
-<td><img src="docs/screenshots/books_en_dark_admin.jpg" alt="Books List Admin" style="max-width: 300px; width: 100%; height: auto;"/></td>
-<td><img src="docs/screenshots/books_en_dark_readonly.jpg" alt="Books List Read Only" style="max-width: 300px; width: 100%; height: auto;"/></td>
-</tr>
-<tr>
-<td style="text-align: center;"><strong>Admin View</strong></td>
-<td style="text-align: center;"><strong>Read-Only View</strong></td>
-</tr>
+<table align="center">
+  <tr>
+    <td align="center">
+      <img src="docs/screenshots/books_en_dark_admin.jpg"
+           alt="Books List Admin"
+           width="300"/>
+    </td>
+    <td align="center">
+      <img src="docs/screenshots/books_en_dark_readonly.jpg"
+           alt="Books List Read Only"
+           width="300"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><strong>Admin View</strong></td>
+    <td align="center"><strong>Read-Only View</strong></td>
+  </tr>
 </table>
 
 ### Book Update (english dark theme vs catalan light theme)
 
-<table>
-<tr>
-<td><img src="docs/screenshots/book_update_en_dark.jpg" alt="Book Update English Dark" style="max-width: 300px; width: 100%; height: auto;"/></td>
-<td><img src="docs/screenshots/book_update_cat_light.jpg" alt="Book Update Catalan Light" style="max-width: 300px; width: 100%; height: auto;"/></td>
-</tr>
-<tr>
-<td style="text-align: center;"><strong>English Dark</strong></td>
-<td style="text-align: center;"><strong>Catalan Light</strong></td>
-</tr>
+<table align="center">
+  <tr>
+    <td align="center">
+      <img src="docs/screenshots/book_update_en_dark.jpg"
+           alt="Book Update English Dark"
+           width="300"/>
+    </td>
+    <td align="center">
+      <img src="docs/screenshots/book_update_cat_light.jpg"
+           alt="Book Update Catalan Light"
+           width="300"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><strong>English Dark</strong></td>
+    <td align="center"><strong>Catalan Light</strong></td>
+  </tr>
 </table>
 
 ### Author Detail (admin vs read only)
 
-<table>
-<tr>
-<td><img src="docs/screenshots/author_en_dark_admin.jpg" alt="Author Admin" style="max-width: 300px; width: 100%; height: auto;"/></td>
-<td><img src="docs/screenshots/author_en_dark_readonly.jpg" alt="Author Read Only" style="max-width: 300px; width: 100%; height: auto;"/></td>
-</tr>
-<tr>
-<td style="text-align: center;"><strong>Admin View</strong></td>
-<td style="text-align: center;"><strong>Read-Only View</strong></td>
-</tr>
+<table align="center">
+  <tr>
+    <td align="center">
+      <img src="docs/screenshots/author_en_dark_admin.jpg"
+           alt="Author Admin"
+           width="300"/>
+    </td>
+    <td align="center">
+      <img src="docs/screenshots/author_en_dark_readonly.jpg"
+           alt="Author Read Only"
+           width="300"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><strong>Admin View</strong></td>
+    <td align="center"><strong>Read-Only View</strong></td>
+  </tr>
 </table>
 
 ### Author Create (english dark theme vs catalan light theme)
 
-<table>
-<tr>
-<td><img src="docs/screenshots/author_create_en_dark.jpg" alt="Author Create English Dark" style="max-width: 300px; width: 100%; height: auto;"/></td>
-<td><img src="docs/screenshots/author_create_cat_light.jpg" alt="Author Create Catalan Light" style="max-width: 300px; width: 100%; height: auto;"/></td>
-</tr>
-<tr>
-<td style="text-align: center;"><strong>English Dark</strong></td>
-<td style="text-align: center;"><strong>Catalan Light</strong></td>
-</tr>
+<table align="center">
+  <tr>
+    <td align="center">
+      <img src="docs/screenshots/author_create_en_dark.jpg"
+           alt="Author Create English Dark"
+           width="300"/>
+    </td>
+    <td align="center">
+      <img src="docs/screenshots/author_create_cat_light.jpg"
+           alt="Author Create Catalan Light"
+           width="300"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><strong>English Dark</strong></td>
+    <td align="center"><strong>Catalan Light</strong></td>
+  </tr>
 </table>
 
 ### Collections List
 
-<table style="width: auto; margin: 0 auto;">
-<tr>
-<td style="width: 300px;"><img src="docs/screenshots/collections_en_dark.jpg" alt="Collections List" style="max-width: 300px; width: 100%; height: auto;"/></td>
-</tr>
-</table>
+<div align="center">
+  <img src="docs/screenshots/collections_en_dark.jpg"
+       alt="Collections List"
+       width="300"/>
+</div>
 
 ## 🌍 Internationalization
 
