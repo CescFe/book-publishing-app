@@ -86,7 +86,11 @@ Authentication is handled via JWT tokens and the app implements **role-based aut
 
 ### Login
 
-<img src="docs/screenshots/auth_dark_en.jpg" alt="Login Screen" style="max-width: 300px; height: auto;"/>
+<table>
+<tr>
+<td><img src="docs/screenshots/auth_dark_en.jpg" alt="Login Screen" style="max-width: 300px; width: 100%; height: auto;"/></td>
+</tr>
+</table>
 
 ### Books List (admin vs read only)
 
@@ -142,7 +146,11 @@ Authentication is handled via JWT tokens and the app implements **role-based aut
 
 ### Collections List
 
-<img src="docs/screenshots/collections_en_dark.jpg" alt="Collections List" style="max-width: 300px; height: auto;"/>
+<table>
+<tr>
+<td><img src="docs/screenshots/collections_en_dark.jpg" alt="Collections List" style="max-width: 300px; width: 100%; height: auto;"/></td>
+</tr>
+</table>
 
 ## 🌍 Internationalization
 
