@@ -4,6 +4,6 @@ import org.cescfe.book_publishing_app.data.collection.remote.dto.CollectionsResp
 import retrofit2.http.GET
 
 interface CollectionsApi {
-    @GET("api/v1/collections")
+    @GET("api/v1/collections/all")
     suspend fun getCollections(): CollectionsResponse
 }

@@ -199,10 +199,7 @@ class CollectionsRepositoryImplTest {
     private fun createCollectionsResponse(collections: List<CollectionSummaryDTO>) = CollectionsResponse(
         data = collections,
         meta = PaginationMeta(
-            page = 1,
-            limit = 20,
-            total = collections.size,
-            totalPages = 1
+            total = collections.size
         )
     )
 }

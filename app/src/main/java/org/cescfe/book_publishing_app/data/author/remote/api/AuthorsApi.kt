@@ -12,7 +12,7 @@ import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface AuthorsApi {
-    @GET("api/v1/authors")
+    @GET("api/v1/authors/all")
     suspend fun getAuthors(): AuthorsResponse
 
     @GET("api/v1/authors/{id}")

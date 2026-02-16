@@ -12,7 +12,7 @@ import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface BooksApi {
-    @GET("api/v1/books")
+    @GET("api/v1/books/all")
     suspend fun getBooks(): BooksResponse
 
     @GET("api/v1/books/{id}")
