@@ -203,10 +203,7 @@ class BooksRepositoryImplTest {
     private fun createBooksResponse(books: List<BookSummaryDTO>) = BooksResponse(
         data = books,
         meta = PaginationMeta(
-            page = 1,
-            limit = 20,
-            total = books.size,
-            totalPages = 1
+            total = books.size
         )
     )
 }

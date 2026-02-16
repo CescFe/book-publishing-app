@@ -213,10 +213,7 @@ class ListAuthorsRepositoryImplTest {
     private fun createAuthorsResponse(authors: List<AuthorSummaryDTO>) = AuthorsResponse(
         data = authors,
         meta = PaginationMeta(
-            page = 1,
-            limit = 20,
-            total = authors.size,
-            totalPages = 1
+            total = authors.size
         )
     )
 }
